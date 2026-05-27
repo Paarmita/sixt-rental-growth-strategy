@@ -360,60 +360,31 @@ footer strong { color: rgba(255,255,255,.7); }
   <div class="container">
     <div class="hero-label">Growth PM — Case Study</div>
     <h1>From One-Size-Fits-All<br>to <em>Advisor-Grade</em> Upsell</h1>
-    <p class="hero-sub">SIXT's post-booking digital touchpoints are the highest-leverage revenue moment in the rental journey. A committed customer is maximally receptive — yet today's funnel treats a first-time tourist in Miami the same as a Gold member road-warrior in Frankfurt. This strategy closes that gap.</p>
+    <p class="hero-sub">SIXT's post-booking Mobile Check-In (MCI) touchpoints are the highest-leverage revenue moment in the rental journey. A committed customer is maximally receptive — yet today's funnel treats a first-time tourist in Miami the same as a Gold member road-warrior in Frankfurt. This strategy closes that gap.</p>
+    <p style="font-size:.82rem;color:rgba(255,255,255,.5);font-style:italic;margin-bottom:24px;">I built this strategy as part of a speculative case study for the SIXT Growth PM role. Every section represents a judgment call I made — on prioritization, on what to test first, on what not to build, and on where the biggest leverage sits.</p>
     <div class="hero-stats">
       <div class="hero-stat">
-        <div class="hero-stat-val">€22<span>/rental</span></div>
+        <div class="hero-stat-val">€22*<span>/rental</span></div>
         <div class="hero-stat-label">Current Digital RPR</div>
         <div class="hero-stat-note">vs €33–38 at branch</div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-val">€44M<span>+</span></div>
+        <div class="hero-stat-val">€44M*<span>+</span></div>
         <div class="hero-stat-label">Revenue at +20% RPR</div>
         <div class="hero-stat-note">~2M digital rentals/year</div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-val">€80M<span>+</span></div>
+        <div class="hero-stat-val">€80M*<span>+</span></div>
         <div class="hero-stat-label">Best-in-class upside</div>
         <div class="hero-stat-note">Hertz Gold benchmark</div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-val">28<span>%</span></div>
+        <div class="hero-stat-val">28*<span>%</span></div>
         <div class="hero-stat-label">Current Protection Attach</div>
         <div class="hero-stat-note">Target → +10pp</div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ══════════════════ GROWTH LEVERS ══════════════════ -->
-<section class="section">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-tag">The Framework</div>
-      <h2>Three Levers. One Engine.</h2>
-      <p>The strategy is built on a simple insight: branch agents outperform digital because they have <strong>more moments</strong>, <strong>better messages</strong>, and a <strong>read of the customer</strong>. We replicate all three.</p>
-    </div>
-    <div class="levers">
-      <div class="lever-card lever-moments">
-        <div class="lever-icon">⏰</div>
-        <div class="lever-num">Lever 1</div>
-        <h3>Moments</h3>
-        <p>Multiply upsell touchpoints across the entire post-booking timeline — T-25h email, T-1h MCI funnel, on-rent push, mid-rental extension, and post-rental re-engagement.</p>
-      </div>
-      <div class="lever-card lever-messages">
-        <div class="lever-icon">💬</div>
-        <div class="lever-num">Lever 2</div>
-        <h3>Messages</h3>
-        <p>Shift from listing specs to selling outcomes. "More Luggage Space" beats "VW Tiguan Allspace 7-seat." Per-day micro-pricing and social proof eliminate sticker shock.</p>
-      </div>
-      <div class="lever-card lever-match">
-        <div class="lever-icon">🎯</div>
-        <div class="lever-num">Lever 3</div>
-        <h3>Match</h3>
-        <p>A real-time propensity engine scores each customer across three product categories and serves ranked recommendations — no two customers see the same screen.</p>
-      </div>
-    </div>
+    <p style="font-size:.78rem;color:rgba(255,255,255,.5);margin-top:14px;text-align:center;">* All metrics are directional estimates based on industry benchmarks and publicly available data. Exact baselines will be validated against SIXT's internal data warehouse before target-setting.</p>
   </div>
 </section>
 
@@ -423,14 +394,15 @@ footer strong { color: rgba(255,255,255,.7); }
     <div class="section-header">
       <div class="section-tag">Section 2 — Problem Framing</div>
       <h2>The Audit: Where Revenue Leaks</h2>
-      <p>The gap between branch and digital RPR is not a product quality gap — it's an <strong>information asymmetry gap</strong>. The digital funnel today does none of what a branch agent does: read the customer, adapt the pitch, respond to objections.</p>
+      <p>The gap between branch and digital RPR is not a product quality gap — it's an <strong>information asymmetry gap</strong>. The digital funnel today does little of what a branch agent does across moments, message framing, and customer-read — areas where current capabilities are largely static and uniform.</p>
     </div>
 
-    <h3 style="margin-bottom:16px;">MCI Flow Friction Points</h3>
+    <h3 style="margin-bottom:16px;"> MCI Flow Friction Points</h3>
+    <p style="font-size:.82rem;color:var(--muted);font-style:italic;margin-bottom:12px;">Observations sourced from direct app audit (iOS/Android, March 2025) and competitor benchmarking. Revenue impact ratings are qualitative proxies — quantitative sizing in Appendix 1.</p>
     <div style="overflow-x:auto; border-radius:var(--radius-lg); border:1px solid var(--border); margin-bottom:40px;">
       <table class="audit-table">
         <thead>
-          <tr><th>MCI Step</th><th>Observed Issue</th><th>Revenue Impact</th><th>Severity</th></tr>
+          <tr><th>MCI Step</th><th>Observed Issue</th><th>Estimated RPR Risk</th><th>Severity</th></tr>
         </thead>
         <tbody>
           <tr>
@@ -469,11 +441,16 @@ footer strong { color: rgba(255,255,255,.7); }
             <td class="impact-med">Low–Medium</td>
             <td><span class="sev-low">Low</span></td>
           </tr>
+          <tr>
+            <td><strong>Post-Add-on Drop-off</strong></td>
+            <td>No recovery mechanism for users who exit the MCI funnel after the add-ons screen — a high-intent abandonment point</td>
+            <td class="impact-med">Medium</td>
+            <td><span class="sev-medium">Medium</span></td>
+          </tr>
         </tbody>
       </table>
     </div>
-
-    <h3 style="margin-bottom:16px; margin-top:36px;">Self-Service Audit</h3>
+<h3 style="margin-bottom:16px; margin-top:36px;">Self-Service Audit</h3>
     <div style="overflow-x:auto; margin-bottom:32px;">
       <table class="audit-table">
         <thead>
@@ -531,11 +508,43 @@ footer strong { color: rgba(255,255,255,.7); }
   </div>
 </section>
 
-<!-- ══════════════════ STRATEGY ══════════════════ -->
+<!-- ══════════════════ GROWTH LEVERS ══════════════════ -->
 <section class="section" id="strategy">
   <div class="container">
     <div class="section-header">
-      <div class="section-tag">Section 3 — Growth Strategy</div>
+      <div class="section-tag">Section 3 — Strategic Framework</div>
+      <h2>Three Levers. One Engine.</h2>
+      <p>The strategy is built on a simple insight: branch agents outperform digital because they have <strong>more moments</strong>, <strong>better messages</strong>, and a <strong>read of the customer</strong>. We replicate all three.</p>
+      <p style="font-size:.88rem;color:var(--muted);margin-top:12px;margin-bottom:0;">Why? Our analysis suggests Moments contributes ~35% of the replicable gap, Messages ~30%, and Match ~35% of long-run potential — but Match carries the longest build time, which is why we sequence Moments and Messages first.</p>
+    </div>
+    <div class="levers">
+      <div class="lever-card lever-moments">
+        <div class="lever-icon">⏰</div>
+        <div class="lever-num">Lever 1</div>
+        <h3>Moments</h3>
+        <p>Multiply upsell touchpoints across the entire post-booking timeline — T-25h email, T-1h MCI funnel, on-rent push, mid-rental extension, and post-rental re-engagement.</p>
+      </div>
+      <div class="lever-card lever-messages">
+        <div class="lever-icon">💬</div>
+        <div class="lever-num">Lever 2</div>
+        <h3>Messages</h3>
+        <p>Shift from listing specs to selling outcomes. "More Luggage Space" beats "VW Tiguan Allspace 7-seat." Per-day micro-pricing and social proof eliminate sticker shock.</p>
+      </div>
+      <div class="lever-card lever-match">
+        <div class="lever-icon">🎯</div>
+        <div class="lever-num">Lever 3</div>
+        <h3>Match</h3>
+        <p>A real-time propensity engine scores each customer across three product categories and serves ranked recommendations — no two customers see the same screen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ STRATEGY ══════════════════ -->
+<section class="section" style="padding-top:0;" id="initiatives">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Section 3 — Initiative Portfolio</div>
       <h2>Five Initiatives. Sequenced for Maximum Lift.</h2>
       <p>Each initiative maps to a root cause. Priority is set by impact × feasibility. P1 ships in Q1-Q2 without ML dependencies.</p>
     </div>
@@ -544,7 +553,7 @@ footer strong { color: rgba(255,255,255,.7); }
       <div class="init-card">
         <div>
           <span class="init-priority p1">P1</span>
-          <h3>SI-2: Benefit-Led UI Overhaul (MCI + Self-Service)</h3>
+          <h3>SI-P1A: Benefit-Led UI Overhaul (MCI + Self-Service)</h3>
           <p>Redesign Vehicle Selection, Protection, and Add-on screens to lead with customer outcomes. Per-day micro-pricing. Social proof badges. Real-time scarcity signals. Eliminating benefit-free copy and price anchoring root causes in one shot.</p>
         </div>
         <div class="init-scores">
@@ -555,7 +564,7 @@ footer strong { color: rgba(255,255,255,.7); }
       <div class="init-card">
         <div>
           <span class="init-priority p1">P1</span>
-          <h3>SI-3: Multi-Moment Upsell Nudges (Compliant)</h3>
+          <h3>SI-P1B: Multi-Moment Upsell Nudges (Compliant)</h3>
           <p>Extend upsell to T-25h email, on-rent push (safely, geo-fenced), and post-rental re-engagement. Addresses the narrow upsell window root cause — dramatically increasing total exposure time to relevant offers.</p>
         </div>
         <div class="init-scores">
@@ -566,7 +575,7 @@ footer strong { color: rgba(255,255,255,.7); }
       <div class="init-card">
         <div>
           <span class="init-priority p2">P2</span>
-          <h3>SI-1: Segment-Aware Personalisation Engine</h3>
+          <h3>SI-P2A: Segment-Aware Personalisation Engine</h3>
           <p>Real-time propensity scoring across all three product categories. Dual-mode: personalised (Tier 1+2 signals, returning users) and rule-based fallback (first-timers). The core mechanism to replicate a branch agent's information advantage for 100% of customers.</p>
         </div>
         <div class="init-scores">
@@ -577,18 +586,18 @@ footer strong { color: rgba(255,255,255,.7); }
       <div class="init-card">
         <div>
           <span class="init-priority p2">P2</span>
-          <h3>SI-5: Frictionless Checkout & Micro-Pricing</h3>
-          <p>One-tap biometric upsell approval, per-day price framing, instant digital key re-routing post-upgrade. Focuses on late-funnel conversion by eliminating sticker shock and cart abandonment for high-intent customers.</p>
+          <h3>SI-P2B: Frictionless Checkout & Micro-Pricing</h3>
+          <p>One-tap biometric upsell approval, per-day price framing, instant digital key re-routing post-upgrade. Focuses on late-funnel conversion by eliminating sticker shock and cart abandonment for high-intent customers. Also addresses post-add-on funnel drop-off — a high-intent abandonment point with no current recovery mechanism.</p>
         </div>
         <div class="init-scores">
-          <div class="score-pill"><div class="score-pill-val">3/5</div><div class="score-pill-label">Impact</div></div>
+          <div class="score-pill"><div class="score-pill-val" title="Elevated from 3&#8594;4 because 'sticker shock at total price' was rated Critical severity in the audit — checkout friction is a Primary rather than Secondary impact lever.">4/5</div><div class="score-pill-label">Impact</div></div>
           <div class="score-pill"><div class="score-pill-val">4/5</div><div class="score-pill-label">Feasibility</div></div>
         </div>
       </div>
       <div class="init-card">
         <div>
           <span class="init-priority p3">P3</span>
-          <h3>SI-4: Bundled Package Offers (Margin-Floored)</h3>
+          <h3>SI-P3A: Bundled Package Offers (Margin-Floored)</h3>
           <p>Three persona-matched bundles (Business Ready, Family Adventure, Zero-Worry Explorer). Margin floor rule ensures bundle price ≥ sum of standalone margins minus 8% discount allowance — raise attach rate and AOV simultaneously without eroding gross margin.</p>
         </div>
         <div class="init-scores">
@@ -597,10 +606,69 @@ footer strong { color: rgba(255,255,255,.7); }
         </div>
       </div>
     </div>
+    <h3 style="margin-top:36px;margin-bottom:16px;">What We Chose Not to Do</h3>
+    <ul style="font-size:.9rem;line-height:1.9;color:var(--ink);padding-left:20px;">
+      <li><strong>Dynamic real-time pricing</strong> — deferred because SIXT's current pricing architecture requires a separate workstream not scoped within this programme.</li>
+      <li><strong>Loyalty points for upsell</strong> — evaluated and deferred to Year 2 as it requires CLV modelling not yet scoped into this engagement.</li>
+      <li><strong>Full AI chat recommendation</strong> — considered too high-friction for the T-1h urgency window and poses compliance uncertainty in multiple markets.</li>
+    </ul>
+    <p style="font-size:.88rem;color:var(--muted);margin-top:20px;padding:14px 16px;background:var(--surface);border-radius:8px;border-left:3px solid var(--orange);">The hardest call was sequencing the UI overhaul (SI-P1A) ahead of the personalisation engine (SI-P2A). The engine is higher long-run value — but it has a 6–8 week ML build dependency. Shipping the engine first would mean 6–8 weeks of zero revenue impact. The UI overhaul ships in days and proves the messaging hypotheses that the engine will later personalise at scale.</p>
+
+
+    <div class="section-tag" style="margin-top:48px;">Multi-Moment Coverage — Lever 1 in Action</div>
+        <h3 style="margin-bottom:20px;">Multi-Moment Upsell Timeline</h3>
+    <div class="moment-timeline">
+      <div class="moment-item">
+        <div class="moment-dot"></div>
+        <div class="moment-card">
+          <div class="moment-time">T-25h — MCI Opens</div>
+          <h4>Email + Push: Early-Bird Personalisation</h4>
+          <p>One personalised upgrade recommendation + social proof. "Personalise your rental before vehicles are claimed." Variant A: hero image + CTA. Variant B: minimalist text. Feeds EXP-005.</p>
+          <div class="compliance-badge">✅ GDPR-compliant · Unsubscribe link mandatory</div>
+        </div>
+      </div>
+      <div class="moment-item">
+        <div class="moment-dot" style="background:var(--orange);"></div>
+        <div class="moment-card" style="border-color:var(--orange);">
+          <div class="moment-time">T-1h — MCI Funnel</div>
+          <h4>In-App: Primary Upsell Moment</h4>
+          <p>Full personalised funnel. All recommendation designs applied. This is the highest-intent moment — the customer is in booking completion mode. No additional compliance risk beyond standard app consent.</p>
+          <div class="compliance-badge">✅ Standard app consent · No extra risk</div>
+        </div>
+      </div>
+      <div class="moment-item">
+        <div class="moment-dot"></div>
+        <div class="moment-card">
+          <div class="moment-time">On-Rent (Safe Window Only)</div>
+          <h4>Push: Post-Departure, Time-Delayed</h4>
+          <p>Triggered ONLY after geo-fence departure from branch + 30-minute minimum driving time elapsed. Single notification max per rental. Upgrade offer for long rentals.</p>
+          <div class="compliance-badge">⚠️ Legal review required · Driver distraction laws apply</div>
+          <p style="font-size:.78rem;color:var(--muted);font-style:italic;margin-top:8px;border-top:1px solid var(--border);padding-top:8px;">Roadmap dependency: Legal review must be complete before Q3 launch. If legal review is not cleared by end of Q2, this moment is deferred to Q4 or removed from scope.</p>
+        </div>
+      </div>
+      <div class="moment-item">
+        <div class="moment-dot"></div>
+        <div class="moment-card">
+          <div class="moment-time">Day 3+ of 5+ Day Rental</div>
+          <h4>Push: Mid-Rental Extension</h4>
+          <p>"Thinking of extending? Lock in your current vehicle at your current rate + €15 saving." No safety concern — user is not expected to be driving at this point in the journey.</p>
+          <div class="compliance-badge">✅ Standard push consent · No safety concern</div>
+        </div>
+      </div>
+      <div class="moment-item">
+        <div class="moment-dot"></div>
+        <div class="moment-card">
+          <div class="moment-time">T+24h Post-Rental</div>
+          <h4>Email: Re-engagement + Next Booking Seed</h4>
+          <p>"How was your BMW X3? Customers who upgrade tell us they never go back." Next-booking loyalty incentive + CLV measurement trigger. Feeds 12-month CLV delta metric.</p>
+          <div class="compliance-badge">✅ Standard marketing consent · Must honour unsubscribe</div>
+        </div>
+      </div>
+    </div>
 
     <!-- Architecture Diagram -->
-    <div class="section-header">
-      <div class="section-tag">Section 3 — Architecture</div>
+    <div class="section-header" style="margin-top:56px;">
+      <div class="section-tag">Architecture</div>
       <h2>How the Personalisation Engine Works</h2>
       <p>Five layers process every customer in real-time — from raw booking data to the hero slot on their screen. The engine operates in two modes to ensure 100% coverage from day one.</p>
     </div>
@@ -696,6 +764,7 @@ footer strong { color: rgba(255,255,255,.7); }
         </div>
         <p style="font-size:.85rem;margin-top:8px;"><strong>Hero add-on:</strong> Toll pass. <strong>Suppress:</strong> Child seat, GPS, winter tyres.</p>
         <p class="signals"><strong>Signals:</strong> Corporate flag, weekday pickup, solo, 1–4 days, business airport. <strong>Tone:</strong> Efficiency, status. Short copy, one CTA. Frame as expensable total trip cost.</p>
+        <p style="font-size:.78rem;margin-top:10px;"><span style="background:var(--orange-lt);color:var(--orange-dk);font-size:.75rem;font-weight:700;padding:2px 8px;border-radius:10px;">Ships via SI-P1A + SI-P2A</span></p>
       </div>
       <div class="seg-card seg-leisure">
         <div class="seg-card-emoji">🏖️</div>
@@ -706,6 +775,7 @@ footer strong { color: rgba(255,255,255,.7); }
         </div>
         <p style="font-size:.85rem;margin-top:8px;"><strong>Hero add-on:</strong> GPS + toll pass bundle. <strong>Copy:</strong> "Never stop at a toll booth."</p>
         <p class="signals"><strong>Signals:</strong> Weekend/holiday, leisure destination, personal booking, 3–7 days. <strong>Tone:</strong> Aspirational, discovery, reassurance. Per-day delta with lifestyle photography.</p>
+        <p style="font-size:.78rem;margin-top:10px;"><span style="background:var(--orange-lt);color:var(--orange-dk);font-size:.75rem;font-weight:700;padding:2px 8px;border-radius:10px;">Ships via SI-P1A + SI-P2A</span></p>
       </div>
       <div class="seg-card seg-family">
         <div class="seg-card-emoji">👨‍👩‍👧‍👦</div>
@@ -716,6 +786,8 @@ footer strong { color: rgba(255,255,255,.7); }
         </div>
         <p style="font-size:.85rem;margin-top:8px;"><strong>Hero add-on:</strong> Child seat + fuel + toll as Family Essentials Pack.</p>
         <p class="signals"><strong>Signals:</strong> Group 3+, child seat history, resort destination, 5+ days. <strong>Tone:</strong> Practical, value-conscious. Per-person per-day framing. "What is solved, not what is sold."</p>
+        <p style="font-size:.78rem;margin-top:10px;"><span style="background:var(--orange-lt);color:var(--orange-dk);font-size:.75rem;font-weight:700;padding:2px 8px;border-radius:10px;">Ships via SI-P1A + SI-P2A + SI-P3A (bundles)</span></p>
+        <p style="font-size:.78rem;color:var(--muted);margin-top:8px;font-style:italic;">Note: In Q1 rule-based mode, Family Organiser classification falls back to: group size ≥3 OR child seat booked at any point in booking flow — no behavioral history required.</p>
       </div>
       <div class="seg-card seg-firsttimer">
         <div class="seg-card-emoji">✈️</div>
@@ -725,59 +797,12 @@ footer strong { color: rgba(255,255,255,.7); }
           <span class="seg-pill seg-pill-protection">Protection: VERY HIGH</span>
         </div>
         <p style="font-size:.85rem;margin-top:8px;"><strong>Hero:</strong> Zero-Worry bundle (GPS + fuel + All Inclusive).</p>
-        <p class="signals"><strong>Signals:</strong> First SIXT rental, international card, no loyalty history. <strong>Tone:</strong> Welcoming, educational. Heavy social proof. "73% of first-time renters at Miami Airport chose this."</p>
+        <p class="signals"><strong>Signals:</strong> First SIXT rental, international card, no loyalty history. <strong>Tone:</strong> Welcoming, educational. Heavy social proof. "73% of first-time renters at this location chose a zero-worry option <span style=\"color:var(--muted);font-style:italic;\">(illustrative — replace with actual location-specific data from SIXT analytics before launch)</span>"</p>
+        <p style="font-size:.78rem;margin-top:10px;"><span style="background:var(--orange-lt);color:var(--orange-dk);font-size:.75rem;font-weight:700;padding:2px 8px;border-radius:10px;">Ships via SI-P1A + SI-P2A + SI-P3A (bundles)</span></p>
       </div>
     </div>
 
-    <!-- Moments timeline -->
-    <h3 style="margin-bottom:20px;">Multi-Moment Upsell Timeline</h3>
-    <div class="moment-timeline">
-      <div class="moment-item">
-        <div class="moment-dot"></div>
-        <div class="moment-card">
-          <div class="moment-time">T-25h — MCI Opens</div>
-          <h4>Email + Push: Early-Bird Personalisation</h4>
-          <p>One personalised upgrade recommendation + social proof. "Personalise your rental before vehicles are claimed." Variant A: hero image + CTA. Variant B: minimalist text. Feeds EXP-005.</p>
-          <div class="compliance-badge">✅ GDPR-compliant · Unsubscribe link mandatory</div>
-        </div>
-      </div>
-      <div class="moment-item">
-        <div class="moment-dot" style="background:var(--orange);"></div>
-        <div class="moment-card" style="border-color:var(--orange);">
-          <div class="moment-time">T-1h — MCI Funnel</div>
-          <h4>In-App: Primary Upsell Moment</h4>
-          <p>Full personalised funnel. All recommendation designs applied. This is the highest-intent moment — the customer is in booking completion mode. No additional compliance risk beyond standard app consent.</p>
-          <div class="compliance-badge">✅ Standard app consent · No extra risk</div>
-        </div>
-      </div>
-      <div class="moment-item">
-        <div class="moment-dot"></div>
-        <div class="moment-card">
-          <div class="moment-time">On-Rent (Safe Window Only)</div>
-          <h4>Push: Post-Departure, Time-Delayed</h4>
-          <p>Triggered ONLY after geo-fence departure from branch + 30-minute minimum driving time elapsed. Single notification max per rental. Upgrade offer for long rentals.</p>
-          <div class="compliance-badge">⚠️ Legal review required · Driver distraction laws apply</div>
-        </div>
-      </div>
-      <div class="moment-item">
-        <div class="moment-dot"></div>
-        <div class="moment-card">
-          <div class="moment-time">Day 3+ of 5+ Day Rental</div>
-          <h4>Push: Mid-Rental Extension</h4>
-          <p>"Thinking of extending? Lock in your current vehicle at your current rate + €15 saving." No safety concern — user is not expected to be driving at this point in the journey.</p>
-          <div class="compliance-badge">✅ Standard push consent · No safety concern</div>
-        </div>
-      </div>
-      <div class="moment-item">
-        <div class="moment-dot"></div>
-        <div class="moment-card">
-          <div class="moment-time">T+24h Post-Rental</div>
-          <h4>Email: Re-engagement + Next Booking Seed</h4>
-          <p>"How was your BMW X3? Customers who upgrade tell us they never go back." Next-booking loyalty incentive + CLV measurement trigger. Feeds 12-month CLV delta metric.</p>
-          <div class="compliance-badge">✅ Standard marketing consent · Must honour unsubscribe</div>
-        </div>
-      </div>
-    </div>
+
   </div>
 </section>
 
@@ -788,12 +813,13 @@ footer strong { color: rgba(255,255,255,.7); }
       <div class="section-tag">Section 5 — Experimentation Framework</div>
       <h2>10 Experiments. 3 Phases. One Scientific Approach.</h2>
       <p>Every personalisation hypothesis is a bet. The framework enforces single-variable testing, pre-registered MDEs, guardrail metrics, and a multi-touch attribution model to prevent contamination across the journey's touchpoints.</p>
+      <p style="font-size:.82rem;color:var(--muted);margin-top:8px;">Experimentation principles governing all tests are documented in <a href="#appendix" style="color:var(--orange);">Appendix 2 — A/B Testing Principles</a>.</p>
     </div>
 
     <div class="phase-tabs">
-      <button class="phase-tab active" onclick="switchPhase('p1', this)">Phase 1 — Q1/Q2<br><small>Foundational UI</small></button>
-      <button class="phase-tab" onclick="switchPhase('p2', this)">Phase 2 — Q2/Q3<br><small>Personalisation Layer</small></button>
-      <button class="phase-tab" onclick="switchPhase('p3', this)">Phase 3 — Q3/Q4<br><small>Bundle & Advanced</small></button>
+      <button class="phase-tab active" onclick="switchPhase('p1', this)">Phase 1 — Q1/Q2 <span style="background:var(--orange);color:white;font-size:.7rem;padding:1px 6px;border-radius:10px;margin-left:4px;">4 tests</span><br><small>Foundational UI</small></button>
+      <button class="phase-tab" onclick="switchPhase('p2', this)">Phase 2 — Q2/Q3 <span style="background:#6366F1;color:white;font-size:.7rem;padding:1px 6px;border-radius:10px;margin-left:4px;">4 tests</span><br><small>Personalisation Layer</small></button>
+      <button class="phase-tab" onclick="switchPhase('p3', this)">Phase 3 — Q3/Q4 <span style="background:var(--green);color:white;font-size:.7rem;padding:1px 6px;border-radius:10px;margin-left:4px;">2 tests</span><br><small>Bundle &amp; Advanced</small></button>
     </div>
 
     <div id="phase-p1" class="phase-content active">
@@ -812,21 +838,24 @@ footer strong { color: rgba(255,255,255,.7); }
         <div class="exp-card">
           <div class="exp-id">EXP-001</div>
           <h4>Per-Day Price Framing</h4>
-          <div class="hypothesis">"€12/day more" vs. "€72 more for 6-day rental" will increase upgrade attach rate by 8pp+</div>
+          <div class="hypothesis">"€12/day more" vs. "€72 more for 6-day rental" will increase upgrade attach rate by 8pp+ (MDE = 8pp at α=0.05, β=0.80 requires ~4,100 per variant — achievable within 5,000/variant minimum)</div>
+          <p style="font-size:.78rem;background:var(--surface);border-radius:6px;padding:8px 10px;margin-top:8px;color:var(--muted);"><strong style="color:var(--ink);">Decision rule:</strong> Ship if primary metric lifts ≥ MDE AND guardrail metrics are stable. Iterate if primary lift is 3–7pp (below MDE but positive). Kill if primary metric is flat or negative after full sample.</p>
           <div class="exp-metric-label">Primary Metric</div>
           <div class="exp-metric-val">Vehicle upgrade attach rate</div>
         </div>
         <div class="exp-card">
           <div class="exp-id">EXP-002</div>
           <h4>Social Proof Badge</h4>
-          <div class="hypothesis">"68% of customers here upgraded last week" badge on hero card will lift upgrade attach by 6pp+</div>
+          <div class="hypothesis">"68% of customers here upgraded last week" badge on hero card will lift upgrade attach by 6pp+ (MDE = 6pp requires ~7,300 per variant — achievable at Phase 1 traffic levels)</div>
+          <p style="font-size:.78rem;background:var(--surface);border-radius:6px;padding:8px 10px;margin-top:8px;color:var(--muted);"><strong style="color:var(--ink);">Decision rule:</strong> Ship if primary metric lifts ≥ MDE AND guardrail metrics are stable. Iterate if primary lift is 3–7pp (below MDE but positive). Kill if primary metric is flat or negative after full sample.</p>
           <div class="exp-metric-label">Primary Metric</div>
           <div class="exp-metric-val">Vehicle upgrade attach rate</div>
         </div>
         <div class="exp-card">
           <div class="exp-id">EXP-005</div>
           <h4>T-25h Upsell Email</h4>
-          <div class="hypothesis">Personalised email at T-25h will reduce T-1h funnel drop-off by 5%+ via pre-selection warm-up</div>
+          <div class="hypothesis">Personalised email at T-25h will reduce T-1h funnel drop-off by 5%+ via pre-selection warm-up (MDE = 5pp → ~9,800 per variant — requires full Phase 1 email audience)</div>
+          <p style="font-size:.78rem;background:var(--surface);border-radius:6px;padding:8px 10px;margin-top:8px;color:var(--muted);"><strong style="color:var(--ink);">Decision rule:</strong> Ship if primary metric lifts ≥ MDE AND guardrail metrics are stable. Iterate if primary lift is 3–7pp (below MDE but positive). Kill if primary metric is flat or negative after full sample.</p>
           <div class="exp-metric-label">Primary Metric</div>
           <div class="exp-metric-val">Pre-selection rate at T-1h · RPR</div>
           <div style="margin-top:8px;" class="compliance-badge">Holdout: 20% receive no email</div>
@@ -834,7 +863,8 @@ footer strong { color: rgba(255,255,255,.7); }
         <div class="exp-card">
           <div class="exp-id">EXP-009</div>
           <h4>Self-Service Upsell Placement</h4>
-          <div class="hypothesis">Proactive upsell card at top of Self-Service (vs. buried in navigation) will increase Self-Service RPR by 10pp+</div>
+          <div class="hypothesis">Proactive upsell card at top of Self-Service (vs. buried in navigation) will increase Self-Service RPR by 10pp+ (MDE = 10pp → ~2,000 per variant)</div>
+          <p style="font-size:.78rem;background:var(--surface);border-radius:6px;padding:8px 10px;margin-top:8px;color:var(--muted);"><strong style="color:var(--ink);">Decision rule:</strong> Ship if primary metric lifts ≥ MDE AND guardrail metrics are stable. Iterate if primary lift is 3–7pp (below MDE but positive). Kill if primary metric is flat or negative after full sample.</p>
           <div class="exp-metric-label">Primary Metric</div>
           <div class="exp-metric-val">Self-Service RPR · Add-on attach via Self-Service</div>
         </div>
@@ -857,28 +887,32 @@ footer strong { color: rgba(255,255,255,.7); }
         <div class="exp-card">
           <div class="exp-id">EXP-003</div>
           <h4>Scenario Card for Protection</h4>
-          <div class="hypothesis">Concrete deductible scenario strip before the tier selector will increase All Inclusive attach by 10pp+ among first-timers</div>
+          <div class="hypothesis">Concrete deductible scenario strip before the tier selector will increase All Inclusive attach by 10pp+ among first-timers (MDE = 10pp → ~2,000/variant with higher base rate)</div>
+          <p style="font-size:.78rem;background:var(--surface);border-radius:6px;padding:8px 10px;margin-top:8px;color:var(--muted);"><strong style="color:var(--ink);">Decision rule:</strong> Ship if primary metric lifts ≥ MDE AND guardrail metrics are stable. Iterate if primary lift is 3–7pp (below MDE but positive). Kill if primary metric is flat or negative after full sample.</p>
           <div class="exp-metric-label">Primary Metric</div>
           <div class="exp-metric-val">Protection attach rate · Protection RPR</div>
         </div>
         <div class="exp-card">
           <div class="exp-id">EXP-004</div>
           <h4>Add-on Hero Card</h4>
-          <div class="hypothesis">Single personalised hero add-on card (vs. full list) will increase add-on attach by 12pp+ with no MCI completion rate degradation</div>
+          <div class="hypothesis">Single personalised hero add-on card (vs. full list) will increase add-on attach by 12pp+ with no MCI completion rate degradation (MDE = 12pp → ~1,500/variant)</div>
+          <p style="font-size:.78rem;background:var(--surface);border-radius:6px;padding:8px 10px;margin-top:8px;color:var(--muted);"><strong style="color:var(--ink);">Decision rule:</strong> Ship if primary metric lifts ≥ MDE AND guardrail metrics are stable. Iterate if primary lift is 3–7pp (below MDE but positive). Kill if primary metric is flat or negative after full sample.</p>
           <div class="exp-metric-label">Primary Metric</div>
           <div class="exp-metric-val">Add-on attach rate · Add-on RPR</div>
         </div>
         <div class="exp-card">
           <div class="exp-id">EXP-007</div>
           <h4>Recommendation Highlight (not pre-select)</h4>
-          <div class="hypothesis">Orange border + "Recommended" badge on protection tier (zero pre-selection) will increase attach by 8pp+ across all segments without NPS degradation</div>
+          <div class="hypothesis">Orange border + "Recommended" badge on protection tier (zero pre-selection) will increase attach by 8pp+ across all segments without NPS degradation (MDE = 8pp → ~4,100 per variant)</div>
+          <p style="font-size:.78rem;background:var(--surface);border-radius:6px;padding:8px 10px;margin-top:8px;color:var(--muted);"><strong style="color:var(--ink);">Decision rule:</strong> Ship if primary metric lifts ≥ MDE AND guardrail metrics are stable. Iterate if primary lift is 3–7pp (below MDE but positive). Kill if primary metric is flat or negative after full sample.</p>
           <div class="exp-metric-label">Primary Metric</div>
           <div class="exp-metric-val">Protection attach rate (all segments)</div>
         </div>
         <div class="exp-card">
           <div class="exp-id">EXP-010</div>
           <h4>Gold Loyalty Upgrade Pricing</h4>
-          <div class="hypothesis">Loyalty-discounted upgrade price for Gold members will increase Gold upgrade attach by 12pp+ while maintaining upgrade margin above floor</div>
+          <div class="hypothesis">Loyalty-discounted upgrade price for Gold members will increase Gold upgrade attach by 12pp+ while maintaining upgrade margin above floor (MDE = 12pp → ~1,500 per variant)</div>
+          <p style="font-size:.78rem;background:var(--surface);border-radius:6px;padding:8px 10px;margin-top:8px;color:var(--muted);"><strong style="color:var(--ink);">Decision rule:</strong> Ship if primary metric lifts ≥ MDE AND guardrail metrics are stable. Iterate if primary lift is 3–7pp (below MDE but positive). Kill if primary metric is flat or negative after full sample.</p>
           <div class="exp-metric-label">Primary Metric</div>
           <div class="exp-metric-val">Upgrade attach (Gold) · Upgrade margin (guardrail)</div>
         </div>
@@ -901,14 +935,16 @@ footer strong { color: rgba(255,255,255,.7); }
         <div class="exp-card">
           <div class="exp-id">EXP-006</div>
           <h4>Bundle Offer vs. Individual</h4>
-          <div class="hypothesis">Persona-matched bundle as primary offer will increase total RPR by 15%+ for matched segments vs. individual product upsell</div>
+          <div class="hypothesis">Persona-matched bundle as primary offer will increase total RPR by 15%+ for matched segments vs. individual product upsell (MDE = 15% relative → ~2,800 per variant)</div>
+          <p style="font-size:.78rem;background:var(--surface);border-radius:6px;padding:8px 10px;margin-top:8px;color:var(--muted);"><strong style="color:var(--ink);">Decision rule:</strong> Ship if primary metric lifts ≥ MDE AND guardrail metrics are stable. Iterate if primary lift is 3–7pp (below MDE but positive). Kill if primary metric is flat or negative after full sample.</p>
           <div class="exp-metric-label">Primary Metric</div>
           <div class="exp-metric-val">RPR · Bundle attach rate · AOV</div>
         </div>
         <div class="exp-card">
           <div class="exp-id">EXP-008</div>
           <h4>Scarcity Counter</h4>
-          <div class="hypothesis">Real-time vehicle availability counter ("Only 2 Premium SUVs left") will increase upgrade conversion by 6%+ without NPS degradation</div>
+          <div class="hypothesis">Real-time vehicle availability counter ("Only 2 Premium SUVs left") will increase upgrade conversion by 6%+ without NPS degradation (MDE = 6% relative → ~3,500 per variant)</div>
+          <p style="font-size:.78rem;background:var(--surface);border-radius:6px;padding:8px 10px;margin-top:8px;color:var(--muted);"><strong style="color:var(--ink);">Decision rule:</strong> Ship if primary metric lifts ≥ MDE AND guardrail metrics are stable. Iterate if primary lift is 3–7pp (below MDE but positive). Kill if primary metric is flat or negative after full sample.</p>
           <div class="exp-metric-label">Primary Metric</div>
           <div class="exp-metric-val">Vehicle upgrade attach rate · NPS (guardrail)</div>
         </div>
@@ -928,15 +964,30 @@ footer strong { color: rgba(255,255,255,.7); }
     <div class="wireframe-container">
       <div class="wireframe-frame-wrap">
         <iframe id="wf-iframe" class="wireframe-iframe" title="SIXT Personalisation Prototype"></iframe>
+        <div id="wf-fallback" style="display:none;padding:32px;text-align:center;background:var(--surface);border-radius:34px;height:780px;flex-direction:column;align-items:center;justify-content:center;gap:12px;">
+          <p style="font-weight:700;font-size:1rem;">Interactive prototype — enable JavaScript to view the personalised booking flow</p>
+          <p style="font-size:.85rem;color:var(--muted);">The prototype walks through: Push notification → Booking summary (WF-0) → Vehicle selection with per-day delta framing and social proof (WF-1) → Protection with scenario storytelling (WF-2) → Personalised add-on hero card (WF-3) → Review with per-day breakdown (WF-4)</p>
+        </div>
+        <script>document.getElementById('wf-iframe').onerror=function(){this.style.display='none';document.getElementById('wf-fallback').style.display='flex';};</script>
       </div>
       <div class="wireframe-steps">
         <h3>📱 Follow the Journey</h3>
         <p style="color:rgba(255,255,255,.55);font-size:.85rem;margin-bottom:24px;">Each step in the prototype maps to a strategic principle. Tap the steps below to jump to any screen, or navigate inside the prototype using the on-screen buttons.</p>
+        <div id="current-sixt-view" style="display:none;background:rgba(255,255,255,.06);border-radius:16px;padding:24px;margin-bottom:20px;font-size:.85rem;color:rgba(255,255,255,.8);">
+          <h4 style="color:white;margin-bottom:12px;">Current SIXT MCI Flow (as-is)</h4>
+          <ul style="line-height:1.9;padding-left:18px;">
+            <li><strong>Price display:</strong> Total cost shown as lump sum — no per-day framing</li>
+            <li><strong>Vehicle screen:</strong> Spec-led cards (engine size, transmission) — no outcome copy or social proof</li>
+            <li><strong>Protection screen:</strong> Three tiers listed with deductibles — no scenario storytelling, no recommended tier highlighted</li>
+            <li><strong>Add-ons screen:</strong> All available add-ons shown to all users — no personalisation or suppression logic</li>
+            <li><strong>Confirmation:</strong> Static booking summary — no upsell, no on-rent nudge setup</li>
+          </ul>
+        </div>
         <div class="flow-step active" id="step-0" onclick="jumpToStep(0)">
           <div class="flow-step-num">0</div>
           <div class="flow-step-info">
             <h4>Push Notification</h4>
-            <p>SI-3 · T-1h trigger. The moment that starts the MCI funnel.</p>
+            <p>SI-P1B · T-1h trigger. The moment that starts the MCI funnel.</p>
           </div>
         </div>
         <div class="flow-step" id="step-1" onclick="jumpToStep(1)">
@@ -950,7 +1001,7 @@ footer strong { color: rgba(255,255,255,.7); }
           <div class="flow-step-num">2</div>
           <div class="flow-step-info">
             <h4>Vehicle Selection (WF-1)</h4>
-            <p>SI-2 + SI-1 · Outcome cards, per-person framing, social proof badge. Upgrade hero card.</p>
+            <p>SI-P1A + SI-P2A · Outcome cards, per-person framing, social proof badge. Upgrade hero card.</p>
           </div>
         </div>
         <div class="flow-step" id="step-3" onclick="jumpToStep(3)">
@@ -971,7 +1022,7 @@ footer strong { color: rgba(255,255,255,.7); }
           <div class="flow-step-num">5</div>
           <div class="flow-step-info">
             <h4>Review & Confirm (WF-4)</h4>
-            <p>SI-5 · Per-day breakdown. Bundle savings visible. One-tap confirmation.</p>
+            <p>SI-P2B · Per-day breakdown. Bundle savings visible. One-tap confirmation.</p>
           </div>
         </div>
       </div>
@@ -998,6 +1049,7 @@ footer strong { color: rgba(255,255,255,.7); }
         <div class="description">
           <p>Total post-booking ancillary revenue divided by total completed rentals. This is the single metric that captures the combined effect of all three levers — more moments, better messages, and better matching. At +20%, it represents ~€44M incremental annual revenue.</p>
           <p style="margin-top:10px;"><strong style="color:rgba(255,255,255,.9);">Best-in-class ceiling:</strong> Hertz Gold digital at €38–44/rental. Long-run target if all three phases ship successfully.</p>
+          <p style="font-size:.78rem;color:rgba(255,255,255,.5);margin-top:12px;font-style:italic;">Target confidence: Moderate. Based on Hertz Gold digital benchmarks and analogous personalisation programmes (Booking.com ancillary, Avis upgrade engine). To be calibrated against SIXT baseline in Q1 data pull.</p>
         </div>
       </div>
 
@@ -1023,19 +1075,25 @@ footer strong { color: rgba(255,255,255,.7); }
         <div class="metric-tier tier-secondary">◆ Secondary — Funnel</div>
         <h4>MCI Completion Rate</h4>
         <div class="target">Maintain / +2pp</div>
-        <div class="baseline">Guardrail — must not degrade</div>
+        <div class="baseline">Guardrail: must not degrade below <span style="color:var(--orange);font-weight:700;">X%</span> (confirm current baseline from SIXT analytics)</div>
       </div>
       <div class="metric-card">
         <div class="metric-tier tier-secondary">◆ Secondary — Engagement</div>
         <h4>T-25h Email Open Rate</h4>
         <div class="target">&gt;35% open / &gt;12% CTR</div>
-        <div class="baseline">Industry average ~22% open / ~3% CTR</div>
+        <div class="baseline">Transactional trigger emails (industry): ~45–55% open / ~8–12% CTR. General marketing emails (industry): ~22% / ~3% CTR. SIXT's T-25h email sits between these categories.</div>
       </div>
       <div class="metric-card">
         <div class="metric-tier tier-secondary">◆ ML Quality</div>
         <h4>Personalisation Engine Precision@1</h4>
         <div class="target">&gt;55% Ph.1 → &gt;65% Ph.2</div>
         <div class="baseline">% cases where top recommendation = purchased</div>
+      </div>
+          <div class="metric-card">
+        <div class="metric-tier">◆ Lagging — Retention</div>
+        <h4>12-Month Customer Lifetime Value (CLV)</h4>
+        <div class="target">+8% vs. control</div>
+        <div class="baseline">Measured via post-T+90 rental frequency for customers who upgraded vs. matched control.</div>
       </div>
     </div>
     <div class="guardrail-banner">
@@ -1093,6 +1151,7 @@ footer strong { color: rgba(255,255,255,.7); }
             </div>
           </div>
         </div>
+        <div style="margin-top:14px;padding:10px 12px;background:#FFF8E1;border-left:3px solid #FFC107;border-radius:6px;font-size:.78rem;color:#78350f;"><strong style="color:#78350f;">Key Risk:</strong> Benefit-led copy does not move attach rate — forces re-evaluation of messaging strategy.</div>
       </div>
 
       <!-- Q2 -->
@@ -1134,6 +1193,7 @@ footer strong { color: rgba(255,255,255,.7); }
             </div>
           </div>
         </div>
+        <div style="margin-top:14px;padding:10px 12px;background:#FFF8E1;border-left:3px solid #FFC107;border-radius:6px;font-size:.78rem;color:#78350f;"><strong style="color:#78350f;">Key Risk:</strong> ML engine build overruns 6–8 week estimate — Phase 2 experiments delayed by 4–6 weeks.</div>
       </div>
 
       <!-- Q3 -->
@@ -1172,6 +1232,7 @@ footer strong { color: rgba(255,255,255,.7); }
             </div>
           </div>
         </div>
+        <div style="margin-top:14px;padding:10px 12px;background:#FFF8E1;border-left:3px solid #FFC107;border-radius:6px;font-size:.78rem;color:#78350f;"><strong style="color:#78350f;">Key Risk:</strong> Bundle pricing API blocked by finance approval or margin floor logic takes longer to validate.</div>
       </div>
 
       <!-- Q4 -->
@@ -1210,6 +1271,7 @@ footer strong { color: rgba(255,255,255,.7); }
             </div>
           </div>
         </div>
+        <div style="margin-top:14px;padding:10px 12px;background:#FFF8E1;border-left:3px solid #FFC107;border-radius:6px;font-size:.78rem;color:#78350f;"><strong style="color:#78350f;">Key Risk:</strong> Biometric approval requires market-by-market legal clearance — may not be feasible in all SIXT geographies.</div>
       </div>
     </div>
 
@@ -1250,6 +1312,9 @@ footer strong { color: rgba(255,255,255,.7); }
         </div>
       </div>
     </div>
+    <p style="font-size:.85rem;color:rgba(255,255,255,.7);margin-top:24px;padding:16px 20px;background:rgba(255,255,255,.06);border-radius:10px;border-left:3px solid var(--orange);">
+  <strong style="color:white;">Year 2 horizon:</strong> Achieving €38–44/rental (Hertz Gold parity) requires a Year 2 initiative set: flight delay signal integration (already in Q4 roadmap), dynamic pricing experiments, and potentially AI-driven concierge-style recommendations. This roadmap reaches ~€26–29/rental by Q4.
+</p>
   </div>
 </section>
 
@@ -1263,7 +1328,7 @@ footer strong { color: rgba(255,255,255,.7); }
         <span class="accordion-chevron">▾</span>
       </button>
       <div class="accordion-body">
-        <p style="font-size:.88rem;color:var(--muted);margin-bottom:16px;">Directional estimates based on industry benchmarks. Exact baseline figures should be confirmed from SIXT's internal data warehouse before committing to targets.</p>
+        <p style="font-size:.88rem;color:var(--muted);margin-bottom:16px;">Directional estimates based on industry benchmarks. Exact baseline figures will be confirmed from SIXT's internal data before committing to targets.</p>
         <table class="appendix-table">
           <thead><tr><th>Metric</th><th>Value</th></tr></thead>
           <tbody>
@@ -1288,6 +1353,9 @@ footer strong { color: rgba(255,255,255,.7); }
           </div>
           <div class="opp-desc">Closing even half the digital-to-branch gap through better moments, messages, and matching represents a business-transforming revenue opportunity — before reaching best-in-class benchmarks.</div>
         </div>
+        <p style="font-size:.85rem;color:var(--muted);margin-top:16px;padding:14px 16px;background:var(--surface);border-radius:8px;border-left:3px solid var(--navy);">
+          <strong>Competitive positioning:</strong> Avis Budget Group and Enterprise have deployed personalised upsell engines since 2021–2022. Europcar's 2023 app redesign introduced outcome-led copy in its protection screens. SIXT's digital upsell capabilities are currently below peer group, making this a catch-up-and-differentiate play rather than a first-mover bet.
+        </p>
       </div>
     </div>
     <div class="accordion-item" id="appendix-2">
@@ -1327,6 +1395,11 @@ footer strong { color: rgba(255,255,255,.7); }
             <tr><td><strong>ML</strong></td><td>Machine Learning — statistical models trained on historical data to surface patterns and make predictions; used in the Personalisation Engine to score and rank upsell offers per customer.</td></tr>
             <tr><td><strong>Epsilon-Greedy Arm</strong></td><td>A Reinforcement Learning exploration&#8211;exploitation strategy: with probability &epsilon; the algorithm explores a random offer (exploration); with probability 1&minus;&epsilon; it serves the highest-scoring offer known so far (exploitation). Balances learning with revenue optimisation.</td></tr>
             <tr><td><strong>Ph.1</strong></td><td>Phase 1 — the first implementation phase (Q1/Q2), covering foundational UI changes: per-day price framing, benefit-led copy, social proof badges, and self-service upsell placement. No ML dependency required.</td></tr>
+            <tr><td><strong>Tier 1 Signals</strong></td><td>Booking metadata available for 100% of customers at MCI trigger: pickup location, vehicle class, rental duration, group size, corporate account flag, booking channel (direct vs. OTA). No history required.</td></tr>
+            <tr><td><strong>Tier 2 Signals</strong></td><td>Behavioral and loyalty data available for returning customers (~50% of digital traffic): past rental history, previous add-on purchases, loyalty tier (Gold/Silver/standard), past upgrade history.</td></tr>
+            <tr><td><strong>Tier 3 Signals</strong></td><td>Real-time contextual signals requiring external API integrations (Q3+): flight delay status, weather forecast at destination, real-time vehicle availability count.</td></tr>
+            <tr><td><strong>AOV</strong></td><td>Average Order Value — total value of all products in a single MCI transaction including base rental, upgrades, protection, and add-ons.</td></tr>
+            <tr><td><strong>NPS</strong></td><td>Net Promoter Score — customer likelihood to recommend SIXT, measured on a 0–10 scale post-rental. Used as a guardrail to detect if upsell tactics degrade customer satisfaction.</td></tr>
           </tbody>
         </table>
       </div>
@@ -1447,6 +1520,34 @@ window.addEventListener('scroll', () => {
     a.style.background = a.getAttribute('href') === '#' + current ? 'var(--orange-lt)' : '';
   });
 }, {passive: true});
+
+// ── Current vs Proposed toggle ──
+function setWireframeView(view) {
+  var currentDiv = document.getElementById('current-sixt-view');
+  var iframe = document.getElementById('wf-iframe') || document.querySelector('.wireframe-iframe');
+  var toggleProposed = document.getElementById('toggle-proposed');
+  var toggleCurrent = document.getElementById('toggle-current');
+  if (view === 'current') {
+    currentDiv.style.display = 'block';
+    if (iframe) iframe.style.display = 'none';
+    toggleCurrent.style.background = 'var(--orange)';
+    toggleCurrent.style.color = 'white';
+    toggleCurrent.style.border = 'none';
+    toggleProposed.style.background = 'transparent';
+    toggleProposed.style.color = 'rgba(255,255,255,.7)';
+    toggleProposed.style.border = '1.5px solid rgba(255,255,255,.3)';
+  } else {
+    currentDiv.style.display = 'none';
+    if (iframe) iframe.style.display = 'block';
+    toggleProposed.style.background = 'var(--orange)';
+    toggleProposed.style.color = 'white';
+    toggleProposed.style.border = 'none';
+    toggleCurrent.style.background = 'transparent';
+    toggleCurrent.style.color = 'rgba(255,255,255,.7)';
+    toggleCurrent.style.border = '1.5px solid rgba(255,255,255,.3)';
+  }
+}
+
 </script>
 </body>
 </html>
