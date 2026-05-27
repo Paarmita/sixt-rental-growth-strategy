@@ -473,6 +473,52 @@ footer strong { color: rgba(255,255,255,.7); }
       </table>
     </div>
 
+    <h3 style="margin-bottom:16px; margin-top:36px;">Self-Service Audit</h3>
+    <div style="overflow-x:auto; margin-bottom:32px;">
+      <table class="audit-table">
+        <thead>
+          <tr>
+            <th>Self-Service Area</th>
+            <th>Observed Issue</th>
+            <th>Revenue Impact</th>
+            <th>Severity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Add-on Discovery</strong></td>
+            <td>Upsell items buried under modification flows — customers in management mode never discover add-ons</td>
+            <td class="impact-high"><strong>High</strong></td>
+            <td><span class="sev-critical">Critical</span></td>
+          </tr>
+          <tr>
+            <td><strong>Advance Bookers</strong></td>
+            <td>No proactive nudges for customers who book 10+ days in advance — a high-consideration window goes untouched</td>
+            <td class="impact-med">Medium</td>
+            <td><span class="sev-medium">Medium</span></td>
+          </tr>
+          <tr>
+            <td><strong>Post-Management Placement</strong></td>
+            <td>Protection and add-ons appear as afterthoughts after booking management tasks, not as primary journey elements</td>
+            <td class="impact-med">Medium</td>
+            <td><span class="sev-medium">Medium</span></td>
+          </tr>
+          <tr>
+            <td><strong>Channel Blindness</strong></td>
+            <td>No differentiation by booking channel — an OTA customer has different context and coverage than a direct SIXT booker, yet the UI is identical</td>
+            <td class="impact-high"><strong>High</strong></td>
+            <td><span class="sev-critical">Critical</span></td>
+          </tr>
+          <tr>
+            <td><strong>Untapped Consideration Window</strong></td>
+            <td>Self-Service has no 1-hour countdown, making it ideal for lower-pressure upsell experimentation — this advantage is currently unused</td>
+            <td class="impact-high"><strong>High</strong></td>
+            <td><span class="sev-medium">Medium</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
     <h3 style="margin-bottom:16px;">Root Cause Summary</h3>
     <div class="root-cause-grid">
       <div class="rc-card"><span class="rc-icon">🪞</span><div><h4>One-size-fits-all UI</h4><p>Same products, same order, same copy for every customer regardless of segment</p></div></div>
