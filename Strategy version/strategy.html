@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Ancillary Revenue Strategy — Sixt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+/* ── TOKENS ──────────────────────────────────────────────── */
+:root {
+  --navy:       #1A1F36;
+  --navy-mid:   #4A5072;
+  --navy-deep:  #0F1225;
+  --orange:     #FF5F00;
+  --orange-lt:  #FFF3EB;
+  --orange-dim: rgba(255,95,0,.15);
+  --muted:      #8E94B5;
+  --light-bg:   #F4F6FD;
+  --white:      #FFFFFF;
+  --teal:       #0D9488;
+  --teal-lt:    #E6F7F5;
+  --purple:     #7C3AED;
+  --purple-lt:  #F3EFFE;
+  --green:      #16A34A;
+  --red:        #DC2626;
+  --blue:       #3B82F6;
+  --glass-bg:   rgba(255,255,255,0.06);
+  --glass-border: rgba(255,255,255,0.12);
+  --card-shadow: 0 4px 24px rgba(26,31,54,0.10);
+  --card-shadow-hover: 0 12px 40px rgba(26,31,54,0.18);
+  --radius:     12px;
+  --radius-sm:  8px;
+}
+
+/* ── RESET ───────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #fff;
+  color: var(--navy);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── PROGRESS BAR ────────────────────────────────────────── */
+#progress-bar {
+  position: fixed; top: 0; left: 0; height: 3px; z-index: 200;
+  background: linear-gradient(90deg, var(--orange), #FF9A00);
+  width: 0%; transition: width .1s linear;
+  box-shadow: 0 0 8px rgba(255,95,0,.6);
+}
+
+/* ── NAV ─────────────────────────────────────────────────── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(15,18,37,.92);
+  backdrop-filter: blur(16px) saturate(1.5);
+  -webkit-backdrop-filter: blur(16px) saturate(1.5);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem; height: 56px;
+}
+.nav-brand {
+  color: #fff; font-family: 'Sora', sans-serif;
+  font-weight: 700; font-size: .9rem; letter-spacing: .02em;
+  display: flex; align-items: center; gap: .5rem; white-space: nowrap;
+}
+.nav-brand .sep { color: var(--orange); opacity: .6; }
+.nav-links { display: flex; gap: 2px; }
+.nav-links a {
+  color: var(--muted); text-decoration: none; font-size: .75rem; font-weight: 500;
+  padding: .35rem .6rem; border-radius: 6px;
+  transition: color .2s, background .2s;
+}
+.nav-links a:hover, .nav-links a.active { color: #fff; background: rgba(255,255,255,.08); }
+.nav-links a.active { color: var(--orange); }
+
+/* ── SCROLL REVEAL ───────────────────────────────────────── */
+.reveal {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity .55s cubic-bezier(.22,1,.36,1), transform .55s cubic-bezier(.22,1,.36,1);
+}
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: .1s; }
+.reveal-delay-2 { transition-delay: .2s; }
+.reveal-delay-3 { transition-delay: .3s; }
+.reveal-delay-4 { transition-delay: .4s; }
+
+/* ── SECTION ANATOMY ─────────────────────────────────────── */
+section { padding: 88px 0; }
+.container { max-width: 1120px; margin: 0 auto; padding: 0 2rem; }
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: .4rem;
+  background: var(--orange-lt); color: var(--orange);
+  font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  padding: .3rem .8rem; border-radius: 20px;
+  border: 1px solid rgba(255,95,0,.25); margin-bottom: 1rem;
+}
+.eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--orange); }
+.eyebrow.teal { background: var(--teal-lt); color: var(--teal); border-color: rgba(13,148,136,.25); }
+.eyebrow.teal .dot { background: var(--teal); }
+.eyebrow.purple { background: var(--purple-lt); color: var(--purple); border-color: rgba(124,58,237,.25); }
+.eyebrow.purple .dot { background: var(--purple); }
+.eyebrow.dark { background: rgba(255,95,0,.15); color: var(--orange); border-color: rgba(255,95,0,.2); }
+
+.section-title {
+  font-family: 'Sora', sans-serif;
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+  font-weight: 800; color: var(--navy); line-height: 1.15; margin-bottom: .6rem;
+}
+.section-title.light { color: #fff; }
+.section-sub {
+  font-size: 1.05rem; color: var(--navy-mid);
+  max-width: 640px; margin-bottom: 3rem; font-weight: 400;
+}
+.section-sub.light { color: var(--muted); }
+.rule { width: 40px; height: 3px; border-radius: 2px; background: var(--orange); margin: .8rem 0 1.4rem; }
+.rule.teal { background: var(--teal); }
+.rule.purple { background: var(--purple); }
+
+/* ── HERO ────────────────────────────────────────────────── */
+#hero {
+  min-height: 100vh;
+  background: var(--navy-deep);
+  display: flex; align-items: center;
+  padding: 0; position: relative; overflow: hidden;
+}
+.hero-mesh {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 60% at 75% 30%, rgba(74,80,114,.4) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 40% at 20% 80%, rgba(255,95,0,.08) 0%, transparent 60%);
+}
+.hero-grid {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 80%);
+}
+.hero-accent { position: absolute; right: 0; top: 0; width: 6px; height: 100%; background: linear-gradient(180deg, var(--orange), rgba(255,95,0,0)); }
+.hero-inner { position: relative; z-index: 1; max-width: 1120px; margin: 0 auto; padding: 0 2.5rem; }
+
+.hero-chips { display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: 2.5rem; }
+.hero-chip {
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+  color: var(--muted); font-size: .78rem; font-weight: 500;
+  padding: .3rem .85rem; border-radius: 20px; letter-spacing: .02em;
+  transition: background .2s, color .2s;
+}
+.hero-chip:hover { background: rgba(255,255,255,.12); color: #fff; }
+
+.hero-title {
+  font-family: 'Sora', sans-serif;
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-weight: 800; color: #fff; line-height: 1.05;
+  margin-bottom: 1.4rem; letter-spacing: -.02em;
+}
+.hero-title .highlight { color: var(--orange); }
+.hero-sub {
+  font-size: 1.15rem; color: var(--muted); max-width: 560px;
+  margin-bottom: 3rem; font-weight: 400; line-height: 1.65;
+}
+.hero-orange-rule { width: 48px; height: 4px; background: var(--orange); border-radius: 2px; margin-bottom: 1.4rem; }
+.hero-byline { color: #fff; font-size: .9rem; font-weight: 600; }
+.hero-byline span { color: var(--muted); font-weight: 400; }
+
+.hero-stats { display: flex; gap: 2.5rem; margin-top: 3rem; padding-top: 2.5rem; border-top: 1px solid rgba(255,255,255,.08); }
+.hstat { }
+.hstat .n { font-family: 'Sora', sans-serif; font-size: 2rem; font-weight: 800; color: var(--orange); }
+.hstat .l { font-size: .8rem; color: var(--muted); margin-top: .1rem; }
+
+/* ── EXEC SUMMARY ────────────────────────────────────────── */
+#exec { background: #fff; }
+.prob-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; margin-bottom: 3rem; }
+.prob-card {
+  background: var(--light-bg); border-radius: var(--radius); padding: 1.6rem 1.5rem;
+  border-top: 3px solid var(--orange);
+  box-shadow: var(--card-shadow);
+  transition: transform .25s, box-shadow .25s;
+}
+.prob-card:hover { transform: translateY(-4px); box-shadow: var(--card-shadow-hover); }
+.prob-card h3 { font-size: .95rem; font-weight: 700; color: var(--navy); margin-bottom: .55rem; }
+.prob-card p { font-size: .875rem; color: var(--navy-mid); line-height: 1.6; }
+
+.levers-title { font-size: 1.1rem; font-weight: 700; color: var(--navy); margin-bottom: 1.1rem; }
+.levers-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; }
+.lever-card {
+  background: var(--navy); border-radius: var(--radius); padding: 1.8rem 1.6rem;
+  box-shadow: 0 6px 24px rgba(26,31,54,.22);
+  position: relative; overflow: hidden;
+  transition: transform .25s, box-shadow .25s;
+}
+.lever-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--orange); }
+.lever-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(26,31,54,.3); }
+.lever-badge {
+  width: 34px; height: 34px; border-radius: 50%; background: var(--orange);
+  color: #fff; font-size: .78rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1rem; font-family: 'Sora', sans-serif;
+}
+.lever-card h3 { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: .55rem; }
+.lever-card p { font-size: .865rem; color: var(--muted); line-height: 1.65; }
+
+/* ── OPPORTUNITY ─────────────────────────────────────────── */
+#opportunity { background: var(--light-bg); }
+.stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; margin-bottom: 2.5rem; }
+.stat-card {
+  background: #fff; border-radius: var(--radius); padding: 1.8rem 1.6rem;
+  border-left: 4px solid var(--orange); box-shadow: var(--card-shadow);
+  transition: transform .25s, box-shadow .25s;
+}
+.stat-card:hover { transform: translateY(-3px); box-shadow: var(--card-shadow-hover); }
+.stat-card .num {
+  font-family: 'Sora', sans-serif;
+  font-size: 2.8rem; font-weight: 800; color: var(--navy); line-height: 1; margin-bottom: .45rem;
+}
+.stat-card .label { font-size: .9rem; font-weight: 700; color: var(--navy); margin-bottom: .2rem; }
+.stat-card .sub { font-size: .8rem; color: var(--muted); }
+.chart-wrap {
+  background: #fff; border-radius: var(--radius); padding: 2rem 2rem 1.6rem;
+  box-shadow: var(--card-shadow);
+}
+.chart-wrap h3 { font-size: .95rem; font-weight: 700; color: var(--navy); margin-bottom: 1.4rem; }
+
+/* ── ARCHETYPES ──────────────────────────────────────────── */
+#archetypes { background: #fff; }
+.arch-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.25rem; }
+.arch-card {
+  border-radius: var(--radius); overflow: hidden; box-shadow: var(--card-shadow);
+  transition: transform .25s, box-shadow .25s;
+  display: flex; flex-direction: column;
+}
+.arch-card:hover { transform: translateY(-5px); box-shadow: var(--card-shadow-hover); }
+.arch-header { padding: 1rem 1.2rem; }
+.arch-header h3 { font-size: .95rem; font-weight: 700; color: #fff; margin-bottom: .2rem; }
+.arch-header .tag { font-size: .75rem; color: rgba(255,255,255,.72); font-style: italic; }
+.arch-body { padding: 1.1rem 1.2rem; background: var(--light-bg); flex: 1; }
+.arch-row { margin-bottom: .6rem; }
+.arch-row .al { font-size: .78rem; font-weight: 700; color: var(--navy); }
+.arch-row .av { font-size: .8rem; color: var(--navy-mid); }
+.arch-hook { padding: .9rem 1.2rem; background: #fff; border-top: 1px solid #E8EBF5; }
+.arch-hook .hl { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; margin-bottom: .3rem; }
+.arch-hook p { font-size: .8rem; color: var(--navy-mid); font-style: italic; line-height: 1.5; }
+
+/* ── PILLARS ─────────────────────────────────────────────── */
+#pillars {
+  background: var(--navy-deep);
+  position: relative; overflow: hidden;
+}
+.pillars-mesh {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 70% 80% at 50% 100%, rgba(74,80,114,.3) 0%, transparent 60%);
+}
+.pillars-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; position: relative; z-index: 1; }
+.pillar-card {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: var(--radius); padding: 2rem 1.8rem;
+  position: relative; overflow: hidden;
+  backdrop-filter: blur(4px);
+  transition: transform .25s, background .25s, border-color .25s;
+}
+.pillar-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255,255,255,.07);
+  border-color: rgba(255,255,255,.18);
+}
+.pillar-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--orange); }
+.pillar-top { display: flex; align-items: center; gap: .8rem; margin-bottom: .5rem; }
+.pillar-badge {
+  width: 38px; height: 38px; border-radius: 50%; background: var(--orange);
+  color: #fff; font-size: .82rem; font-weight: 800; font-family: 'Sora', sans-serif;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(255,95,0,.4);
+}
+.pillar-card h3 { font-family: 'Sora', sans-serif; font-size: 1.1rem; font-weight: 700; color: #fff; }
+.pillar-tag { font-size: .8rem; color: var(--orange); font-style: italic; margin-bottom: 1.1rem; opacity: .9; }
+.pillar-card ul { list-style: none; margin-bottom: 1.6rem; }
+.pillar-card li {
+  font-size: .86rem; color: rgba(200,204,223,.85); padding: .3rem 0 .3rem 1.1rem;
+  position: relative; line-height: 1.5;
+}
+.pillar-card li::before { content: '›'; position: absolute; left: 0; color: var(--orange); font-weight: 700; }
+.pillar-kpi {
+  background: var(--orange); border-radius: 6px; padding: .5rem 1rem;
+  font-size: .82rem; font-weight: 700; color: #fff;
+  display: inline-block; letter-spacing: .01em;
+}
+
+/* ── TACTIC SECTIONS ─────────────────────────────────────── */
+.tactic-section { background: #fff; }
+.tactic-section.alt { background: var(--light-bg); }
+.tactic-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.25rem; }
+.tactic-card {
+  background: #fff; border-radius: var(--radius);
+  padding: 1.7rem 1.6rem;
+  border-left: 4px solid var(--orange);
+  box-shadow: var(--card-shadow);
+  transition: transform .25s, box-shadow .25s;
+  display: flex; flex-direction: column; gap: .65rem;
+}
+.tactic-section.alt .tactic-card { background: #fff; }
+.tactic-card:hover { transform: translateY(-4px); box-shadow: var(--card-shadow-hover); }
+.tactic-card.teal { border-left-color: var(--teal); }
+.tactic-card.purple { border-left-color: var(--purple); }
+.tactic-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 50%; background: var(--navy);
+  color: #fff; font-size: .75rem; font-weight: 700; flex-shrink: 0;
+}
+.tactic-card h3 { font-size: 1rem; font-weight: 700; color: var(--navy); }
+.tactic-card p { font-size: .875rem; color: var(--navy-mid); line-height: 1.65; }
+.tactic-note {
+  font-size: .82rem; color: var(--muted); font-style: italic;
+  padding: .55rem .75rem; border-radius: 6px;
+  background: var(--light-bg); line-height: 1.5;
+}
+.tactic-card.teal .tactic-note { background: var(--teal-lt); }
+.tactic-card.purple .tactic-note { background: var(--purple-lt); }
+
+.pillar-header-row { display: flex; align-items: center; gap: .9rem; margin-bottom: .5rem; }
+.target-bar {
+  display: inline-flex; align-items: center; gap: .55rem;
+  background: var(--orange-lt); border: 1px solid rgba(255,95,0,.2);
+  border-radius: 8px; padding: .45rem 1rem;
+  font-size: .85rem; color: var(--navy); font-weight: 600; margin-bottom: 2.2rem;
+}
+.target-bar .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
+.target-bar.teal { background: var(--teal-lt); border-color: rgba(13,148,136,.2); }
+.target-bar.teal .dot { background: var(--teal); }
+.target-bar.purple { background: var(--purple-lt); border-color: rgba(124,58,237,.2); }
+.target-bar.purple .dot { background: var(--purple); }
+
+/* ── PERSONALISATION ─────────────────────────────────────── */
+#personalisation {
+  background: var(--navy-deep);
+  position: relative; overflow: hidden;
+}
+.pers-wrap {
+  display: grid; grid-template-columns: 1fr 48px 1fr 48px 110px;
+  gap: 1rem; align-items: start; position: relative; z-index: 1;
+}
+.col-title { font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 1rem; }
+.signal-card {
+  background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.09);
+  border-radius: var(--radius-sm); padding: .85rem 1rem;
+  border-left: 3px solid var(--orange); margin-bottom: .65rem;
+  transition: background .2s;
+}
+.signal-card:hover { background: rgba(255,255,255,.09); }
+.signal-card h4 { font-size: .875rem; font-weight: 700; color: #fff; margin-bottom: .2rem; }
+.signal-card p { font-size: .78rem; color: var(--muted); }
+.rule-card {
+  background: rgba(13,148,136,.1); border: 1px solid rgba(13,148,136,.22);
+  border-radius: var(--radius-sm); padding: .85rem 1rem; margin-bottom: .65rem;
+  transition: background .2s;
+}
+.rule-card:hover { background: rgba(13,148,136,.15); }
+.rule-card .ifthen { font-size: .7rem; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: .06em; margin-bottom: .3rem; }
+.rule-card p { font-size: .8rem; color: rgba(200,204,223,.9); line-height: 1.5; }
+.arrow-col { display: flex; align-items: center; justify-content: center; padding-top: 2.2rem; }
+.arrow-col .arr { font-size: 1.6rem; color: rgba(255,95,0,.6); }
+.output-chips { display: flex; flex-direction: column; gap: .65rem; padding-top: 2.2rem; }
+.output-chip {
+  border-radius: var(--radius-sm); padding: 1rem .8rem; color: #fff;
+  font-size: .82rem; font-weight: 700; text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,.2);
+  transition: transform .2s;
+}
+.output-chip:hover { transform: scale(1.04); }
+.pers-note {
+  margin-top: 2rem; background: rgba(255,95,0,.1);
+  border: 1px solid rgba(255,95,0,.2); border-radius: var(--radius-sm);
+  padding: 1rem 1.4rem; font-size: .875rem; color: rgba(255,255,255,.8); line-height: 1.6;
+  position: relative; z-index: 1;
+}
+.pers-note strong { color: var(--orange); }
+
+/* ── EXPERIMENT TABLE ────────────────────────────────────── */
+#experiments { background: #fff; }
+.exp-table {
+  width: 100%; border-collapse: collapse; border-radius: var(--radius);
+  overflow: hidden; box-shadow: var(--card-shadow);
+}
+.exp-table thead tr { background: var(--navy); }
+.exp-table th {
+  padding: .9rem 1.1rem; text-align: left; font-size: .78rem;
+  font-weight: 700; color: #fff; letter-spacing: .05em; text-transform: uppercase;
+}
+.exp-table th:not(:first-child) { text-align: center; }
+.exp-table td {
+  padding: .8rem 1.1rem; font-size: .875rem; color: var(--navy-mid);
+  border-bottom: 1px solid #EEF0F8;
+  transition: background .15s;
+}
+.exp-table tr:last-child td { border-bottom: none; }
+.exp-table tr:nth-child(even) td { background: var(--light-bg); }
+.exp-table tr:hover td { background: #E8EBF5; }
+.exp-table td:not(:first-child) { text-align: center; }
+.exp-table td:first-child { color: var(--navy); font-weight: 500; }
+.ptag { font-weight: 700; font-size: .8rem; }
+.imp-high { color: var(--green); font-weight: 700; }
+.eff-high { color: var(--red); font-weight: 700; }
+.pbadge {
+  display: inline-block; border-radius: 5px; padding: .22rem .65rem;
+  font-size: .78rem; font-weight: 700; color: #fff; min-width: 30px; text-align: center;
+}
+
+/* ── HOW WE EXPERIMENT ───────────────────────────────────── */
+#how { background: var(--light-bg); }
+.how-top { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+.how-card {
+  background: #fff; border-radius: var(--radius); padding: 1.8rem 1.7rem;
+  box-shadow: var(--card-shadow);
+}
+.how-card-title { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--orange); margin-bottom: 1rem; }
+.how-card p, .how-card li { font-size: .875rem; color: var(--navy-mid); line-height: 1.65; }
+.how-card ul { list-style: none; }
+.how-card li { padding: .28rem 0 .28rem 1.1rem; position: relative; }
+.how-card li::before { content: '›'; position: absolute; left: 0; color: var(--orange); font-weight: 700; }
+.how-bottom { display: grid; grid-template-columns: 210px 1fr 1fr; gap: 1.5rem; }
+.holdout-card {
+  background: var(--navy); border-radius: var(--radius);
+  padding: 1.8rem 1.2rem;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  box-shadow: 0 8px 24px rgba(26,31,54,.22);
+}
+.holdout-num {
+  font-family: 'Sora', sans-serif;
+  font-size: 4.2rem; font-weight: 800; color: #fff; line-height: 1;
+}
+.holdout-sub { font-size: .78rem; color: var(--muted); margin-top: .5rem; line-height: 1.5; }
+.cadence-card { background: #fff; border-radius: var(--radius); padding: 1.8rem 1.7rem; box-shadow: var(--card-shadow); }
+.cadence-title { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--orange); margin-bottom: 1.1rem; }
+.cadence-row { display: flex; align-items: center; gap: .9rem; margin-bottom: .8rem; }
+.cadence-badge {
+  background: var(--orange); color: #fff; font-size: .75rem; font-weight: 700;
+  padding: .28rem .7rem; border-radius: 5px; white-space: nowrap; flex-shrink: 0; min-width: 72px; text-align: center;
+}
+.cadence-row p { font-size: .875rem; color: var(--navy-mid); }
+
+/* ── ASPIRATION ──────────────────────────────────────────── */
+#aspiration { background: #fff; }
+.asp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.asp-card { border-radius: var(--radius); overflow: hidden; box-shadow: var(--card-shadow); transition: transform .25s; }
+.asp-card:hover { transform: translateY(-4px); }
+.asp-header { padding: 1.1rem 1.5rem; }
+.asp-header h3 { font-family: 'Sora', sans-serif; font-size: 1.05rem; font-weight: 700; color: #fff; }
+.asp-body { background: var(--light-bg); padding: 1.5rem; }
+.asp-item { display: flex; align-items: flex-start; gap: .75rem; margin-bottom: .9rem; }
+.asp-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: .38rem; }
+.asp-item p { font-size: .875rem; color: var(--navy-mid); line-height: 1.6; }
+
+/* ── CLOSING ─────────────────────────────────────────────── */
+#closing {
+  background: var(--navy-deep);
+  padding: 96px 0;
+  position: relative; overflow: hidden;
+}
+.closing-mesh {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 60% at 80% 20%, rgba(74,80,114,.35) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 50% at 10% 90%, rgba(255,95,0,.07) 0%, transparent 55%);
+}
+.closing-grid-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.closing-accent { position: absolute; right: 0; top: 0; width: 6px; height: 100%; background: linear-gradient(180deg, var(--orange), transparent); }
+.closing-inner { position: relative; z-index: 1; }
+.closing-inner h2 {
+  font-family: 'Sora', sans-serif;
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 800; color: #fff; line-height: 1.1; margin-bottom: 1rem;
+}
+.closing-tagline { font-size: 1.1rem; color: var(--muted); max-width: 600px; margin-bottom: 3.5rem; line-height: 1.7; }
+.closing-chips { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; }
+.closing-chip {
+  background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.09);
+  border-radius: var(--radius); padding: 1.6rem 1.4rem;
+  position: relative; overflow: hidden;
+  transition: transform .25s, background .25s;
+}
+.closing-chip:hover { transform: translateY(-4px); background: rgba(255,255,255,.07); }
+.closing-chip::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--orange); }
+.cc-top { display: flex; align-items: center; gap: .65rem; margin-bottom: .85rem; }
+.cc-badge {
+  width: 30px; height: 30px; border-radius: 50%; background: var(--orange);
+  color: #fff; font-size: .78rem; font-weight: 700; font-family: 'Sora', sans-serif;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(255,95,0,.4);
+}
+.closing-chip h3 { font-size: .95rem; font-weight: 700; color: #fff; }
+.closing-chip p { font-size: .845rem; color: var(--muted); line-height: 1.6; }
+
+/* ── FOOTER ──────────────────────────────────────────────── */
+footer {
+  background: #0A0D1A; padding: 1.4rem 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  border-top: 1px solid rgba(255,255,255,.05);
+}
+footer span { font-size: .78rem; color: var(--muted); }
+footer strong { color: rgba(255,255,255,.5); }
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 960px) {
+  .prob-grid, .levers-grid, .pillars-grid, .arch-grid { grid-template-columns: repeat(2,1fr); }
+  .pers-wrap { grid-template-columns: 1fr; }
+  .arrow-col { display: none; }
+  .how-top, .how-bottom, .asp-grid, .closing-chips, .stats-row { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .prob-grid, .levers-grid, .stats-row, .arch-grid, .pillars-grid, .tactic-grid { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  .hero-stats { flex-wrap: wrap; gap: 1.4rem; }
+  section { padding: 60px 0; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">Sixt <span class="sep">|</span> Digital Ancillary Revenue Strategy</div>
+  <div class="nav-links">
+    <a href="#exec">Summary</a>
+    <a href="#opportunity">Opportunity</a>
+    <a href="#archetypes">Segments</a>
+    <a href="#pillars">Pillars</a>
+    <a href="#upgrade">Upgrade</a>
+    <a href="#protection">Protection</a>
+    <a href="#addon">Add-ons</a>
+    <a href="#personalisation">Personalisation</a>
+    <a href="#experiments">Experiments</a>
+    <a href="#aspiration">Roadmap</a>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-mesh"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-accent"></div>
+  <div class="hero-inner">
+    <div class="hero-chips reveal">
+      <div class="hero-chip">Vehicle Upsell</div>
+      <div class="hero-chip">Protection Revenue</div>
+      <div class="hero-chip">Add-on Activation</div>
+      <div class="hero-chip">Personalisation</div>
+      <div class="hero-chip">A/B Experimentation</div>
+    </div>
+    <h1 class="hero-title reveal reveal-delay-1">
+      Digital <span class="highlight">Ancillary</span><br>Revenue Strategy
+    </h1>
+    <div class="hero-orange-rule reveal reveal-delay-2"></div>
+    <p class="hero-sub reveal reveal-delay-2">
+      Driving incremental revenue through smarter upsell, protection &amp; add-ons — built into Sixt's digital booking journey.
+    </p>
+    <div class="hero-byline reveal reveal-delay-3">
+      Paarmita Bhargava &nbsp;<span>· Growth PM Case Study · May 2025</span>
+    </div>
+    <div class="hero-stats reveal reveal-delay-4">
+      <div class="hstat"><div class="n">~35%</div><div class="l">Current digital attach rate</div></div>
+      <div class="hstat"><div class="n">€25–30</div><div class="l">Incremental revenue potential</div></div>
+      <div class="hstat"><div class="n">+20pp</div><div class="l">Target attach rate lift</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ EXEC SUMMARY ═══ -->
+<section id="exec">
+  <div class="container">
+    <div class="eyebrow reveal"><span class="dot"></span>Executive Summary</div>
+    <h2 class="section-title reveal">The Gap Between Reach and Revenue</h2>
+    <div class="rule reveal"></div>
+    <p class="section-sub reveal">Sixt's digital booking journey already captures the customer — the untapped opportunity is converting them on upgrades, protection, and add-ons before they reach the counter.</p>
+
+    <div class="prob-grid">
+      <div class="prob-card reveal reveal-delay-1">
+        <h3>Single Compressed Window</h3>
+        <p>The digital journey — from selection to payment — is the highest-leverage moment. Customers are already in a purchasing mindset and open to value-adds.</p>
+      </div>
+      <div class="prob-card reveal reveal-delay-2">
+        <h3>Products Presented, Not Sold</h3>
+        <p>Current digital flows display ancillaries passively. Framing, sequencing, and personalisation can dramatically lift attach rates across upgrades and protection.</p>
+      </div>
+      <div class="prob-card reveal reveal-delay-3">
+        <h3>One Size Fits All</h3>
+        <p>No personalisation today. Data signals (past history, loyalty tier, trip purpose) can power contextual, segment-specific offers that convert at 2–3× baseline.</p>
+      </div>
+    </div>
+
+    <p class="levers-title reveal">3 Strategic Levers</p>
+    <div class="levers-grid">
+      <div class="lever-card reveal reveal-delay-1">
+        <div class="lever-badge">L1</div>
+        <h3>Earn the Upgrade</h3>
+        <p>Right car · right moment · right price. Dynamic upgrade offers timed to the booking flow — visual, contextual, and segment-aware.</p>
+      </div>
+      <div class="lever-card reveal reveal-delay-2">
+        <div class="lever-badge">L2</div>
+        <h3>Earn the Protection</h3>
+        <p>Shift from "add on" anxiety to peace-of-mind framing. Tiers, social proof, and post-booking touchpoints to convert the 60% who don't protect today.</p>
+      </div>
+      <div class="lever-card reveal reveal-delay-3">
+        <div class="lever-badge">L3</div>
+        <h3>Earn the Add-on</h3>
+        <p>GPS, baby seat, extra driver, fuel — prompted by who's renting, where they're going, what they've chosen before. Bundle smartly for higher basket value.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ OPPORTUNITY ═══ -->
+<section id="opportunity">
+  <div class="container">
+    <div class="eyebrow reveal"><span class="dot"></span>Revenue Opportunity</div>
+    <h2 class="section-title reveal">The Numbers Behind the Gap</h2>
+    <div class="rule reveal"></div>
+    <p class="section-sub reveal">Ancillaries are a high-margin, digital-ready revenue stream — but digital attach rates lag the at-counter experience significantly.</p>
+
+    <div class="stats-row">
+      <div class="stat-card reveal reveal-delay-1">
+        <div class="num">~35%</div>
+        <div class="label">Est. digital ancillary attach rate</div>
+        <div class="sub">vs. ~55% at counter</div>
+      </div>
+      <div class="stat-card reveal reveal-delay-2">
+        <div class="num">€25–30</div>
+        <div class="label">Avg incremental revenue per upgraded booking</div>
+        <div class="sub">upgrade + protection + add-on combined</div>
+      </div>
+      <div class="stat-card reveal reveal-delay-3">
+        <div class="num">+20pp</div>
+        <div class="label">Target attach rate lift across all categories</div>
+        <div class="sub">via smarter digital journeys</div>
+      </div>
+    </div>
+    <div class="chart-wrap reveal">
+      <h3>Estimated Digital Attach Rate — Current vs. Opportunity</h3>
+      <canvas id="attachChart" height="100"></canvas>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ARCHETYPES ═══ -->
+<section id="archetypes">
+  <div class="container">
+    <div class="eyebrow reveal"><span class="dot"></span>Customer Segments</div>
+    <h2 class="section-title reveal">Who We're Selling To</h2>
+    <div class="rule reveal"></div>
+    <p class="section-sub reveal">Four primary archetypes — each with distinct ancillary purchase intent and conversion triggers.</p>
+    <div class="arch-grid">
+      <div class="arch-card reveal reveal-delay-1">
+        <div class="arch-header" style="background:#3B82F6"><h3>Business Traveler</h3><div class="tag">High LTV · Frequent</div></div>
+        <div class="arch-body">
+          <div class="arch-row"><span class="al">Upgrade: </span><span class="av">HIGH — Often books compact, open to exec car</span></div>
+          <div class="arch-row"><span class="al">Protection: </span><span class="av">LOW — Company policy often covers</span></div>
+          <div class="arch-row"><span class="al">Add-ons: </span><span class="av">MED — Extra driver, GPS for unfamiliar cities</span></div>
+        </div>
+        <div class="arch-hook"><div class="hl" style="color:#3B82F6">Digital Hook</div><p>Speed &amp; premium: pre-select the upgrade, offer an express add-on bundle</p></div>
+      </div>
+      <div class="arch-card reveal reveal-delay-2">
+        <div class="arch-header" style="background:var(--orange)"><h3>International Leisure</h3><div class="tag">Seasonal · Price-sensitive</div></div>
+        <div class="arch-body">
+          <div class="arch-row"><span class="al">Upgrade: </span><span class="av">MED — Wants comfort for longer drives</span></div>
+          <div class="arch-row"><span class="al">Protection: </span><span class="av">HIGH — Uncertain about foreign roads &amp; rules</span></div>
+          <div class="arch-row"><span class="al">Add-ons: </span><span class="av">HIGH — GPS, full tank option</span></div>
+        </div>
+        <div class="arch-hook"><div class="hl" style="color:var(--orange)">Digital Hook</div><p>Peace of mind: lead with protection, bundle GPS as default</p></div>
+      </div>
+      <div class="arch-card reveal reveal-delay-3">
+        <div class="arch-header" style="background:var(--green)"><h3>Family / Road Tripper</h3><div class="tag">Long rental · Higher spend</div></div>
+        <div class="arch-body">
+          <div class="arch-row"><span class="al">Upgrade: </span><span class="av">HIGH — Needs space for luggage &amp; kids</span></div>
+          <div class="arch-row"><span class="al">Protection: </span><span class="av">HIGH — Risk-averse, travelling with family</span></div>
+          <div class="arch-row"><span class="al">Add-ons: </span><span class="av">HIGH — Baby seat, GPS, extra driver</span></div>
+        </div>
+        <div class="arch-hook"><div class="hl" style="color:var(--green)">Digital Hook</div><p>Convenience bundle: upgrade + seat + GPS in one click</p></div>
+      </div>
+      <div class="arch-card reveal reveal-delay-4">
+        <div class="arch-header" style="background:var(--purple)"><h3>OTS Booker</h3><div class="tag">Last-minute · Opportunistic</div></div>
+        <div class="arch-body">
+          <div class="arch-row"><span class="al">Upgrade: </span><span class="av">VERY HIGH — Often books cheapest available</span></div>
+          <div class="arch-row"><span class="al">Protection: </span><span class="av">MED — Impulse-driven, needs clear value prop</span></div>
+          <div class="arch-row"><span class="al">Add-ons: </span><span class="av">LOW — In a hurry, keep it simple</span></div>
+        </div>
+        <div class="arch-hook"><div class="hl" style="color:var(--purple)">Digital Hook</div><p>Scarcity + value: 'Only 2 SUVs left — upgrade for €12/day'</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PILLARS ═══ -->
+<section id="pillars">
+  <div class="pillars-mesh"></div>
+  <div class="container">
+    <div class="eyebrow dark reveal"><span class="dot"></span>Strategic Framework</div>
+    <h2 class="section-title light reveal">3 Strategic Pillars</h2>
+    <div class="rule reveal"></div>
+    <p class="section-sub light reveal">Roadmap to make digital ancillary revenue a primary driver of growth.</p>
+    <div class="pillars-grid">
+      <div class="pillar-card reveal reveal-delay-1">
+        <div class="pillar-top"><div class="pillar-badge">L1</div><h3>Earn the Upgrade</h3></div>
+        <div class="pillar-tag">Vehicle Upsell</div>
+        <ul>
+          <li>Dynamic upgrade pricing — right price for each segment</li>
+          <li>Visual car comparison at the selection step</li>
+          <li>Scarcity &amp; availability signals ('2 SUVs left')</li>
+          <li>Segment-aware timing: OTS earlier, business later</li>
+          <li>Recommended vehicle badge based on trip profile</li>
+        </ul>
+        <div class="pillar-kpi">Target: +15pp upgrade attach rate</div>
+      </div>
+      <div class="pillar-card reveal reveal-delay-2">
+        <div class="pillar-top"><div class="pillar-badge">L2</div><h3>Earn the Protection</h3></div>
+        <div class="pillar-tag">Protection Revenue</div>
+        <ul>
+          <li>Shift framing: 'Peace of Mind' not 'Insurance Add-on'</li>
+          <li>Introduce 3 tiers: Basic · Standard · Premium</li>
+          <li>Social proof: '74% of customers on this route protect'</li>
+          <li>Post-booking protection email within 2hrs of booking</li>
+          <li>Segment-aware defaults: international bookers see protection first</li>
+        </ul>
+        <div class="pillar-kpi">Target: +12pp protection attach rate</div>
+      </div>
+      <div class="pillar-card reveal reveal-delay-3">
+        <div class="pillar-top"><div class="pillar-badge">L3</div><h3>Earn the Add-on</h3></div>
+        <div class="pillar-tag">Add-on Activation</div>
+        <ul>
+          <li>Smart prompts: baby seat auto-suggested for family bookings</li>
+          <li>GPS highlighted for international / unfamiliar-city routes</li>
+          <li>Extra driver prompted if 2+ adults in past booking history</li>
+          <li>Bundle discounts: GPS + Full Tank = 'Road Trip Pack' −15%</li>
+          <li>Post-booking add-on window up to 24hrs before pickup</li>
+        </ul>
+        <div class="pillar-kpi">Target: +13pp add-on combo rate</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PILLAR 1: UPGRADE ═══ -->
+<section id="upgrade" class="tactic-section">
+  <div class="container">
+    <div class="pillar-header-row reveal">
+      <div class="eyebrow"><span class="dot"></span>Pillar 1</div>
+    </div>
+    <h2 class="section-title reveal">Earn the Upgrade</h2>
+    <div class="rule reveal"></div>
+    <div class="target-bar reveal"><div class="dot"></div>Target: +15pp upgrade attach rate → Est. +€8 incremental revenue per rental</div>
+    <div class="tactic-grid">
+      <div class="tactic-card reveal reveal-delay-1">
+        <div class="tactic-num">1</div>
+        <h3>Dynamic Upgrade Pricing</h3>
+        <p>Price upgrades based on real-time fleet availability and customer segment. Last-minute bookers see steeper discounts; loyal customers get early access to premium tiers.</p>
+        <div class="tactic-note">Show upgrade savings as €/day off RRP — reframe as 'unlock', not 'extra charge'.</div>
+      </div>
+      <div class="tactic-card reveal reveal-delay-2">
+        <div class="tactic-num">2</div>
+        <h3>Visual Vehicle Comparison</h3>
+        <p>Show actual car photos with key feature diff (boot size, passengers, comfort score). Photo-led cards convert 2× higher than spec tables in travel verticals.</p>
+        <div class="tactic-note">Include a 'Most popular for your trip type' badge powered by booking profile.</div>
+      </div>
+      <div class="tactic-card reveal reveal-delay-3">
+        <div class="tactic-num">3</div>
+        <h3>Scarcity &amp; Availability Signals</h3>
+        <p>Display real-time vehicle availability at the selected location. 'Only 3 SUVs remaining' creates genuine urgency — factual, relevant, not manufactured.</p>
+        <div class="tactic-note">Trigger only when availability is genuinely &lt;5 units. Never fabricate scarcity.</div>
+      </div>
+      <div class="tactic-card reveal reveal-delay-4">
+        <div class="tactic-num">4</div>
+        <h3>Segment-Aware Timing</h3>
+        <p>OTS bookers: show upgrade immediately after selection. Business travelers: offer at confirmation with 'one-tap' addition. Families: bundle with add-ons.</p>
+        <div class="tactic-note">Use booking lead time + car class as primary segmentation signal.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PILLAR 2: PROTECTION ═══ -->
+<section id="protection" class="tactic-section alt">
+  <div class="container">
+    <div class="pillar-header-row reveal">
+      <div class="eyebrow teal"><span class="dot"></span>Pillar 2</div>
+    </div>
+    <h2 class="section-title reveal">Earn the Protection</h2>
+    <div class="rule teal reveal"></div>
+    <div class="target-bar teal reveal"><div class="dot"></div>Target: +12pp protection attach rate → Est. +€6 incremental revenue per rental</div>
+    <div class="tactic-grid">
+      <div class="tactic-card teal reveal reveal-delay-1">
+        <div class="tactic-num">1</div>
+        <h3>Framing Shift — Peace of Mind, Not a Fee</h3>
+        <p>Replace 'Add excess protection for €X' with 'Drive with full peace of mind from €X/day'. Lead with the benefit, not the product name.</p>
+        <div class="tactic-note">Test headline variants per segment: 'International? Stay protected.' for non-EU bookers.</div>
+      </div>
+      <div class="tactic-card teal reveal reveal-delay-2">
+        <div class="tactic-num">2</div>
+        <h3>3-Tier Protection Architecture</h3>
+        <p>Offer Basic (excess reduction), Standard (+ breakdown cover), Premium (+ personal accident). Middle tier typically drives 50–60% of revenue in tiered models.</p>
+        <div class="tactic-note">Highlight the middle tier with 'Most Popular' badge. Price anchor against Premium.</div>
+      </div>
+      <div class="tactic-card teal reveal reveal-delay-3">
+        <div class="tactic-num">3</div>
+        <h3>Social Proof &amp; Trust Signals</h3>
+        <p>Show localised proof: '78% of customers on this route add protection.' For first-time renters, add a trust badge and one-sentence claim summary.</p>
+        <div class="tactic-note">Place social proof adjacent to the protection option, not in small print below.</div>
+      </div>
+      <div class="tactic-card teal reveal reveal-delay-4">
+        <div class="tactic-num">4</div>
+        <h3>Post-Booking Protection Window</h3>
+        <p>Send a personalised email/SMS within 2 hours of booking. Opens a 24-hr window to add protection at booking price — targeting customers who declined at checkout.</p>
+        <div class="tactic-note">~15% expected re-conversion rate on the declined segment.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PILLAR 3: ADD-ONS ═══ -->
+<section id="addon" class="tactic-section">
+  <div class="container">
+    <div class="pillar-header-row reveal">
+      <div class="eyebrow purple"><span class="dot"></span>Pillar 3</div>
+    </div>
+    <h2 class="section-title reveal">Earn the Add-on</h2>
+    <div class="rule purple reveal"></div>
+    <div class="target-bar purple reveal"><div class="dot"></div>Target: +13pp add-on combo attach rate → Est. +€5 incremental revenue per rental</div>
+    <div class="tactic-grid">
+      <div class="tactic-card purple reveal reveal-delay-1">
+        <div class="tactic-num">1</div>
+        <h3>Smart Contextual Prompts</h3>
+        <p>Surface add-ons based on booking signals: baby seat for families, GPS for international routes, extra driver if booking name differs from loyalty account.</p>
+        <div class="tactic-note">Show max 2 suggested add-ons per journey — reduce cognitive load.</div>
+      </div>
+      <div class="tactic-card purple reveal reveal-delay-2">
+        <div class="tactic-num">2</div>
+        <h3>Bundle Offers — Named Packs</h3>
+        <p>'Road Trip Pack' (GPS + Full Tank), 'Family Pack' (Baby Seat + GPS + Extra Driver at −15%), 'Business Pack' (Extra Driver + Priority Return).</p>
+        <div class="tactic-note">Named bundles outperform itemised lists by 30–40% in ancillary travel verticals.</div>
+      </div>
+      <div class="tactic-card purple reveal reveal-delay-3">
+        <div class="tactic-num">3</div>
+        <h3>Post-Booking Activation Window</h3>
+        <p>After confirmation, open a 24-hr add-on window via email and app. 'Your car is confirmed — personalise your rental.' Lower-friction than checkout add-ons.</p>
+        <div class="tactic-note">Target customers who didn't add any extras at checkout. Expected 8–12% activation rate.</div>
+      </div>
+      <div class="tactic-card purple reveal reveal-delay-4">
+        <div class="tactic-num">4</div>
+        <h3>Convenience Framing for Business</h3>
+        <p>'Skip the queue — prepay fuel and return empty.' Frame add-ons as time-savers, not cost-adders for business travelers.</p>
+        <div class="tactic-note">Business travelers respond to time value messaging 2× more than price savings.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PERSONALISATION ═══ -->
+<section id="personalisation">
+  <div class="pillars-mesh"></div>
+  <div class="container">
+    <div class="eyebrow dark reveal"><span class="dot"></span>Personalisation Engine</div>
+    <h2 class="section-title light reveal">From Signals to Offers</h2>
+    <div class="rule reveal"></div>
+    <p class="section-sub light reveal">Customer data already available can power a personalisation layer that surfaces the right ancillary to the right customer — without needing new data infrastructure.</p>
+    <div class="pers-wrap">
+      <div class="reveal">
+        <div class="col-title" style="color:var(--orange)">Input Signals</div>
+        <div class="signal-card"><h4>Past rental history</h4><p>Vehicle class, add-ons purchased, damage claims</p></div>
+        <div class="signal-card"><h4>Loyalty tier</h4><p>Gold/Platinum → premium upgrade offers</p></div>
+        <div class="signal-card"><h4>Booking lead time</h4><p>Short → scarcity signals; long → bundle offers</p></div>
+        <div class="signal-card"><h4>Rental purpose</h4><p>Business vs. leisure → different protection framing</p></div>
+        <div class="signal-card"><h4>Geographic origin</h4><p>Non-EU → GPS + protection default on</p></div>
+      </div>
+      <div class="arrow-col reveal"><div class="arr">→</div></div>
+      <div class="reveal reveal-delay-1">
+        <div class="col-title" style="color:var(--teal)">Personalisation Rules</div>
+        <div class="rule-card"><div class="ifthen">IF / THEN</div><p>If international + no past protection → lead with Protection tier card</p></div>
+        <div class="rule-card"><div class="ifthen">IF / THEN</div><p>If loyalty = Gold + booked economy → show upgrade within 30s of load</p></div>
+        <div class="rule-card"><div class="ifthen">IF / THEN</div><p>If family indicators (baby seat in history) → auto-suggest Family Pack</p></div>
+        <div class="rule-card"><div class="ifthen">IF / THEN</div><p>If business email domain + short lead → surface Fuel Pre-pay + Extra Driver</p></div>
+        <div class="rule-card"><div class="ifthen">IF / THEN</div><p>If OTS + availability &lt;5 → trigger scarcity upgrade prompt at confirmation</p></div>
+      </div>
+      <div class="arrow-col reveal reveal-delay-2"><div class="arr">→</div></div>
+      <div class="reveal reveal-delay-3">
+        <div class="col-title" style="color:#fff">Output</div>
+        <div class="output-chips">
+          <div class="output-chip" style="background:var(--orange)">Upgrade Offer</div>
+          <div class="output-chip" style="background:var(--teal)">Protection</div>
+          <div class="output-chip" style="background:var(--purple)">Add-on Bundle</div>
+        </div>
+      </div>
+    </div>
+    <div class="pers-note reveal">
+      <strong>Phase 1</strong> uses available signals (loyalty tier, booking history, geo) with rules-based logic. <strong>Phase 2</strong> introduces ML-based propensity scoring for upgrade and protection.
+    </div>
+  </div>
+</section>
+
+<!-- ═══ EXPERIMENTS ═══ -->
+<section id="experiments">
+  <div class="container">
+    <div class="eyebrow reveal"><span class="dot"></span>Experiment Prioritisation</div>
+    <h2 class="section-title reveal">What We Test &amp; When</h2>
+    <div class="rule reveal"></div>
+    <p class="section-sub reveal">Ranked by revenue impact × effort. All experiments run as A/B with 95% confidence threshold and a 10% holdout.</p>
+    <div class="reveal">
+    <table class="exp-table">
+      <thead><tr>
+        <th>Experiment</th><th>Pillar</th><th>Impact</th><th>Effort</th><th>Priority</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Dynamic upgrade pricing at vehicle selection</td><td><span class="ptag" style="color:var(--orange)">Upgrade</span></td><td class="imp-high">High</td><td>Med</td><td><span class="pbadge" style="background:var(--orange)">P0</span></td></tr>
+        <tr><td>3-tier protection architecture introduction</td><td><span class="ptag" style="color:var(--teal)">Protection</span></td><td class="imp-high">High</td><td>Med</td><td><span class="pbadge" style="background:var(--orange)">P0</span></td></tr>
+        <tr><td>Post-booking protection email (declined at checkout)</td><td><span class="ptag" style="color:var(--teal)">Protection</span></td><td>Med</td><td>Low</td><td><span class="pbadge" style="background:var(--orange)">P0</span></td></tr>
+        <tr><td>Scarcity signal for vehicle upgrade ('X left')</td><td><span class="ptag" style="color:var(--orange)">Upgrade</span></td><td>Med</td><td>Low</td><td><span class="pbadge" style="background:var(--blue)">P1</span></td></tr>
+        <tr><td>Social proof on protection module</td><td><span class="ptag" style="color:var(--teal)">Protection</span></td><td>Med</td><td>Low</td><td><span class="pbadge" style="background:var(--blue)">P1</span></td></tr>
+        <tr><td>Family Pack bundle (seat + GPS + extra driver)</td><td><span class="ptag" style="color:var(--purple)">Add-ons</span></td><td class="imp-high">High</td><td>Med</td><td><span class="pbadge" style="background:var(--blue)">P1</span></td></tr>
+        <tr><td>Visual car photo card vs. spec table A/B</td><td><span class="ptag" style="color:var(--orange)">Upgrade</span></td><td>Med</td><td>Low</td><td><span class="pbadge" style="background:var(--blue)">P1</span></td></tr>
+        <tr><td>Post-booking add-on activation email</td><td><span class="ptag" style="color:var(--purple)">Add-ons</span></td><td>Med</td><td>Low</td><td><span class="pbadge" style="background:var(--teal)">P2</span></td></tr>
+        <tr><td>Segment-aware protection framing (intl vs. domestic)</td><td><span class="ptag" style="color:var(--teal)">Protection</span></td><td class="imp-high">High</td><td>Med</td><td><span class="pbadge" style="background:var(--teal)">P2</span></td></tr>
+        <tr><td>ML-based propensity score for upgrade offer timing</td><td><span class="ptag" style="color:var(--orange)">Upgrade</span></td><td class="imp-high">High</td><td class="eff-high">High</td><td><span class="pbadge" style="background:var(--muted)">P3</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ HOW WE EXPERIMENT ═══ -->
+<section id="how">
+  <div class="container">
+    <div class="eyebrow reveal"><span class="dot"></span>Experimentation Framework</div>
+    <h2 class="section-title reveal">How We Run Every Experiment</h2>
+    <div class="rule reveal"></div>
+    <div class="how-top">
+      <div class="how-card reveal reveal-delay-1">
+        <div class="how-card-title">Approach</div>
+        <p>All experiments run as controlled A/B tests with a 95% statistical significance threshold. Minimum sample size calculated per experiment.</p><br>
+        <p>Priority A/B test (high impact, low effort) — 2-week cycles. Strategic tests (higher effort) — 4-week cycles.</p>
+      </div>
+      <div class="how-card reveal reveal-delay-2">
+        <div class="how-card-title">Guardrails — Every Experiment</div>
+        <ul>
+          <li>MCI completion rate must not fall &gt;2pp below baseline</li>
+          <li>Protection dispute rate monitored weekly</li>
+          <li>Post-rental NPS tracked for every test cohort</li>
+        </ul>
+      </div>
+    </div>
+    <div class="how-bottom">
+      <div class="holdout-card reveal">
+        <div class="holdout-num">10%</div>
+        <div class="holdout-sub">Global holdout — no experiments applied — to measure cumulative revenue impact vs. clean baseline</div>
+      </div>
+      <div class="cadence-card reveal reveal-delay-1">
+        <div class="cadence-title">Cadence</div>
+        <div class="cadence-row"><div class="cadence-badge">Weekly</div><p>Experiment revenue impact monitored</p></div>
+        <div class="cadence-row"><div class="cadence-badge">Monthly</div><p>Strategy review vs. north star metrics</p></div>
+        <div class="cadence-row"><div class="cadence-badge">Quarterly</div><p>Roadmap re-prioritisation based on learnings</p></div>
+      </div>
+      <div class="how-card reveal reveal-delay-2">
+        <div class="how-card-title">Compound Learnings</div>
+        <ul>
+          <li>Which segment × ancillary combinations drive highest incremental revenue</li>
+          <li>Optimal placement and timing of each offer in the booking flow</li>
+          <li>Which personalisation signals have the highest predictive power</li>
+          <li>Bundle elasticity — where discounts stimulate vs. cannibalise revenue</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ASPIRATION ═══ -->
+<section id="aspiration">
+  <div class="container">
+    <div class="eyebrow reveal"><span class="dot"></span>2-Year Roadmap</div>
+    <h2 class="section-title reveal">Winning Aspiration</h2>
+    <div class="rule reveal"></div>
+    <p class="section-sub reveal">Sixt's digital post-booking journey becomes the primary driver of incremental ancillary revenue growth, contributing +12% of rental revenue.</p>
+    <div class="asp-grid">
+      <div class="asp-card reveal reveal-delay-1">
+        <div class="asp-header" style="background:var(--navy)"><h3>Year 1 — Prove It Works</h3></div>
+        <div class="asp-body">
+          <div class="asp-item"><div class="asp-dot" style="background:var(--orange)"></div><p>Drive upgrade attach rate to +15pp via dynamic pricing &amp; visual cards</p></div>
+          <div class="asp-item"><div class="asp-dot" style="background:var(--orange)"></div><p>Increase MCI funnel completion rate by 4pp</p></div>
+          <div class="asp-item"><div class="asp-dot" style="background:var(--orange)"></div><p>Increase protection attach rate by +10pp via 3-tier introduction</p></div>
+          <div class="asp-item"><div class="asp-dot" style="background:var(--orange)"></div><p>Increase upgrade attach rate for MCI ≥15%</p></div>
+          <div class="asp-item"><div class="asp-dot" style="background:var(--orange)"></div><p>Launch post-booking upsell email with &gt;10% CTR</p></div>
+        </div>
+      </div>
+      <div class="asp-card reveal reveal-delay-2">
+        <div class="asp-header" style="background:var(--orange)"><h3>Year 2 — Scale What Works</h3></div>
+        <div class="asp-body">
+          <div class="asp-item"><div class="asp-dot" style="background:var(--navy)"></div><p>Personalisation live for all three primary personas</p></div>
+          <div class="asp-item"><div class="asp-dot" style="background:var(--navy)"></div><p>Increase protection attach rate by a further +5pp (to 55% total)</p></div>
+          <div class="asp-item"><div class="asp-dot" style="background:var(--navy)"></div><p>iOS loyalty enrollment rate on MCI &gt;10%</p></div>
+          <div class="asp-item"><div class="asp-dot" style="background:var(--navy)"></div><p>Biometric / loyalty fast-lane at top 10 airport branches</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CLOSING ═══ -->
+<section id="closing">
+  <div class="closing-mesh"></div>
+  <div class="closing-grid-bg"></div>
+  <div class="closing-accent"></div>
+  <div class="container closing-inner">
+    <h2 class="reveal">The Opportunity<br>is Digital</h2>
+    <div class="rule reveal"></div>
+    <p class="closing-tagline reveal">80% of Sixt reservations are already digital. The gap between that reach and digital conversion excellence is the strategy.</p>
+    <div class="closing-chips">
+      <div class="closing-chip reveal reveal-delay-1">
+        <div class="cc-top"><div class="cc-badge">1</div><h3>Immediate</h3></div>
+        <p>Launch A/B on protection tiers + post-booking email — high impact, low effort, point-in-time revenue.</p>
+      </div>
+      <div class="closing-chip reveal reveal-delay-2">
+        <div class="cc-top"><div class="cc-badge">2</div><h3>Near Term</h3></div>
+        <p>Activate contextual upgrade pricing at vehicle selection + scarcity signals. Scale to full vehicle upsell module.</p>
+      </div>
+      <div class="closing-chip reveal reveal-delay-3">
+        <div class="cc-top"><div class="cc-badge">3</div><h3>Year 2</h3></div>
+        <p>Build ML-based personalisation engine. Deploy Named Bundles and full loyalty-linked digital add-on experience.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>Sixt Digital Ancillary Revenue Strategy &nbsp;·&nbsp; <strong>Paarmita Bhargava</strong> &nbsp;·&nbsp; May 2025</span>
+  <span>Growth PM Case Study</span>
+</footer>
+
+<script>
+/* ── PROGRESS BAR ─────────────────────────────────────────── */
+const bar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  bar.style.width = Math.min(100, (scrolled / total) * 100) + '%';
+}, { passive: true });
+
+/* ── SCROLL REVEAL ────────────────────────────────────────── */
+const revealEls = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revealObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+revealEls.forEach(el => revealObserver.observe(el));
+
+/* ── ACTIVE NAV ───────────────────────────────────────────── */
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+const navObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id);
+      });
+    }
+  });
+}, { threshold: 0.4 });
+sections.forEach(s => navObserver.observe(s));
+
+/* ── CHART ────────────────────────────────────────────────── */
+const ctx = document.getElementById('attachChart').getContext('2d');
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: ['Vehicle Upgrade', 'Protection', 'Add-ons (avg)'],
+    datasets: [
+      { label: 'Current (est.)', data: [28, 38, 22], backgroundColor: '#4A5072', borderRadius: 5, borderSkipped: false },
+      { label: 'Opportunity Target', data: [43, 52, 38], backgroundColor: '#FF5F00', borderRadius: 5, borderSkipped: false }
+    ]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: {
+      legend: { position: 'top', labels: { color: '#4A5072', font: { size: 12, family: 'Inter' }, padding: 20, usePointStyle: true } },
+      tooltip: { callbacks: { label: c => ` ${c.dataset.label}: ${c.raw}%` } }
+    },
+    scales: {
+      x: {
+        max: 60,
+        ticks: { color: '#8E94B5', callback: v => v + '%', font: { family: 'Inter', size: 12 } },
+        grid: { color: '#F0F2FA' }
+      },
+      y: {
+        ticks: { color: '#4A5072', font: { family: 'Inter', size: 13 } },
+        grid: { display: false }
+      }
+    }
+  }
+});
+</script>
+</body>
+</html>

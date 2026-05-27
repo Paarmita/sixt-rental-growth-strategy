@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Sixt — Before You Confirm</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --sixt-orange:      #FF5A00;
+      --sixt-orange-dark: #E04E00;
+      --sixt-orange-bg:   #FFF3EE;
+      --black:            #111111;
+      --gray-dark:        #444444;
+      --gray-mid:         #888888;
+      --gray-light:       #D0D0D0;
+      --gray-bg:          #F4F4F4;
+      --white:            #FFFFFF;
+      --green:            #1E8A4A;
+      --green-bg:         #EAF7EE;
+      --teal:             #0F7B82;
+      --teal-bg:          #E0F5F6;
+      --amber:            #B45309;
+      --amber-bg:         #FFFBEB;
+      --border-radius-card: 14px;
+      --border-radius-btn:  50px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--white);
+      color: var(--black);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+    }
+
+    .phone-shell {
+      width: 100%;
+      max-width: 430px;
+      min-height: 100vh;
+      background: var(--gray-bg);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Top Nav ───────────────────────────────────────────────── */
+    .top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px 8px;
+      background: var(--gray-bg);
+    }
+    .back-btn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.07);
+      border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .nav-step-label {
+      font-size: 12px; font-weight: 600;
+      color: var(--gray-mid);
+    }
+    .nav-spacer { width: 40px; }
+
+    /* ── Scrollable Content ────────────────────────────────────── */
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 16px 160px;
+    }
+
+    /* ── Page Header ───────────────────────────────────────────── */
+    .page-header {
+      padding: 14px 0 18px;
+    }
+    .wf-label {
+      font-size: 11px; font-weight: 800;
+      color: var(--gray-mid);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+    .page-title {
+      font-size: 26px; font-weight: 900;
+      line-height: 1.1; letter-spacing: -0.03em;
+      color: var(--black);
+      margin-bottom: 6px;
+    }
+    .page-title em {
+      font-style: normal;
+      color: var(--sixt-orange);
+    }
+    .page-subtitle {
+      font-size: 14px; color: var(--gray-dark);
+      line-height: 1.5;
+    }
+
+    /* ── Shared card ───────────────────────────────────────────── */
+    .card {
+      background: var(--white);
+      border-radius: var(--border-radius-card);
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    /* ══════════════════════════════════════════════════════════ */
+    /* BOOKING SUMMARY CARD — what they already have             */
+    /* ══════════════════════════════════════════════════════════ */
+    .booking-card {
+      background: var(--white);
+      border-radius: var(--border-radius-card);
+      overflow: hidden;
+      margin-bottom: 10px;
+      border: 1.5px solid #E8E8E8;
+    }
+    .booking-card-header {
+      padding: 12px 16px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #F3F3F3;
+    }
+    .booking-card-label {
+      font-size: 11px; font-weight: 800;
+      color: var(--gray-mid);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .confirmed-chip {
+      background: var(--green-bg);
+      color: var(--green);
+      font-size: 11px; font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .confirmed-chip::before { content: '✓'; }
+
+    .booking-trip-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px 8px;
+    }
+    .booking-location {
+      font-size: 13px; font-weight: 700;
+      color: var(--black);
+    }
+    .booking-arrow {
+      font-size: 13px; color: var(--gray-light);
+    }
+    .booking-dates {
+      font-size: 12px; color: var(--gray-mid);
+      padding: 0 16px 10px;
+    }
+    .booking-dates strong { color: var(--gray-dark); font-weight: 600; }
+
+    .booking-vehicle-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px 14px;
+      border-top: 1px solid #F3F3F3;
+      background: #FAFAFA;
+    }
+    .booking-car-icon {
+      font-size: 28px;
+      width: 48px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--gray-bg);
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+    .booking-car-name {
+      font-size: 14px; font-weight: 700;
+      color: var(--black); margin-bottom: 2px;
+    }
+    .booking-car-specs {
+      font-size: 12px; color: var(--gray-mid);
+      display: flex; gap: 8px;
+    }
+    .booking-price {
+      margin-left: auto;
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .booking-price-amount {
+      font-size: 15px; font-weight: 900;
+      color: var(--black); letter-spacing: -0.01em;
+    }
+    .booking-price-label {
+      font-size: 10px; color: var(--gray-mid); font-weight: 500;
+    }
+
+    /* ══════════════════════════════════════════════════════════ */
+    /* INSIGHT CARD — personalisation hook                       */
+    /* ══════════════════════════════════════════════════════════ */
+    .insight-card {
+      border-radius: var(--border-radius-card);
+      overflow: hidden;
+      margin-bottom: 10px;
+      /* Deep, considered teal — not shouty, but visually distinct */
+      background: linear-gradient(148deg, #0C2340 0%, #0D5F6A 60%, #0F7B6E 100%);
+      box-shadow: 0 4px 20px rgba(12, 35, 64, 0.18);
+    }
+    .insight-card-inner {
+      padding: 18px 18px 20px;
+    }
+
+    .insight-eyebrow {
+      font-size: 10px; font-weight: 800;
+      color: rgba(255,255,255,0.55);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 10px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .insight-eyebrow::before {
+      content: '';
+      width: 16px; height: 1px;
+      background: rgba(255,255,255,0.3);
+    }
+
+    .insight-headline {
+      font-size: 18px; font-weight: 900;
+      color: white; line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .insight-headline em {
+      font-style: normal;
+      color: #7FDFDF;
+    }
+
+    /* Insight signal rows */
+    .insight-signals {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin-bottom: 18px;
+    }
+    .insight-signal {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 11px 13px;
+      border: 1px solid rgba(255,255,255,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    /* Colour-coded left accent */
+    .insight-signal::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      border-radius: 10px 0 0 10px;
+    }
+    .insight-signal.warn::before  { background: #FFAB40; }
+    .insight-signal.info::before  { background: #7FDFDF; }
+    .insight-signal.tip::before   { background: #A78BFA; }
+
+    .signal-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .signal-body {}
+    .signal-title {
+      font-size: 13px; font-weight: 800;
+      color: white; margin-bottom: 2px;
+      line-height: 1.2;
+    }
+    .signal-desc {
+      font-size: 12px;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.4;
+    }
+    .signal-desc strong { color: rgba(255,255,255,0.9); font-weight: 600; }
+
+    /* What we'll cover — step preview */
+    .insight-steps-label {
+      font-size: 10px; font-weight: 700;
+      color: rgba(255,255,255,0.45);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+    .insight-steps-row {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+    .insight-step {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      position: relative;
+    }
+    /* Connector line between steps */
+    .insight-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0; top: 16px;
+      width: 50%; height: 1px;
+      background: rgba(255,255,255,0.2);
+      transform: translateX(50%);
+      z-index: 0;
+    }
+    .insight-step:not(:first-child)::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 16px;
+      width: 50%; height: 1px;
+      background: rgba(255,255,255,0.2);
+      transform: translateX(-50%);
+      z-index: 0;
+    }
+    .step-circle {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      border: 1.5px solid rgba(255,255,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+      position: relative;
+      z-index: 1;
+    }
+    .step-name {
+      font-size: 10px; font-weight: 700;
+      color: rgba(255,255,255,0.65);
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    /* ══════════════════════════════════════════════════════════ */
+    /* TIME ESTIMATE STRIP                                        */
+    /* ══════════════════════════════════════════════════════════ */
+    .time-strip {
+      background: var(--white);
+      border-radius: var(--border-radius-card);
+      padding: 12px 16px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .time-icon {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--sixt-orange-bg);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; flex-shrink: 0;
+    }
+    .time-text {}
+    .time-label {
+      font-size: 13px; font-weight: 700;
+      color: var(--black); margin-bottom: 1px;
+    }
+    .time-sub {
+      font-size: 11px; color: var(--gray-mid); line-height: 1.4;
+    }
+    .no-obligation-tag {
+      margin-left: auto;
+      background: var(--green-bg);
+      color: var(--green);
+      font-size: 10px; font-weight: 800;
+      padding: 4px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* ══════════════════════════════════════════════════════════ */
+    /* SOCIAL PROOF — bottom reassurance                         */
+    /* ══════════════════════════════════════════════════════════ */
+    .social-strip {
+      background: var(--white);
+      border-radius: var(--border-radius-card);
+      padding: 13px 16px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .social-avatars {
+      display: flex;
+      margin-right: 2px;
+    }
+    .avatar-circle {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      border: 2px solid white;
+      margin-right: -8px;
+      font-size: 13px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .social-text {
+      font-size: 12px; color: var(--gray-dark); line-height: 1.4;
+    }
+    .social-text strong { color: var(--black); }
+
+    /* ══════════════════════════════════════════════════════════ */
+    /* STICKY FOOTER                                             */
+    /* ══════════════════════════════════════════════════════════ */
+    .sticky-footer {
+      position: fixed;
+      bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 100%; max-width: 430px;
+      background: var(--white);
+      border-top: 1px solid #EBEBEB;
+      padding: 14px 20px 28px;
+    }
+    .btn-start {
+      width: 100%;
+      background: var(--sixt-orange);
+      color: white;
+      border: none;
+      border-radius: var(--border-radius-btn);
+      padding: 17px;
+      font-size: 16px; font-weight: 900;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: background 0.15s, transform 0.1s;
+      margin-bottom: 10px;
+      letter-spacing: 0.01em;
+    }
+    .btn-start:hover  { background: var(--sixt-orange-dark); }
+    .btn-start:active { transform: scale(0.98); }
+    .btn-start .spark {
+      width: 22px; height: 22px;
+      background: rgba(255,255,255,0.25);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; flex-shrink: 0;
+    }
+
+    .btn-skip {
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--gray-mid);
+      font-size: 13px; font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      padding: 2px;
+    }
+    .btn-skip:hover { color: var(--gray-dark); }
+
+    /* ── Toast ─────────────────────────────────────────────────── */
+    .toast {
+      position: fixed; bottom: 120px; left: 50%;
+      transform: translateX(-50%);
+      background: #111; color: white;
+      padding: 11px 18px; border-radius: 50px;
+      font-size: 13px; font-weight: 600;
+      z-index: 200;
+      pointer-events: none; opacity: 0;
+      transition: opacity 0.2s;
+      max-width: 90vw; text-align: center;
+    }
+    .toast.visible { opacity: 1; }
+
+    /* ── Animated entrance for insight signals ─────────────────── */
+    .insight-signal {
+      animation: fadeSlideIn 0.4s ease both;
+    }
+    .insight-signal:nth-child(1) { animation-delay: 0.15s; }
+    .insight-signal:nth-child(2) { animation-delay: 0.27s; }
+    .insight-signal:nth-child(3) { animation-delay: 0.39s; }
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── PM annotation tooltip ────────────────────────────────── */
+    .pm-note {
+      border: 1.5px dashed var(--gray-light);
+      border-radius: 10px;
+      padding: 11px 14px;
+      background: #FAFAFA;
+      margin-bottom: 10px;
+    }
+    .pm-note-label {
+      font-size: 10px; font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gray-mid);
+      margin-bottom: 5px;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .pm-note-label::before {
+      content: '';
+      width: 8px; height: 8px;
+      border-radius: 2px;
+      background: var(--gray-light);
+    }
+    .pm-note-text {
+      font-size: 12px; color: var(--gray-dark); line-height: 1.5; font-style: italic;
+    }
+    .pm-note-text strong { color: var(--black); font-style: normal; }
+  </style>
+</head>
+<body>
+
+<div class="phone-shell">
+
+  <!-- Top Nav -->
+  <nav class="top-nav">
+    <button class="back-btn" aria-label="Back to vehicle catalogue">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+    </button>
+    <span class="nav-step-label">Before you confirm</span>
+    <div class="nav-spacer"></div>
+  </nav>
+
+  <!-- No progress bar here — this is the pre-flow gate -->
+
+  <main class="content">
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="wf-label">WF-0 · Personalisation Gate</div>
+      <h1 class="page-title">One moment<br>before you <em>confirm.</em></h1>
+      <p class="page-subtitle">We've read your booking and spotted a few things worth knowing for this trip.</p>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- WHAT THEY ALREADY HAVE                                    -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="booking-card">
+      <div class="booking-card-header">
+        <span class="booking-card-label">Your selection</span>
+        <span class="confirmed-chip">Saved</span>
+      </div>
+      <div class="booking-trip-row">
+        <span class="booking-location">Miami Intl Airport</span>
+        <span class="booking-arrow">→</span>
+        <span class="booking-location">Key West</span>
+      </div>
+      <div class="booking-dates">
+        <strong>Fri 14 Jun, 10:00</strong> — <strong>Thu 20 Jun, 10:00</strong> &nbsp;·&nbsp; 6 days &nbsp;·&nbsp; 7 travellers
+      </div>
+      <div class="booking-vehicle-row">
+        <div class="booking-car-icon">🚗</div>
+        <div>
+          <div class="booking-car-name">Ford Focus or similar</div>
+          <div class="booking-car-specs">
+            <span>5 seats</span>
+            <span>·</span>
+            <span>2 bags</span>
+            <span>·</span>
+            <span>Auto</span>
+          </div>
+        </div>
+        <div class="booking-price">
+          <div class="booking-price-amount">€150,29</div>
+          <div class="booking-price-label">base price</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- INSIGHT CARD                                              -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="insight-card">
+      <div class="insight-card-inner">
+
+        <div class="insight-eyebrow">What we noticed</div>
+
+        <h2 class="insight-headline">Your booking has <em>3 gaps</em> we can close before you arrive.</h2>
+
+        <!-- Three contextual signals — each maps to a WF step -->
+        <div class="insight-signals">
+
+          <!-- Signal 1 → triggers WF-1 vehicle upgrade -->
+          <div class="insight-signal warn">
+            <span class="signal-icon">👥</span>
+            <div class="signal-body">
+              <div class="signal-title">7 people, 5-seat car</div>
+              <div class="signal-desc">A Ford Focus legally seats <strong>5</strong>. Two of your group won't fit — and you'd need a second vehicle for luggage.</div>
+            </div>
+          </div>
+
+          <!-- Signal 2 → triggers WF-2 protection -->
+          <div class="insight-signal tip">
+            <span class="signal-icon">🆕</span>
+            <div class="signal-body">
+              <div class="signal-title">First time renting in Miami</div>
+              <div class="signal-desc">Miami ranks <strong>top 5 for parking damage claims</strong> in the US. Most first-timers are caught off guard by the deductible.</div>
+            </div>
+          </div>
+
+          <!-- Signal 3 → triggers WF-3 add-ons -->
+          <div class="insight-signal info">
+            <span class="signal-icon">🛣️</span>
+            <div class="signal-body">
+              <div class="signal-title">Florida road trip route detected</div>
+              <div class="signal-desc">The Overseas Highway has <strong>tolls every 30 miles</strong>. No pass means stopping at every booth — and no GPS means no offline maps.</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- What the 4 steps will cover -->
+        <div class="insight-steps-label">We'll walk you through</div>
+        <div class="insight-steps-row">
+          <div class="insight-step">
+            <div class="step-circle">🚙</div>
+            <div class="step-name">Vehicle</div>
+          </div>
+          <div class="insight-step">
+            <div class="step-circle">🛡️</div>
+            <div class="step-name">Protection</div>
+          </div>
+          <div class="insight-step">
+            <div class="step-circle">🛣️</div>
+            <div class="step-name">Add-ons</div>
+          </div>
+          <div class="insight-step">
+            <div class="step-circle">✓</div>
+            <div class="step-name">Review</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- TIME + NO-OBLIGATION STRIP                                -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="time-strip">
+      <div class="time-icon">⏱️</div>
+      <div class="time-text">
+        <div class="time-label">Takes about 2 minutes</div>
+        <div class="time-sub">4 quick screens — all pre-filled for your trip</div>
+      </div>
+      <div class="no-obligation-tag">No obligation</div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- SOCIAL PROOF                                              -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="social-strip">
+      <div class="social-avatars">
+        <div class="avatar-circle" style="background:#FFE0CC;">😊</div>
+        <div class="avatar-circle" style="background:#D1FAE5;">😄</div>
+        <div class="avatar-circle" style="background:#DBEAFE;">🙂</div>
+      </div>
+      <div class="social-text">
+        <strong>79% of customers</strong> who reviewed personalised suggestions saved money or avoided a claim on their trip.
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- PM ANNOTATION                                             -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="pm-note">
+      <div class="pm-note-label">PM design rationale</div>
+      <div class="pm-note-text">
+        <strong>Why this screen exists:</strong> The user has completed primary intent (chosen a car). WF-0 is a <strong>concierge intercept</strong> — it shows the user signals derived from their own booking data to create a felt need before any upgrade is offered. The CTA is framed as <em>advice</em>, not upsell. The "Skip" option is visible but deprioritised — autonomy is preserved so the intercept never feels like a gate.
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ── Sticky Footer ────────────────────────────────────────── -->
+  <footer class="sticky-footer">
+    <button class="btn-start" onclick="handleStart()">
+      <span class="spark">✨</span>
+      See my personalised suggestions
+    </button>
+    <button class="btn-skip" onclick="handleSkip()">Skip — confirm booking as is</button>
+  </footer>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  function handleStart() {
+    showToast('Starting personalisation flow → WF-1');
+    setTimeout(() => {
+      // In production: navigate to WF-1
+      window.location.href = 'wf1-vehicle-selection.html';
+    }, 800);
+  }
+
+  function handleSkip() {
+    showToast('Skipping to confirmation — booking saved as Ford Focus');
+  }
+
+  let toastTimer;
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('visible');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('visible'), 3000);
+  }
+</script>
+</body>
+</html>

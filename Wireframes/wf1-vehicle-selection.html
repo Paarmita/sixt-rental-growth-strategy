@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Sixt — Select Your Vehicle</title>
+  <style>
+    /* ── Reset & Base ──────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --sixt-orange: #FF5A00;
+      --sixt-orange-dark: #E04E00;
+      --black: #111111;
+      --gray-dark: #444444;
+      --gray-mid: #888888;
+      --gray-light: #C8C8C8;
+      --gray-bg: #F2F2F2;
+      --white: #FFFFFF;
+      --green: #2E8B57;
+      --border-radius-card: 12px;
+      --border-radius-btn: 50px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--white);
+      color: var(--black);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    /* ── Phone Shell (demo wrapper) ────────────────────────────── */
+    .phone-shell {
+      width: 100%;
+      max-width: 430px;
+      min-height: 100vh;
+      background: var(--white);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Top Nav ────────────────────────────────────────────────── */
+    .top-nav {
+      display: flex;
+      align-items: center;
+      padding: 16px 20px 8px;
+      gap: 12px;
+    }
+
+    .back-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--gray-bg);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.15s;
+    }
+    .back-btn:hover { background: #e0e0e0; }
+    .back-btn svg { width: 20px; height: 20px; }
+
+    /* ── Progress Bar ───────────────────────────────────────────── */
+    .progress-bar {
+      display: flex;
+      gap: 4px;
+      padding: 0 20px 4px;
+    }
+    .progress-segment {
+      height: 3px;
+      flex: 1;
+      border-radius: 2px;
+      background: var(--gray-light);
+    }
+    .progress-segment.active { background: var(--black); }
+
+    /* ── Page Header ────────────────────────────────────────────── */
+    .page-header {
+      padding: 16px 20px 20px;
+    }
+    .context-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--sixt-orange);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .context-label .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--sixt-orange);
+      display: inline-block;
+    }
+    .page-title {
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--black);
+      letter-spacing: -0.02em;
+    }
+    .page-title em {
+      font-style: normal;
+      color: var(--sixt-orange);
+    }
+
+    /* ── Scrollable Content ─────────────────────────────────────── */
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 16px;
+      padding-bottom: 140px;
+    }
+
+    /* ── Hero Upgrade Card ──────────────────────────────────────── */
+    .hero-card {
+      border: 2.5px solid var(--sixt-orange);
+      border-radius: var(--border-radius-card);
+      overflow: hidden;
+      background: var(--white);
+      margin-bottom: 20px;
+      box-shadow: 0 4px 20px rgba(255, 90, 0, 0.12);
+    }
+
+    .hero-image {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #0f3460 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* SVG illustration of an SUV with luggage */
+    .hero-image .car-scene {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .recommended-tag {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--sixt-orange);
+      color: var(--white);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+
+    .family-badge {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      color: white;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    .hero-body {
+      padding: 16px 16px 20px;
+    }
+
+    .headline {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--black);
+      line-height: 1.2;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .vehicle-name {
+      font-size: 14px;
+      color: var(--gray-dark);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .vehicle-name .category-chip {
+      background: var(--gray-bg);
+      border-radius: 4px;
+      padding: 2px 7px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gray-dark);
+    }
+
+    /* Vehicle specs row */
+    .specs-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .spec-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: var(--gray-dark);
+      font-weight: 500;
+    }
+    .spec-item svg { width: 14px; height: 14px; opacity: 0.7; }
+
+    /* Price block */
+    .price-block {
+      background: #FFF5F0;
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+    }
+    .price-main {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--black);
+      letter-spacing: -0.02em;
+    }
+    .price-main span {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gray-dark);
+    }
+    .price-per-person {
+      font-size: 12px;
+      color: var(--sixt-orange);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+    .price-total {
+      font-size: 12px;
+      color: var(--gray-mid);
+      margin-top: 1px;
+    }
+
+    /* Social proof */
+    .social-proof {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      background: #F8F8F8;
+      border-radius: 8px;
+      padding: 9px 12px;
+    }
+    .social-proof-icon {
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .social-proof-text {
+      font-size: 12px;
+      color: var(--gray-dark);
+      font-weight: 500;
+      line-height: 1.4;
+    }
+    .social-proof-text strong {
+      color: var(--black);
+    }
+
+    /* Primary CTA */
+    .btn-upgrade {
+      width: 100%;
+      background: var(--sixt-orange);
+      color: var(--white);
+      border: none;
+      border-radius: var(--border-radius-btn);
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-upgrade:hover { background: var(--sixt-orange-dark); }
+    .btn-upgrade:active { transform: scale(0.98); }
+    .btn-upgrade .arrow-right {
+      width: 18px;
+      height: 18px;
+      background: rgba(255,255,255,0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── Divider ────────────────────────────────────────────────── */
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 8px 0 16px;
+    }
+    .section-divider::before,
+    .section-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #E8E8E8;
+    }
+    .section-divider-text {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gray-mid);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    /* ── Standard (Booked) Card ─────────────────────────────────── */
+    .standard-card {
+      border: 1.5px solid #E0E0E0;
+      border-radius: var(--border-radius-card);
+      padding: 14px 16px 16px;
+      background: #FAFAFA;
+      opacity: 0.82;
+    }
+
+    .standard-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .vehicle-name-secondary {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--black);
+    }
+    .included-badge {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gray-mid);
+      background: #EBEBEB;
+      border-radius: 4px;
+      padding: 3px 8px;
+    }
+    .standard-specs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .spec-tag {
+      font-size: 12px;
+      color: var(--gray-dark);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .spec-divider {
+      color: var(--gray-light);
+    }
+    .included-text {
+      font-size: 12px;
+      color: var(--gray-mid);
+      margin-bottom: 12px;
+    }
+
+    .btn-keep {
+      background: none;
+      border: none;
+      color: var(--gray-dark);
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: underline;
+      cursor: pointer;
+      padding: 0;
+      text-underline-offset: 2px;
+      transition: color 0.15s;
+    }
+    .btn-keep:hover { color: var(--black); }
+
+    /* ── Sticky Footer ──────────────────────────────────────────── */
+    .sticky-footer {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 430px;
+      background: var(--white);
+      border-top: 1px solid #EBEBEB;
+      padding: 12px 20px 28px;
+    }
+    .footer-total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 12px;
+    }
+    .footer-total-label {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--black);
+    }
+    .footer-total-amount {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--black);
+    }
+    .footer-total-amount .cents {
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .footer-price-link {
+      font-size: 12px;
+      color: var(--black);
+      font-weight: 500;
+      text-decoration: underline;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    /* ── Confirmation overlay ───────────────────────────────────── */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 100;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .overlay.active { display: flex; }
+    .overlay-sheet {
+      background: var(--white);
+      border-radius: 20px 20px 0 0;
+      padding: 24px 24px 40px;
+      width: 100%;
+      max-width: 430px;
+      animation: slideUp 0.3s ease;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    .overlay-pill {
+      width: 40px;
+      height: 4px;
+      background: #DEDEDE;
+      border-radius: 2px;
+      margin: 0 auto 20px;
+    }
+    .overlay-icon {
+      text-align: center;
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+    .overlay-title {
+      font-size: 20px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .overlay-subtitle {
+      font-size: 14px;
+      color: var(--gray-dark);
+      text-align: center;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+    .overlay-btn {
+      width: 100%;
+      background: var(--sixt-orange);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 15px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      margin-bottom: 12px;
+    }
+    .overlay-btn-secondary {
+      width: 100%;
+      background: none;
+      border: 1.5px solid #DEDEDE;
+      border-radius: 50px;
+      padding: 14px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--gray-dark);
+    }
+
+    /* ── Keep overlay ───────────────────────────────────────────── */
+    .keep-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 100;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .keep-overlay.active { display: flex; }
+    .keep-overlay .overlay-sheet {
+      animation: slideUp 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+
+<div class="phone-shell">
+
+  <!-- Top Nav -->
+  <nav class="top-nav">
+    <button class="back-btn" aria-label="Back" onclick="history.back()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Progress bar (step 1 of 4) -->
+  <div class="progress-bar" role="progressbar" aria-valuenow="1" aria-valuemax="4">
+    <div class="progress-segment active"></div>
+    <div class="progress-segment"></div>
+    <div class="progress-segment"></div>
+    <div class="progress-segment"></div>
+  </div>
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="context-label">
+      <span class="dot"></span>
+      6-day rental · Munich, 7 travellers
+    </div>
+    <h1 class="page-title">
+      Select Your Vehicle —<br>
+      <em>7 seats</em> available for<br>your family trip
+    </h1>
+  </header>
+
+  <!-- Scrollable Content -->
+  <main class="content">
+
+    <!-- ★ HERO UPGRADE CARD -->
+    <section class="hero-card" role="region" aria-label="Recommended upgrade">
+
+      <!-- Car illustration area -->
+      <div class="hero-image">
+        <div class="car-scene">
+          <!-- Inline SVG scene: night sky + SUV with luggage -->
+          <svg width="100%" height="100%" viewBox="0 0 430 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <!-- Sky gradient -->
+            <defs>
+              <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#0d1b2a"/>
+                <stop offset="100%" stop-color="#1b3a5c"/>
+              </linearGradient>
+              <linearGradient id="road" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#2a2a2a"/>
+                <stop offset="100%" stop-color="#1a1a1a"/>
+              </linearGradient>
+              <linearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#e8f4fd"/>
+                <stop offset="100%" stop-color="#b8d4e8"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Background sky -->
+            <rect width="430" height="200" fill="url(#sky)"/>
+
+            <!-- Stars -->
+            <circle cx="50" cy="20" r="1" fill="white" opacity="0.6"/>
+            <circle cx="120" cy="35" r="1.5" fill="white" opacity="0.8"/>
+            <circle cx="200" cy="15" r="1" fill="white" opacity="0.5"/>
+            <circle cx="300" cy="25" r="1" fill="white" opacity="0.7"/>
+            <circle cx="380" cy="18" r="1.5" fill="white" opacity="0.6"/>
+            <circle cx="70" cy="50" r="1" fill="white" opacity="0.4"/>
+            <circle cx="350" cy="45" r="1" fill="white" opacity="0.5"/>
+
+            <!-- Mountains/horizon -->
+            <polygon points="0,120 60,80 120,100 200,70 280,90 360,75 430,95 430,140 0,140" fill="#0a2640" opacity="0.8"/>
+
+            <!-- Road -->
+            <rect x="0" y="148" width="430" height="52" fill="url(#road)"/>
+            <!-- Road markings -->
+            <rect x="195" y="155" width="40" height="6" fill="#F5C518" opacity="0.6" rx="2"/>
+            <rect x="0" y="155" width="50" height="3" fill="white" opacity="0.3" rx="2"/>
+            <rect x="380" y="155" width="50" height="3" fill="white" opacity="0.3" rx="2"/>
+
+            <!-- Ground/curb -->
+            <rect x="0" y="145" width="430" height="5" fill="#3a3a3a"/>
+
+            <!-- === SUV Body === -->
+            <!-- Main body -->
+            <rect x="80" y="108" width="230" height="50" fill="url(#bodyGrad)" rx="4"/>
+
+            <!-- Roof -->
+            <path d="M 120 108 L 145 78 L 280 78 L 310 108 Z" fill="#c8dde8"/>
+
+            <!-- Windshield -->
+            <path d="M 148 80 L 163 108 L 235 108 L 235 80 Z" fill="#5ba3c9" opacity="0.7"/>
+
+            <!-- Rear window -->
+            <path d="M 240 80 L 240 108 L 300 108 L 285 80 Z" fill="#5ba3c9" opacity="0.5"/>
+
+            <!-- Window divider -->
+            <line x1="238" y1="78" x2="238" y2="108" stroke="#9ab8c8" stroke-width="2"/>
+
+            <!-- Door panel lines -->
+            <line x1="175" y1="108" x2="175" y2="155" stroke="#9ab8c8" stroke-width="1.5" opacity="0.5"/>
+            <line x1="255" y1="108" x2="255" y2="155" stroke="#9ab8c8" stroke-width="1.5" opacity="0.5"/>
+
+            <!-- Front bumper/grill -->
+            <rect x="80" y="130" width="40" height="25" fill="#9ab0be" rx="3"/>
+            <rect x="85" y="135" width="30" height="6" fill="#7a98a8" rx="2"/>
+            <rect x="85" y="143" width="30" height="3" fill="#7a98a8" rx="1"/>
+
+            <!-- Headlight -->
+            <rect x="82" y="118" width="22" height="10" fill="#FFD700" rx="2" opacity="0.9"/>
+            <rect x="82" y="118" width="22" height="10" fill="white" rx="2" opacity="0.3"/>
+
+            <!-- Rear light -->
+            <rect x="308" y="118" width="18" height="12" fill="#FF4500" rx="2" opacity="0.9"/>
+
+            <!-- Wheels -->
+            <circle cx="140" cy="157" r="18" fill="#333"/>
+            <circle cx="140" cy="157" r="12" fill="#555"/>
+            <circle cx="140" cy="157" r="5" fill="#888"/>
+            <circle cx="295" cy="157" r="18" fill="#333"/>
+            <circle cx="295" cy="157" r="12" fill="#555"/>
+            <circle cx="295" cy="157" r="5" fill="#888"/>
+
+            <!-- Wheel arches -->
+            <path d="M 118 148 Q 140 130 162 148" fill="#b0ccd8"/>
+            <path d="M 273 148 Q 295 130 317 148" fill="#b0ccd8"/>
+
+            <!-- === Roof luggage rack === -->
+            <rect x="145" y="70" width="130" height="12" fill="#8B7355" rx="2"/>
+            <rect x="148" y="63" width="124" height="9" fill="#A08060" rx="2"/>
+            <!-- Luggage straps -->
+            <line x1="178" y1="63" x2="178" y2="72" stroke="#6B5B45" stroke-width="2"/>
+            <line x1="248" y1="63" x2="248" y2="72" stroke="#6B5B45" stroke-width="2"/>
+
+            <!-- === Luggage on roof === -->
+            <!-- Large suitcase -->
+            <rect x="150" y="48" width="45" height="17" fill="#E8673A" rx="3"/>
+            <rect x="163" y="44" width="18" height="6" fill="#C4522E" rx="2"/>
+            <line x1="150" y1="55" x2="195" y2="55" stroke="#C4522E" stroke-width="1.5"/>
+
+            <!-- Medium suitcase -->
+            <rect x="200" y="50" width="38" height="15" fill="#3A7BC8" rx="3"/>
+            <rect x="210" y="47" width="16" height="5" fill="#2E62A0" rx="2"/>
+            <line x1="200" y1="57" x2="238" y2="57" stroke="#2E62A0" stroke-width="1.5"/>
+
+            <!-- Small bag -->
+            <rect x="243" y="52" width="25" height="13" fill="#4CAF50" rx="3"/>
+            <rect x="250" y="49" width="12" height="5" fill="#388E3C" rx="2"/>
+
+            <!-- Sixt orange stripe on car -->
+            <rect x="80" y="142" width="230" height="8" fill="#FF5A00" opacity="0.85"/>
+
+            <!-- Sixt logo area on car door -->
+            <text x="185" y="140" font-family="Arial Black, sans-serif" font-size="11" font-weight="900" fill="#FF5A00" letter-spacing="1">SIXT</text>
+
+            <!-- People silhouettes visible through windows -->
+            <ellipse cx="195" cy="98" rx="8" ry="9" fill="#2a4a6a" opacity="0.5"/>
+            <ellipse cx="215" cy="100" rx="7" ry="7" fill="#2a4a6a" opacity="0.4"/>
+          </svg>
+        </div>
+
+        <!-- Tags overlaid on image -->
+        <div class="recommended-tag">★ Recommended for your group</div>
+        <div class="family-badge">🚗 7-Seat SUV</div>
+      </div>
+
+      <!-- Hero Card Body -->
+      <div class="hero-body">
+        <h2 class="headline">Every seat filled.<br>Zero luggage stress.</h2>
+
+        <div class="vehicle-name">
+          Volkswagen Tiguan Allspace 7-seat
+          <span class="category-chip">or similar</span>
+        </div>
+
+        <div class="specs-row">
+          <div class="spec-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            </svg>
+            7 seats
+          </div>
+          <div class="spec-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="7" width="20" height="14" rx="2"/>
+              <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+            </svg>
+            5 bags
+          </div>
+          <div class="spec-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            Automatic
+          </div>
+          <div class="spec-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+              <line x1="3" y1="9" x2="21" y2="9"/>
+              <line x1="3" y1="15" x2="21" y2="15"/>
+              <line x1="9" y1="3" x2="9" y2="21"/>
+              <line x1="15" y1="3" x2="15" y2="21"/>
+            </svg>
+            5 doors
+          </div>
+        </div>
+
+        <!-- Price block -->
+        <div class="price-block">
+          <div class="price-main">+EUR 11 <span>/ day</span></div>
+          <div class="price-per-person">EUR 2.20 per person per day — split 7 ways</div>
+          <div class="price-total">+EUR 66 total for 6 days</div>
+        </div>
+
+        <!-- Social proof -->
+        <div class="social-proof">
+          <div class="social-proof-icon">👨‍👩‍👧‍👦</div>
+          <div class="social-proof-text">
+            <strong>84% of families</strong> at this location choose a 7-seat SUV
+          </div>
+        </div>
+
+        <!-- Primary CTA -->
+        <button class="btn-upgrade" onclick="openUpgradeSheet()" aria-label="Upgrade to 7-seat SUV">
+          UPGRADE NOW
+          <span class="arrow-right">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="section-divider">
+      <span class="section-divider-text">Your booked vehicle</span>
+    </div>
+
+    <!-- Standard Card (booked vehicle) -->
+    <section class="standard-card" role="region" aria-label="Currently booked vehicle">
+      <div class="standard-card-header">
+        <span class="vehicle-name-secondary">Ford Focus or similar</span>
+        <span class="included-badge">Included</span>
+      </div>
+
+      <div class="standard-specs">
+        <span class="spec-tag">Automatic</span>
+        <span class="spec-divider">·</span>
+        <span class="spec-tag">5 seats</span>
+        <span class="spec-divider">·</span>
+        <span class="spec-tag">2 bags</span>
+      </div>
+
+      <div class="included-text">Included in your reservation</div>
+
+      <button class="btn-keep" onclick="openKeepSheet()">Keep this vehicle</button>
+    </section>
+
+  </main>
+
+  <!-- Sticky Footer -->
+  <footer class="sticky-footer">
+    <div class="footer-total-row">
+      <span class="footer-total-label">Total</span>
+      <span class="footer-total-amount">
+        150<span class="cents">,29 €</span>
+      </span>
+    </div>
+    <button class="footer-price-link">Price details</button>
+  </footer>
+
+</div><!-- /phone-shell -->
+
+
+<!-- ── Upgrade Confirmation Sheet ─────────────────────────────── -->
+<div class="overlay" id="upgradeOverlay" role="dialog" aria-modal="true" aria-labelledby="upgradeTitle">
+  <div class="overlay-sheet">
+    <div class="overlay-pill"></div>
+    <div class="overlay-icon">🚗✅</div>
+    <h2 class="overlay-title" id="upgradeTitle">Great choice!</h2>
+    <p class="overlay-subtitle">
+      Volkswagen Tiguan Allspace 7-seat added.<br>
+      <strong>+EUR 66</strong> added to your booking (EUR 2.20/person/day).
+    </p>
+    <button class="overlay-btn" onclick="confirmUpgrade()">Continue to Protection</button>
+    <button class="overlay-btn-secondary" onclick="closeOverlays()">Go back</button>
+  </div>
+</div>
+
+<!-- ── Keep Vehicle Confirmation Sheet ────────────────────────── -->
+<div class="keep-overlay" id="keepOverlay" role="dialog" aria-modal="true" aria-labelledby="keepTitle">
+  <div class="overlay-sheet">
+    <div class="overlay-pill"></div>
+    <div class="overlay-icon">👍</div>
+    <h2 class="overlay-title" id="keepTitle">Keeping Ford Focus</h2>
+    <p class="overlay-subtitle">
+      You're sticking with your 5-seat Ford Focus.<br>
+      Note: with 7 people and luggage, it will be a tight fit!
+    </p>
+    <button class="overlay-btn" onclick="confirmKeep()">Continue anyway</button>
+    <button class="overlay-btn-secondary" onclick="closeOverlays()">Actually, upgrade me</button>
+  </div>
+</div>
+
+
+<script>
+  function openUpgradeSheet() {
+    document.getElementById('upgradeOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function openKeepSheet() {
+    document.getElementById('keepOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeOverlays() {
+    document.querySelectorAll('.overlay, .keep-overlay').forEach(el => {
+      el.classList.remove('active');
+    });
+    document.body.style.overflow = '';
+  }
+
+  function confirmUpgrade() {
+    // In production: update booking state, navigate to protection screen
+    closeOverlays();
+    showToast('✓ Volkswagen Tiguan Allspace added to your booking');
+  }
+
+  function confirmKeep() {
+    // In production: navigate to next step
+    closeOverlays();
+    showToast('Ford Focus kept. Proceeding to protection…');
+  }
+
+  function showToast(msg) {
+    const toast = document.createElement('div');
+    toast.style.cssText = `
+      position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
+      background: #111; color: white; padding: 12px 20px; border-radius: 50px;
+      font-size: 13px; font-weight: 600; z-index: 200; white-space: nowrap;
+      animation: fadeIn 0.2s ease; max-width: 90vw;
+    `;
+    toast.textContent = msg;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+  }
+
+  // Close overlays on backdrop click
+  document.getElementById('upgradeOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeOverlays();
+  });
+  document.getElementById('keepOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeOverlays();
+  });
+</script>
+
+</body>
+</html>

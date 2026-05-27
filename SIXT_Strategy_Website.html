@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SIXT Personalisation Strategy — Growth PM Case Study</title>
+<style>
+/* ── RESET & TOKENS ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --orange: #FF5A00;
+  --orange-dk: #CC4800;
+  --orange-lt: #FFF0E8;
+  --black: #0D0D0D;
+  --ink: #1A1A1A;
+  --muted: #6B6B6B;
+  --border: #E5E5E5;
+  --surface: #F7F7F5;
+  --white: #FFFFFF;
+  --green: #1C7C4A;
+  --green-lt: #E8F5EE;
+  --teal: #0B6E72;
+  --teal-lt: #E0F4F5;
+  --navy: #0F1B35;
+  --gold: #C8960C;
+  --gold-lt: #FDF6E0;
+  --radius: 10px;
+  --radius-lg: 16px;
+  --shadow: 0 2px 12px rgba(0,0,0,.07);
+  --shadow-md: 0 4px 24px rgba(0,0,0,.10);
+}
+html { scroll-behavior: smooth; font-size: 16px; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; color: var(--ink); background: var(--white); line-height: 1.6; }
+
+/* ── TYPOGRAPHY ── */
+h1 { font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 900; letter-spacing: -.04em; line-height: 1.05; }
+h2 { font-size: clamp(1.5rem, 2.5vw, 2.2rem); font-weight: 800; letter-spacing: -.03em; line-height: 1.1; }
+h3 { font-size: 1.2rem; font-weight: 700; letter-spacing: -.02em; }
+h4 { font-size: 1rem; font-weight: 700; }
+p { line-height: 1.7; color: var(--muted); }
+strong { color: var(--ink); font-weight: 700; }
+
+/* ── LAYOUT ── */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.section { padding: 80px 0; }
+.section-alt { background: var(--surface); }
+.section-dark { background: var(--navy); color: var(--white); }
+.section-dark p { color: rgba(255,255,255,.7); }
+.section-dark h2, .section-dark h3 { color: var(--white); }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(255,255,255,.95); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 32px; height: 60px;
+}
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-logo-box { background: var(--orange); color: white; font-weight: 900; font-size: 15px; padding: 4px 10px; border-radius: 4px; letter-spacing: .02em; }
+.nav-logo-sub { font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+.nav-links { display: flex; gap: 6px; }
+.nav-links a { font-size: 12px; font-weight: 600; color: var(--muted); text-decoration: none; padding: 6px 10px; border-radius: 6px; transition: all .15s; letter-spacing: .02em; white-space: nowrap; }
+.nav-links a:hover { color: var(--orange); background: var(--orange-lt); }
+main { margin-top: 60px; }
+
+/* ── HERO ── */
+.hero { background: var(--navy); color: white; padding: 80px 0 72px; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; top: -80px; right: -80px; width: 500px; height: 500px; background: var(--orange); border-radius: 50%; opacity: .07; }
+.hero::after { content: ''; position: absolute; bottom: -120px; left: -60px; width: 400px; height: 400px; background: var(--orange); border-radius: 50%; opacity: .05; }
+.hero-label { font-size: 11px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; color: var(--orange); margin-bottom: 18px; }
+.hero h1 { color: white; margin-bottom: 20px; max-width: 750px; }
+.hero h1 em { font-style: normal; color: var(--orange); }
+.hero-sub { font-size: 1.1rem; color: rgba(255,255,255,.65); max-width: 620px; margin-bottom: 48px; line-height: 1.7; }
+.hero-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: rgba(255,255,255,.08); border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,.1); }
+.hero-stat { padding: 24px 20px; background: rgba(255,255,255,.04); }
+.hero-stat:hover { background: rgba(255,255,255,.08); }
+.hero-stat-val { font-size: 2rem; font-weight: 900; color: white; letter-spacing: -.04em; line-height: 1; margin-bottom: 6px; }
+.hero-stat-val span { font-size: 1rem; font-weight: 700; color: var(--orange); }
+.hero-stat-label { font-size: 11px; font-weight: 600; color: rgba(255,255,255,.5); text-transform: uppercase; letter-spacing: .08em; }
+.hero-stat-note { font-size: 11px; color: rgba(255,255,255,.35); margin-top: 3px; }
+
+/* ── SECTION HEADER ── */
+.section-header { margin-bottom: 48px; }
+.section-tag { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--orange); background: var(--orange-lt); padding: 4px 12px; border-radius: 4px; margin-bottom: 14px; }
+.section-header h2 { margin-bottom: 12px; }
+.section-header p { font-size: 1.05rem; max-width: 640px; }
+
+/* ── LEVERS ── */
+.levers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 48px; }
+.lever-card { border-radius: var(--radius-lg); padding: 28px; position: relative; overflow: hidden; }
+.lever-moments { background: linear-gradient(135deg, #0F1B35, #1a2f58); color: white; }
+.lever-messages { background: linear-gradient(135deg, #FF5A00, #CC4800); color: white; }
+.lever-match { background: linear-gradient(135deg, #0B6E72, #085659); color: white; }
+.lever-num { font-size: 11px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; opacity: .6; margin-bottom: 12px; }
+.lever-card h3 { color: white; font-size: 1.3rem; margin-bottom: 10px; }
+.lever-card p { color: rgba(255,255,255,.75); font-size: .9rem; }
+.lever-icon { font-size: 2.5rem; margin-bottom: 14px; }
+
+/* ── PROBLEM AUDIT TABLE ── */
+.audit-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.audit-table th { background: var(--navy); color: white; padding: 12px 16px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.audit-table td { padding: 14px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.audit-table tr:hover td { background: var(--surface); }
+.sev-critical { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; background: #FFE8E8; color: #C0392B; }
+.sev-medium { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; background: #FFF3E0; color: #E65100; }
+.sev-low { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; background: var(--surface); color: var(--muted); }
+.impact-high { font-weight: 700; color: var(--ink); }
+.impact-med { color: var(--muted); }
+
+/* ── ROOT CAUSE GRID ── */
+.root-cause-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.rc-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; display: flex; gap: 14px; align-items: flex-start; }
+.rc-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
+.rc-card h4 { font-size: .9rem; margin-bottom: 4px; }
+.rc-card p { font-size: .83rem; }
+
+/* ── INITIATIVE CARDS ── */
+.initiative-grid { display: grid; gap: 14px; }
+.init-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: start; transition: box-shadow .2s; }
+.init-card:hover { box-shadow: var(--shadow-md); border-color: var(--orange); }
+.init-priority { display: inline-block; padding: 3px 12px; border-radius: 20px; font-size: 11px; font-weight: 800; margin-bottom: 8px; }
+.init-priority.p1 { background: var(--orange); color: white; }
+.init-priority.p2 { background: var(--navy); color: white; }
+.init-priority.p3 { background: var(--surface); color: var(--muted); border: 1px solid var(--border); }
+.init-card h3 { font-size: 1rem; margin-bottom: 6px; }
+.init-card p { font-size: .88rem; }
+.init-scores { display: flex; gap: 10px; flex-shrink: 0; }
+.score-pill { text-align: center; min-width: 52px; }
+.score-pill-val { font-size: 1.1rem; font-weight: 900; color: var(--orange); }
+.score-pill-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+
+/* ── ARCHITECTURE DIAGRAM ── */
+.arch-diagram { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 40px 36px; overflow-x: auto; }
+.arch-flow { display: flex; align-items: stretch; gap: 28px; min-width: 760px; }
+.arch-layer { flex: 1; display: flex; flex-direction: column; align-items: center; position: relative; }
+.arch-layer:not(:last-child)::after { content: '→'; position: absolute; right: -22px; top: 50%; transform: translateY(-50%); font-size: 1.3rem; color: var(--orange); font-weight: 900; z-index: 2; }
+.arch-box { border-radius: 10px; padding: 24px 16px; text-align: center; width: 100%; min-height: 140px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.arch-input { background: #E8F0FE; border: 2px solid #4A90D9; }
+.arch-scoring { background: var(--orange-lt); border: 2px solid var(--orange); }
+.arch-explore { background: var(--gold-lt); border: 2px solid var(--gold); }
+.arch-ranking { background: var(--teal-lt); border: 2px solid var(--teal); }
+.arch-present { background: var(--green-lt); border: 2px solid var(--green); }
+.arch-box-icon { font-size: 1.8rem; margin-bottom: 8px; }
+.arch-box-title { font-size: .8rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; }
+.arch-input .arch-box-title { color: #2563EB; }
+.arch-scoring .arch-box-title { color: var(--orange-dk); }
+.arch-explore .arch-box-title { color: var(--gold); }
+.arch-ranking .arch-box-title { color: var(--teal); }
+.arch-present .arch-box-title { color: var(--green); }
+.arch-box-desc { font-size: .72rem; color: var(--muted); line-height: 1.5; }
+.arch-tags { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; margin-top: 8px; }
+.arch-tag { font-size: .65rem; font-weight: 700; padding: 2px 7px; border-radius: 10px; }
+.arch-tag-blue { background: #DBEAFE; color: #1D4ED8; }
+.arch-tag-orange { background: var(--orange-lt); color: var(--orange-dk); }
+.arch-tag-gold { background: var(--gold-lt); color: var(--gold); }
+.arch-tag-teal { background: var(--teal-lt); color: var(--teal); }
+.arch-tag-green { background: var(--green-lt); color: var(--green); }
+.arch-mode-row { display: flex; gap: 12px; margin-top: 20px; }
+.arch-mode { flex: 1; border-radius: 8px; padding: 12px 16px; font-size: .82rem; }
+.arch-mode-personalized { background: var(--orange-lt); border-left: 4px solid var(--orange); }
+.arch-mode-fallback { background: var(--surface); border-left: 4px solid var(--muted); }
+.arch-mode h4 { font-size: .8rem; margin-bottom: 4px; }
+
+/* ── SEGMENT CARDS ── */
+.segment-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.seg-card { border-radius: var(--radius-lg); padding: 24px; border: 2px solid transparent; }
+.seg-business { background: linear-gradient(135deg, #EEF2FF, #E0E7FF); border-color: #A5B4FC; }
+.seg-leisure { background: linear-gradient(135deg, #FFF7ED, #FFEDD5); border-color: #FDB974; }
+.seg-family { background: linear-gradient(135deg, #F0FDF4, #DCFCE7); border-color: #86EFAC; }
+.seg-firsttimer { background: linear-gradient(135deg, #FDF4FF, #FAE8FF); border-color: #E879F9; }
+.seg-card-emoji { font-size: 2rem; margin-bottom: 12px; }
+.seg-card h3 { font-size: 1rem; margin-bottom: 10px; }
+.seg-pill { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; margin-right: 6px; margin-bottom: 6px; }
+.seg-pill-upgrade { background: white; color: var(--orange); border: 1px solid var(--orange); }
+.seg-pill-protection { background: white; color: #7C3AED; border: 1px solid #7C3AED; }
+.seg-card .signals { font-size: .8rem; color: var(--muted); margin-top: 10px; line-height: 1.6; }
+
+/* ── MOMENT TIMELINE ── */
+.moment-timeline { position: relative; padding-left: 32px; }
+.moment-timeline::before { content: ''; position: absolute; left: 10px; top: 16px; bottom: 16px; width: 2px; background: linear-gradient(to bottom, var(--orange), var(--teal)); }
+.moment-item { position: relative; margin-bottom: 28px; }
+.moment-item:last-child { margin-bottom: 0; }
+.moment-dot { position: absolute; left: -28px; top: 14px; width: 14px; height: 14px; border-radius: 50%; background: var(--orange); border: 2px solid white; box-shadow: 0 0 0 3px var(--orange-lt); }
+.moment-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; }
+.moment-time { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; color: var(--orange); margin-bottom: 4px; }
+.moment-card h4 { margin-bottom: 6px; }
+.moment-card p { font-size: .85rem; }
+.compliance-badge { display: inline-flex; align-items: center; gap: 4px; background: var(--green-lt); color: var(--green); font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-top: 8px; }
+
+/* ── EXPERIMENT PHASES ── */
+.phase-tabs { display: flex; gap: 0; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); margin-bottom: 28px; }
+.phase-tab { flex: 1; padding: 14px 16px; text-align: center; cursor: pointer; font-size: .85rem; font-weight: 700; transition: all .2s; background: var(--surface); border: none; }
+.phase-tab.active { background: var(--orange); color: white; }
+.phase-tab:not(.active):hover { background: var(--orange-lt); }
+.phase-content { display: none; }
+.phase-content.active { display: block; }
+.phase-header { border-radius: var(--radius); padding: 20px 24px; margin-bottom: 20px; display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
+.phase-p1 { background: linear-gradient(135deg, #FFF0E8, #FFE4D0); border-left: 4px solid var(--orange); }
+.phase-p2 { background: linear-gradient(135deg, #EEF2FF, #E0E7FF); border-left: 4px solid #6366F1; }
+.phase-p3 { background: linear-gradient(135deg, #F0FDF4, #DCFCE7); border-left: 4px solid var(--green); }
+.phase-header h3 { margin-bottom: 4px; }
+.phase-header p { font-size: .88rem; }
+.phase-meta { text-align: right; flex-shrink: 0; }
+.phase-meta-period { font-size: .8rem; font-weight: 700; color: var(--muted); }
+.phase-meta-traffic { font-size: .75rem; color: var(--muted); margin-top: 4px; }
+.exp-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.exp-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; }
+.exp-id { font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.exp-card h4 { font-size: .9rem; margin-bottom: 8px; }
+.exp-card .hypothesis { font-size: .82rem; color: var(--muted); font-style: italic; margin-bottom: 10px; padding: 8px 10px; background: var(--surface); border-radius: 6px; }
+.exp-metric-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 3px; }
+.exp-metric-val { font-size: .82rem; font-weight: 700; color: var(--ink); }
+.dependency-note { font-size: .8rem; color: var(--muted); background: var(--surface); border-radius: 6px; padding: 10px 14px; margin-top: 16px; }
+
+/* ── WIREFRAME EMBED ── */
+.wireframe-section { background: var(--navy); }
+.wireframe-nav { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+.wf-nav-btn { padding: 8px 18px; border-radius: 20px; border: 1.5px solid rgba(255,255,255,.2); background: transparent; color: rgba(255,255,255,.7); font-size: .82rem; font-weight: 600; cursor: pointer; transition: all .2s; }
+.wf-nav-btn:hover { border-color: var(--orange); color: white; }
+.wf-nav-btn.active { background: var(--orange); border-color: var(--orange); color: white; }
+.wireframe-container { display: flex; gap: 32px; align-items: flex-start; }
+.wireframe-frame-wrap { flex: 0 0 390px; background: #1a1a1a; border-radius: 44px; padding: 12px; box-shadow: 0 40px 80px rgba(0,0,0,.6); border: 2px solid #333; position: relative; }
+.wireframe-frame-wrap::before { content: ''; width: 100px; height: 6px; background: #333; border-radius: 3px; display: block; margin: 0 auto 10px; }
+.wireframe-iframe { width: 100%; height: 780px; border: none; border-radius: 34px; background: #F4F4F4; }
+.wireframe-steps { flex: 1; }
+.wireframe-steps h3 { color: white; margin-bottom: 20px; }
+.flow-step { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 20px; cursor: pointer; opacity: .6; transition: opacity .2s; }
+.flow-step.active { opacity: 1; }
+.flow-step:hover { opacity: .9; }
+.flow-step-num { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,.1); border: 2px solid rgba(255,255,255,.2); display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 800; color: white; flex-shrink: 0; transition: all .2s; }
+.flow-step.active .flow-step-num { background: var(--orange); border-color: var(--orange); }
+.flow-step-info h4 { color: white; font-size: .9rem; margin-bottom: 3px; }
+.flow-step-info p { font-size: .8rem; color: rgba(255,255,255,.55); }
+
+/* ── METRICS ── */
+.metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 24px; }
+.metric-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 22px; }
+.metric-tier { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 10px; }
+.tier-north { color: var(--orange); }
+.tier-primary { color: #6366F1; }
+.tier-secondary { color: var(--teal); }
+.tier-lagging { color: var(--muted); }
+.metric-card h4 { font-size: .9rem; margin-bottom: 6px; }
+.metric-card .target { font-size: 1.4rem; font-weight: 900; color: var(--ink); letter-spacing: -.03em; }
+.metric-card .baseline { font-size: .8rem; color: var(--muted); margin-top: 3px; }
+.north-star-card { grid-column: 1 / -1; background: linear-gradient(135deg, var(--navy), #1a2f58); color: white; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.north-star-card h4 { color: rgba(255,255,255,.7); font-size: .85rem; margin-bottom: 4px; }
+.north-star-card .target { color: var(--orange); font-size: 2.5rem; }
+.north-star-card .baseline { color: rgba(255,255,255,.5); }
+.north-star-card .description { font-size: .85rem; color: rgba(255,255,255,.65); line-height: 1.6; }
+.guardrail-banner { background: #FFF8E1; border: 1px solid #FFC107; border-radius: var(--radius); padding: 14px 18px; display: flex; align-items: center; gap: 12px; font-size: .88rem; margin-top: 20px; }
+.guardrail-banner strong { color: #795548; }
+
+/* ── ROADMAP ── */
+.roadmap-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.roadmap-quarter { border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border); background: var(--white); }
+.roadmap-qheader { padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; }
+.rq1 .roadmap-qheader { background: var(--orange-lt); border-bottom: 2px solid var(--orange); }
+.rq2 .roadmap-qheader { background: #EEF2FF; border-bottom: 2px solid #6366F1; }
+.rq3 .roadmap-qheader { background: var(--teal-lt); border-bottom: 2px solid var(--teal); }
+.rq4 .roadmap-qheader { background: var(--green-lt); border-bottom: 2px solid var(--green); }
+.rq-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; }
+.rq1 .rq-label { color: var(--orange); }
+.rq2 .rq-label { color: #6366F1; }
+.rq3 .rq-label { color: var(--teal); }
+.rq4 .rq-label { color: var(--green); }
+.rq-lift { font-size: 1.1rem; font-weight: 900; }
+.rq1 .rq-lift { color: var(--orange); }
+.rq2 .rq-lift { color: #6366F1; }
+.rq3 .rq-lift { color: var(--teal); }
+.rq4 .rq-lift { color: var(--green); }
+.roadmap-body { padding: 16px 18px; background: var(--white); }
+.roadmap-stream { margin-bottom: 14px; }
+.roadmap-stream:last-child { margin-bottom: 0; }
+.stream-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 5px; }
+.stream-items { list-style: none; }
+.stream-items li { font-size: .78rem; color: var(--ink); padding: 4px 0; border-bottom: 1px solid var(--surface); display: flex; gap: 6px; }
+.stream-items li::before { content: '→'; color: var(--orange); font-weight: 700; flex-shrink: 0; }
+.stream-items li:last-child { border-bottom: none; }
+.exp-running { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.exp-chip { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background: var(--surface); border: 1px solid var(--border); color: var(--muted); }
+.roadmap-progress { margin-top: 32px; }
+.progress-bar-track { height: 8px; background: var(--surface); border-radius: 4px; overflow: hidden; margin-top: 6px; }
+.progress-bar-fill { height: 100%; border-radius: 4px; transition: width .5s ease; }
+.progress-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.progress-row:last-child { margin-bottom: 0; }
+.progress-label { font-size: .82rem; font-weight: 600; }
+.progress-pct { font-size: .82rem; font-weight: 800; }
+
+/* ── APPENDIX ── */
+.appendix-section { background: var(--surface); border-top: 1px solid var(--border); }
+.appendix-heading { font-size: 1rem; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 16px; }
+.accordion-item { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 8px; overflow: hidden; }
+.accordion-trigger { width: 100%; padding: 18px 22px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; background: none; border: none; text-align: left; font-weight: 700; font-size: 1rem; color: var(--ink); }
+.accordion-trigger:hover { background: var(--surface); }
+.accordion-chevron { font-size: 1.1rem; transition: transform .3s; color: var(--muted); }
+.accordion-item.open .accordion-chevron { transform: rotate(180deg); }
+.accordion-body { display: none; padding: 0 22px 22px; }
+.accordion-item.open .accordion-body { display: block; }
+.appendix-table { width: 100%; border-collapse: collapse; font-size: .85rem; margin-top: 12px; }
+.appendix-table th { padding: 10px 14px; background: var(--surface); text-align: left; font-size: .8rem; font-weight: 700; border-bottom: 1px solid var(--border); }
+.appendix-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+.appendix-table tr:last-child td { border-bottom: none; }
+.opp-highlight { background: var(--orange-lt); border-radius: var(--radius); padding: 20px; margin-top: 16px; display: flex; align-items: center; gap: 20px; }
+.opp-val { font-size: 2rem; font-weight: 900; color: var(--orange); letter-spacing: -.03em; }
+.opp-desc { font-size: .88rem; color: var(--muted); }
+
+/* ── FOOTER ── */
+footer { background: var(--black); color: rgba(255,255,255,.4); text-align: center; padding: 32px; font-size: .82rem; }
+footer strong { color: rgba(255,255,255,.7); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .hero-stats { grid-template-columns: repeat(2, 1fr); }
+  .levers { grid-template-columns: 1fr; }
+  .segment-grid { grid-template-columns: 1fr; }
+  .roadmap-grid { grid-template-columns: repeat(2, 1fr); }
+  .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+  .north-star-card { grid-column: 1 / -1; grid-template-columns: 1fr; }
+  .wireframe-container { flex-direction: column; }
+  .wireframe-frame-wrap { flex: none; width: 100%; max-width: 390px; margin: 0 auto; }
+  .exp-grid { grid-template-columns: 1fr; }
+  .root-cause-grid { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+}
+@media (max-width: 600px) {
+  .hero-stats { grid-template-columns: 1fr 1fr; }
+  .roadmap-grid { grid-template-columns: 1fr; }
+  .arch-flow { flex-direction: column; gap: 32px; }
+  .arch-layer:not(:last-child)::after { content: '↓'; right: auto; left: 50%; top: auto; bottom: -26px; transform: translateX(-50%); }
+  .arch-layer { padding-bottom: 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <span class="nav-logo-box">SIXT</span>
+    <span class="nav-logo-sub">Personalisation Strategy</span>
+  </a>
+  <div class="nav-links">
+    <a href="#problem">Problem</a>
+    <a href="#strategy">Strategy</a>
+    <a href="#personalisation">Personalisation</a>
+    <a href="#experiments">Experiments</a>
+    <a href="#wireframes">Wireframes</a>
+    <a href="#metrics">Metrics</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="#appendix">Appendix</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ══════════════════ HERO ══════════════════ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-label">Growth PM — Case Study</div>
+    <h1>From One-Size-Fits-All<br>to <em>Advisor-Grade</em> Upsell</h1>
+    <p class="hero-sub">SIXT's post-booking digital touchpoints are the highest-leverage revenue moment in the rental journey. A committed customer is maximally receptive — yet today's funnel treats a first-time tourist in Miami the same as a Gold member road-warrior in Frankfurt. This strategy closes that gap.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-val">€22<span>/rental</span></div>
+        <div class="hero-stat-label">Current Digital RPR</div>
+        <div class="hero-stat-note">vs €33–38 at branch</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">€44M<span>+</span></div>
+        <div class="hero-stat-label">Revenue at +20% RPR</div>
+        <div class="hero-stat-note">~2M digital rentals/year</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">€80M<span>+</span></div>
+        <div class="hero-stat-label">Best-in-class upside</div>
+        <div class="hero-stat-note">Hertz Gold benchmark</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">28<span>%</span></div>
+        <div class="hero-stat-label">Current Protection Attach</div>
+        <div class="hero-stat-note">Target → +10pp</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ GROWTH LEVERS ══════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">The Framework</div>
+      <h2>Three Levers. One Engine.</h2>
+      <p>The strategy is built on a simple insight: branch agents outperform digital because they have <strong>more moments</strong>, <strong>better messages</strong>, and a <strong>read of the customer</strong>. We replicate all three.</p>
+    </div>
+    <div class="levers">
+      <div class="lever-card lever-moments">
+        <div class="lever-icon">⏰</div>
+        <div class="lever-num">Lever 1</div>
+        <h3>Moments</h3>
+        <p>Multiply upsell touchpoints across the entire post-booking timeline — T-25h email, T-1h MCI funnel, on-rent push, mid-rental extension, and post-rental re-engagement.</p>
+      </div>
+      <div class="lever-card lever-messages">
+        <div class="lever-icon">💬</div>
+        <div class="lever-num">Lever 2</div>
+        <h3>Messages</h3>
+        <p>Shift from listing specs to selling outcomes. "More Luggage Space" beats "VW Tiguan Allspace 7-seat." Per-day micro-pricing and social proof eliminate sticker shock.</p>
+      </div>
+      <div class="lever-card lever-match">
+        <div class="lever-icon">🎯</div>
+        <div class="lever-num">Lever 3</div>
+        <h3>Match</h3>
+        <p>A real-time propensity engine scores each customer across three product categories and serves ranked recommendations — no two customers see the same screen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ PROBLEM ══════════════════ -->
+<section class="section section-alt" id="problem">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Section 2 — Problem Framing</div>
+      <h2>The Audit: Where Revenue Leaks</h2>
+      <p>The gap between branch and digital RPR is not a product quality gap — it's an <strong>information asymmetry gap</strong>. The digital funnel today does none of what a branch agent does: read the customer, adapt the pitch, respond to objections.</p>
+    </div>
+
+    <h3 style="margin-bottom:16px;">MCI Flow Friction Points</h3>
+    <div style="overflow-x:auto; border-radius:var(--radius-lg); border:1px solid var(--border); margin-bottom:40px;">
+      <table class="audit-table">
+        <thead>
+          <tr><th>MCI Step</th><th>Observed Issue</th><th>Revenue Impact</th><th>Severity</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Vehicle Selection</strong></td>
+            <td>Upgrade shown as total add-on cost (+€40/day) — not per-day delta framing</td>
+            <td class="impact-high">High</td>
+            <td><span class="sev-critical">Critical</span></td>
+          </tr>
+          <tr>
+            <td><strong>Vehicle Detail Modal</strong></td>
+            <td>Under-the-hood specs shown instead of outcome-led benefits for most segments</td>
+            <td class="impact-med">Medium</td>
+            <td><span class="sev-medium">Medium</span></td>
+          </tr>
+          <tr>
+            <td><strong>Protection Selection</strong></td>
+            <td>Three tiers with deductibles but no scenario storytelling, no social proof</td>
+            <td class="impact-high">High</td>
+            <td><span class="sev-critical">Critical</span></td>
+          </tr>
+          <tr>
+            <td><strong>Add-ons Screen</strong></td>
+            <td>All add-ons shown to all users — no relevance scoring, no suppression logic</td>
+            <td class="impact-med">Medium</td>
+            <td><span class="sev-medium">Medium</span></td>
+          </tr>
+          <tr>
+            <td><strong>Payment & Review</strong></td>
+            <td>Full total shown without per-day breakdown. Sticker shock triggers abandonment</td>
+            <td class="impact-med">Medium</td>
+            <td><span class="sev-medium">Medium</span></td>
+          </tr>
+          <tr>
+            <td><strong>Post-MCI Confirmation</strong></td>
+            <td>Zero upsell or engagement. On-rent nudge opportunity missed entirely</td>
+            <td class="impact-med">Low–Medium</td>
+            <td><span class="sev-low">Low</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="margin-bottom:16px;">Root Cause Summary</h3>
+    <div class="root-cause-grid">
+      <div class="rc-card"><span class="rc-icon">🪞</span><div><h4>One-size-fits-all UI</h4><p>Same products, same order, same copy for every customer regardless of segment</p></div></div>
+      <div class="rc-card"><span class="rc-icon">📋</span><div><h4>Benefit-free upsell</h4><p>Features listed over customer outcomes — specs instead of "More Luggage Space"</p></div></div>
+      <div class="rc-card"><span class="rc-icon">⏱️</span><div><h4>Narrow upsell window</h4><p>Primary upsell confined to T-1h MCI trigger only. Journey before and after ignored</p></div></div>
+      <div class="rc-card"><span class="rc-icon">👥</span><div><h4>Missing social proof</h4><p>No peer comparisons, no ratings, no location-specific urgency signals</p></div></div>
+      <div class="rc-card"><span class="rc-icon">💰</span><div><h4>Price anchoring problem</h4><p>Total cost dominates; per-day framing absent — making upgrades feel expensive</p></div></div>
+      <div class="rc-card"><span class="rc-icon">⚖️</span><div><h4>Legal & OTA exposure</h4><p>Pre-selection risk, aggressive defaults, and protection mis-sell to OTA customers</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ STRATEGY ══════════════════ -->
+<section class="section" id="strategy">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Section 3 — Growth Strategy</div>
+      <h2>Five Initiatives. Sequenced for Maximum Lift.</h2>
+      <p>Each initiative maps to a root cause. Priority is set by impact × feasibility. P1 ships in Q1-Q2 without ML dependencies.</p>
+    </div>
+
+    <div class="initiative-grid" style="margin-bottom:60px;">
+      <div class="init-card">
+        <div>
+          <span class="init-priority p1">P1</span>
+          <h3>SI-2: Benefit-Led UI Overhaul (MCI + Self-Service)</h3>
+          <p>Redesign Vehicle Selection, Protection, and Add-on screens to lead with customer outcomes. Per-day micro-pricing. Social proof badges. Real-time scarcity signals. Eliminating benefit-free copy and price anchoring root causes in one shot.</p>
+        </div>
+        <div class="init-scores">
+          <div class="score-pill"><div class="score-pill-val">4/5</div><div class="score-pill-label">Impact</div></div>
+          <div class="score-pill"><div class="score-pill-val">4/5</div><div class="score-pill-label">Feasibility</div></div>
+        </div>
+      </div>
+      <div class="init-card">
+        <div>
+          <span class="init-priority p1">P1</span>
+          <h3>SI-3: Multi-Moment Upsell Nudges (Compliant)</h3>
+          <p>Extend upsell to T-25h email, on-rent push (safely, geo-fenced), and post-rental re-engagement. Addresses the narrow upsell window root cause — dramatically increasing total exposure time to relevant offers.</p>
+        </div>
+        <div class="init-scores">
+          <div class="score-pill"><div class="score-pill-val">4/5</div><div class="score-pill-label">Impact</div></div>
+          <div class="score-pill"><div class="score-pill-val">4/5</div><div class="score-pill-label">Feasibility</div></div>
+        </div>
+      </div>
+      <div class="init-card">
+        <div>
+          <span class="init-priority p2">P2</span>
+          <h3>SI-1: Segment-Aware Personalisation Engine</h3>
+          <p>Real-time propensity scoring across all three product categories. Dual-mode: personalised (Tier 1+2 signals, returning users) and rule-based fallback (first-timers). The core mechanism to replicate a branch agent's information advantage for 100% of customers.</p>
+        </div>
+        <div class="init-scores">
+          <div class="score-pill"><div class="score-pill-val">5/5</div><div class="score-pill-label">Impact</div></div>
+          <div class="score-pill"><div class="score-pill-val">3/5</div><div class="score-pill-label">Feasibility</div></div>
+        </div>
+      </div>
+      <div class="init-card">
+        <div>
+          <span class="init-priority p2">P2</span>
+          <h3>SI-5: Frictionless Checkout & Micro-Pricing</h3>
+          <p>One-tap biometric upsell approval, per-day price framing, instant digital key re-routing post-upgrade. Focuses on late-funnel conversion by eliminating sticker shock and cart abandonment for high-intent customers.</p>
+        </div>
+        <div class="init-scores">
+          <div class="score-pill"><div class="score-pill-val">3/5</div><div class="score-pill-label">Impact</div></div>
+          <div class="score-pill"><div class="score-pill-val">4/5</div><div class="score-pill-label">Feasibility</div></div>
+        </div>
+      </div>
+      <div class="init-card">
+        <div>
+          <span class="init-priority p3">P3</span>
+          <h3>SI-4: Bundled Package Offers (Margin-Floored)</h3>
+          <p>Three persona-matched bundles (Business Ready, Family Adventure, Zero-Worry Explorer). Margin floor rule ensures bundle price ≥ sum of standalone margins minus 8% discount allowance — raise attach rate and AOV simultaneously without eroding gross margin.</p>
+        </div>
+        <div class="init-scores">
+          <div class="score-pill"><div class="score-pill-val">4/5</div><div class="score-pill-label">Impact</div></div>
+          <div class="score-pill"><div class="score-pill-val">3/5</div><div class="score-pill-label">Feasibility</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Architecture Diagram -->
+    <div class="section-header">
+      <div class="section-tag">Section 3 — Architecture</div>
+      <h2>How the Personalisation Engine Works</h2>
+      <p>Five layers process every customer in real-time — from raw booking data to the hero slot on their screen. The engine operates in two modes to ensure 100% coverage from day one.</p>
+    </div>
+    <div class="arch-diagram">
+      <div class="arch-flow">
+        <div class="arch-layer">
+          <div class="arch-box arch-input">
+            <div class="arch-box-icon">📥</div>
+            <div class="arch-box-title">Input Layer</div>
+            <div class="arch-box-desc">Booking metadata, behavioural history, real-time context</div>
+            <div class="arch-tags">
+              <span class="arch-tag arch-tag-blue">Tier 1: 100%</span>
+              <span class="arch-tag arch-tag-blue">Tier 2: ~50%</span>
+              <span class="arch-tag arch-tag-blue">Tier 3: Q3+</span>
+            </div>
+          </div>
+        </div>
+        <div class="arch-layer">
+          <div class="arch-box arch-scoring">
+            <div class="arch-box-icon">🧠</div>
+            <div class="arch-box-title">Scoring Layer</div>
+            <div class="arch-box-desc">Propensity model</div>
+            <div class="arch-tags">
+              <span class="arch-tag arch-tag-orange">P(upgrade)</span>
+              <span class="arch-tag arch-tag-orange">P(protection)</span>
+              <span class="arch-tag arch-tag-orange">P(add-on)</span>
+            </div>
+          </div>
+        </div>
+        <div class="arch-layer">
+          <div class="arch-box arch-explore">
+            <div class="arch-box-icon">🎲</div>
+            <div class="arch-box-title">Exploration Layer</div>
+            <div class="arch-box-desc">10% traffic → epsilon-greedy arm prevents segment write-off</div>
+            <div class="arch-tags">
+              <span class="arch-tag arch-tag-gold">90% exploit</span>
+              <span class="arch-tag arch-tag-gold">10% explore</span>
+            </div>
+          </div>
+        </div>
+        <div class="arch-layer">
+          <div class="arch-box arch-ranking">
+            <div class="arch-box-icon">📊</div>
+            <div class="arch-box-title">Ranking Layer</div>
+            <div class="arch-box-desc">Score × margin weight × availability → ranked product list</div>
+            <div class="arch-tags">
+              <span class="arch-tag arch-tag-teal">Per touchpoint</span>
+              <span class="arch-tag arch-tag-teal">Margin-aware</span>
+            </div>
+          </div>
+        </div>
+        <div class="arch-layer">
+          <div class="arch-box arch-present">
+            <div class="arch-box-icon">📱</div>
+            <div class="arch-box-title">Presentation Layer</div>
+            <div class="arch-box-desc">Top rank → hero slot. Secondary products → supporting positions</div>
+            <div class="arch-tags">
+              <span class="arch-tag arch-tag-green">Hero card</span>
+              <span class="arch-tag arch-tag-green">Supporting</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="arch-mode-row">
+        <div class="arch-mode arch-mode-personalized">
+          <h4>🎯 Personalised Mode</h4>
+          <p style="font-size:.82rem;color:var(--muted);">Tier 1 + Tier 2 data available (returning users, ~50% of traffic). Full segment-specific copy, pre-scored add-on hero, protection tier highlight.</p>
+        </div>
+        <div class="arch-mode arch-mode-fallback">
+          <h4>🔀 Rule-Based Fallback</h4>
+          <p style="font-size:.82rem;color:var(--muted);">Tier 1 signals only (first-timers). Decision tree maps booking metadata to segment and serves globally best-converting products. Zero cold-start gaps.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ PERSONALISATION ══════════════════ -->
+<section class="section section-alt" id="personalisation">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Section 4 — Personalisation Execution</div>
+      <h2>The Advisory Model: Four Segments, One Goal</h2>
+      <p>Every customer is dynamically classified per rental from booking attributes and history. The system then shows them what they actually need — with evidence from people like them — at a price that feels proportionate.</p>
+    </div>
+    <div class="segment-grid" style="margin-bottom:48px;">
+      <div class="seg-card seg-business">
+        <div class="seg-card-emoji">💼</div>
+        <h3>Business Efficiency Traveller</h3>
+        <div>
+          <span class="seg-pill seg-pill-upgrade">Upgrade: HIGH</span>
+          <span class="seg-pill seg-pill-protection">Protection: LOW–MED</span>
+        </div>
+        <p style="font-size:.85rem;margin-top:8px;"><strong>Hero add-on:</strong> Toll pass. <strong>Suppress:</strong> Child seat, GPS, winter tyres.</p>
+        <p class="signals"><strong>Signals:</strong> Corporate flag, weekday pickup, solo, 1–4 days, business airport. <strong>Tone:</strong> Efficiency, status. Short copy, one CTA. Frame as expensable total trip cost.</p>
+      </div>
+      <div class="seg-card seg-leisure">
+        <div class="seg-card-emoji">🏖️</div>
+        <h3>Leisure Explorer (Solo / Couple)</h3>
+        <div>
+          <span class="seg-pill seg-pill-upgrade">Upgrade: MEDIUM</span>
+          <span class="seg-pill seg-pill-protection">Protection: HIGH</span>
+        </div>
+        <p style="font-size:.85rem;margin-top:8px;"><strong>Hero add-on:</strong> GPS + toll pass bundle. <strong>Copy:</strong> "Never stop at a toll booth."</p>
+        <p class="signals"><strong>Signals:</strong> Weekend/holiday, leisure destination, personal booking, 3–7 days. <strong>Tone:</strong> Aspirational, discovery, reassurance. Per-day delta with lifestyle photography.</p>
+      </div>
+      <div class="seg-card seg-family">
+        <div class="seg-card-emoji">👨‍👩‍👧‍👦</div>
+        <h3>Family Organiser</h3>
+        <div>
+          <span class="seg-pill seg-pill-upgrade">Upgrade: HIGH</span>
+          <span class="seg-pill seg-pill-protection">Protection: MEDIUM</span>
+        </div>
+        <p style="font-size:.85rem;margin-top:8px;"><strong>Hero add-on:</strong> Child seat + fuel + toll as Family Essentials Pack.</p>
+        <p class="signals"><strong>Signals:</strong> Group 3+, child seat history, resort destination, 5+ days. <strong>Tone:</strong> Practical, value-conscious. Per-person per-day framing. "What is solved, not what is sold."</p>
+      </div>
+      <div class="seg-card seg-firsttimer">
+        <div class="seg-card-emoji">✈️</div>
+        <h3>First-Timer / International Tourist</h3>
+        <div>
+          <span class="seg-pill seg-pill-upgrade">Upgrade: LOW–MED</span>
+          <span class="seg-pill seg-pill-protection">Protection: VERY HIGH</span>
+        </div>
+        <p style="font-size:.85rem;margin-top:8px;"><strong>Hero:</strong> Zero-Worry bundle (GPS + fuel + All Inclusive).</p>
+        <p class="signals"><strong>Signals:</strong> First SIXT rental, international card, no loyalty history. <strong>Tone:</strong> Welcoming, educational. Heavy social proof. "73% of first-time renters at Miami Airport chose this."</p>
+      </div>
+    </div>
+
+    <!-- Moments timeline -->
+    <h3 style="margin-bottom:20px;">Multi-Moment Upsell Timeline</h3>
+    <div class="moment-timeline">
+      <div class="moment-item">
+        <div class="moment-dot"></div>
+        <div class="moment-card">
+          <div class="moment-time">T-25h — MCI Opens</div>
+          <h4>Email + Push: Early-Bird Personalisation</h4>
+          <p>One personalised upgrade recommendation + social proof. "Personalise your rental before vehicles are claimed." Variant A: hero image + CTA. Variant B: minimalist text. Feeds EXP-005.</p>
+          <div class="compliance-badge">✅ GDPR-compliant · Unsubscribe link mandatory</div>
+        </div>
+      </div>
+      <div class="moment-item">
+        <div class="moment-dot" style="background:var(--orange);"></div>
+        <div class="moment-card" style="border-color:var(--orange);">
+          <div class="moment-time">T-1h — MCI Funnel</div>
+          <h4>In-App: Primary Upsell Moment</h4>
+          <p>Full personalised funnel. All recommendation designs applied. This is the highest-intent moment — the customer is in booking completion mode. No additional compliance risk beyond standard app consent.</p>
+          <div class="compliance-badge">✅ Standard app consent · No extra risk</div>
+        </div>
+      </div>
+      <div class="moment-item">
+        <div class="moment-dot"></div>
+        <div class="moment-card">
+          <div class="moment-time">On-Rent (Safe Window Only)</div>
+          <h4>Push: Post-Departure, Time-Delayed</h4>
+          <p>Triggered ONLY after geo-fence departure from branch + 30-minute minimum driving time elapsed. Single notification max per rental. Upgrade offer for long rentals.</p>
+          <div class="compliance-badge">⚠️ Legal review required · Driver distraction laws apply</div>
+        </div>
+      </div>
+      <div class="moment-item">
+        <div class="moment-dot"></div>
+        <div class="moment-card">
+          <div class="moment-time">Day 3+ of 5+ Day Rental</div>
+          <h4>Push: Mid-Rental Extension</h4>
+          <p>"Thinking of extending? Lock in your current vehicle at your current rate + €15 saving." No safety concern — user is not expected to be driving at this point in the journey.</p>
+          <div class="compliance-badge">✅ Standard push consent · No safety concern</div>
+        </div>
+      </div>
+      <div class="moment-item">
+        <div class="moment-dot"></div>
+        <div class="moment-card">
+          <div class="moment-time">T+24h Post-Rental</div>
+          <h4>Email: Re-engagement + Next Booking Seed</h4>
+          <p>"How was your BMW X3? Customers who upgrade tell us they never go back." Next-booking loyalty incentive + CLV measurement trigger. Feeds 12-month CLV delta metric.</p>
+          <div class="compliance-badge">✅ Standard marketing consent · Must honour unsubscribe</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ EXPERIMENTS ══════════════════ -->
+<section class="section" id="experiments">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Section 5 — Experimentation Framework</div>
+      <h2>10 Experiments. 3 Phases. One Scientific Approach.</h2>
+      <p>Every personalisation hypothesis is a bet. The framework enforces single-variable testing, pre-registered MDEs, guardrail metrics, and a multi-touch attribution model to prevent contamination across the journey's touchpoints.</p>
+    </div>
+
+    <div class="phase-tabs">
+      <button class="phase-tab active" onclick="switchPhase('p1', this)">Phase 1 — Q1/Q2<br><small>Foundational UI</small></button>
+      <button class="phase-tab" onclick="switchPhase('p2', this)">Phase 2 — Q2/Q3<br><small>Personalisation Layer</small></button>
+      <button class="phase-tab" onclick="switchPhase('p3', this)">Phase 3 — Q3/Q4<br><small>Bundle & Advanced</small></button>
+    </div>
+
+    <div id="phase-p1" class="phase-content active">
+      <div class="phase-header phase-p1">
+        <div>
+          <h3>Phase 1: Foundational UI Changes</h3>
+          <p>Copy and UI changes only — no ML required. Deployable immediately at Tier 1 branches while the personalisation engine is being built in parallel. Proves the core messaging hypotheses before adding scoring complexity.</p>
+        </div>
+        <div class="phase-meta">
+          <div class="phase-meta-period">Q1 → Q2</div>
+          <div class="phase-meta-traffic">Min. 5,000 MCI completers / variant</div>
+          <div class="phase-meta-traffic" style="margin-top:4px;">Dependency: None — start immediately</div>
+        </div>
+      </div>
+      <div class="exp-grid">
+        <div class="exp-card">
+          <div class="exp-id">EXP-001</div>
+          <h4>Per-Day Price Framing</h4>
+          <div class="hypothesis">"€12/day more" vs. "€72 more for 6-day rental" will increase upgrade attach rate by 8pp+</div>
+          <div class="exp-metric-label">Primary Metric</div>
+          <div class="exp-metric-val">Vehicle upgrade attach rate</div>
+        </div>
+        <div class="exp-card">
+          <div class="exp-id">EXP-002</div>
+          <h4>Social Proof Badge</h4>
+          <div class="hypothesis">"68% of customers here upgraded last week" badge on hero card will lift upgrade attach by 6pp+</div>
+          <div class="exp-metric-label">Primary Metric</div>
+          <div class="exp-metric-val">Vehicle upgrade attach rate</div>
+        </div>
+        <div class="exp-card">
+          <div class="exp-id">EXP-005</div>
+          <h4>T-25h Upsell Email</h4>
+          <div class="hypothesis">Personalised email at T-25h will reduce T-1h funnel drop-off by 5%+ via pre-selection warm-up</div>
+          <div class="exp-metric-label">Primary Metric</div>
+          <div class="exp-metric-val">Pre-selection rate at T-1h · RPR</div>
+          <div style="margin-top:8px;" class="compliance-badge">Holdout: 20% receive no email</div>
+        </div>
+        <div class="exp-card">
+          <div class="exp-id">EXP-009</div>
+          <h4>Self-Service Upsell Placement</h4>
+          <div class="hypothesis">Proactive upsell card at top of Self-Service (vs. buried in navigation) will increase Self-Service RPR by 10pp+</div>
+          <div class="exp-metric-label">Primary Metric</div>
+          <div class="exp-metric-val">Self-Service RPR · Add-on attach via Self-Service</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="phase-p2" class="phase-content">
+      <div class="phase-header phase-p2">
+        <div>
+          <h3>Phase 2: Personalisation Layer</h3>
+          <p>Requires the segment scoring model and dynamic content pipeline to be live. These experiments test whether personalised recommendations (segment-matched copy, protection tier highlights, loyalty pricing) outperform the Phase 1 generic-but-improved baseline.</p>
+        </div>
+        <div class="phase-meta">
+          <div class="phase-meta-period">Q2 → Q3</div>
+          <div class="phase-meta-traffic">Min. 10,000 MCI completers / variant</div>
+          <div class="phase-meta-traffic" style="margin-top:4px;">Dependency: Personalisation engine v1 live (6–8 weeks build)</div>
+        </div>
+      </div>
+      <div class="exp-grid">
+        <div class="exp-card">
+          <div class="exp-id">EXP-003</div>
+          <h4>Scenario Card for Protection</h4>
+          <div class="hypothesis">Concrete deductible scenario strip before the tier selector will increase All Inclusive attach by 10pp+ among first-timers</div>
+          <div class="exp-metric-label">Primary Metric</div>
+          <div class="exp-metric-val">Protection attach rate · Protection RPR</div>
+        </div>
+        <div class="exp-card">
+          <div class="exp-id">EXP-004</div>
+          <h4>Add-on Hero Card</h4>
+          <div class="hypothesis">Single personalised hero add-on card (vs. full list) will increase add-on attach by 12pp+ with no MCI completion rate degradation</div>
+          <div class="exp-metric-label">Primary Metric</div>
+          <div class="exp-metric-val">Add-on attach rate · Add-on RPR</div>
+        </div>
+        <div class="exp-card">
+          <div class="exp-id">EXP-007</div>
+          <h4>Recommendation Highlight (not pre-select)</h4>
+          <div class="hypothesis">Orange border + "Recommended" badge on protection tier (zero pre-selection) will increase attach by 8pp+ across all segments without NPS degradation</div>
+          <div class="exp-metric-label">Primary Metric</div>
+          <div class="exp-metric-val">Protection attach rate (all segments)</div>
+        </div>
+        <div class="exp-card">
+          <div class="exp-id">EXP-010</div>
+          <h4>Gold Loyalty Upgrade Pricing</h4>
+          <div class="hypothesis">Loyalty-discounted upgrade price for Gold members will increase Gold upgrade attach by 12pp+ while maintaining upgrade margin above floor</div>
+          <div class="exp-metric-label">Primary Metric</div>
+          <div class="exp-metric-val">Upgrade attach (Gold) · Upgrade margin (guardrail)</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="phase-p3" class="phase-content">
+      <div class="phase-header phase-p3">
+        <div>
+          <h3>Phase 3: Bundle & Advanced Signals</h3>
+          <p>Bundles require backend pricing logic and margin floor API. Scarcity counters require real-time vehicle availability feed. These are the highest-risk, highest-reward tests — run only after Phase 1 and 2 baselines are established and proven.</p>
+        </div>
+        <div class="phase-meta">
+          <div class="phase-meta-period">Q3 → Q4</div>
+          <div class="phase-meta-traffic">Min. 15,000 MCI completers / variant</div>
+          <div class="phase-meta-traffic" style="margin-top:4px;">Dependency: Bundle pricing API + real-time availability feed</div>
+        </div>
+      </div>
+      <div class="exp-grid">
+        <div class="exp-card">
+          <div class="exp-id">EXP-006</div>
+          <h4>Bundle Offer vs. Individual</h4>
+          <div class="hypothesis">Persona-matched bundle as primary offer will increase total RPR by 15%+ for matched segments vs. individual product upsell</div>
+          <div class="exp-metric-label">Primary Metric</div>
+          <div class="exp-metric-val">RPR · Bundle attach rate · AOV</div>
+        </div>
+        <div class="exp-card">
+          <div class="exp-id">EXP-008</div>
+          <h4>Scarcity Counter</h4>
+          <div class="hypothesis">Real-time vehicle availability counter ("Only 2 Premium SUVs left") will increase upgrade conversion by 6%+ without NPS degradation</div>
+          <div class="exp-metric-label">Primary Metric</div>
+          <div class="exp-metric-val">Vehicle upgrade attach rate · NPS (guardrail)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ WIREFRAMES ══════════════════ -->
+<section class="section wireframe-section" id="wireframes">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag" style="background:rgba(255,255,255,.1);color:rgba(255,255,255,.8);">Section 6 — Prototype</div>
+      <h2 style="color:white;">Navigate the Flow — Experience the Strategy</h2>
+      <p>The wireframe below is a fully interactive prototype. Navigate screen-by-screen to understand how each design decision executes a specific strategic principle — from the push notification through to the final review screen.</p>
+    </div>
+    <div class="wireframe-container">
+      <div class="wireframe-frame-wrap">
+        <iframe id="wf-iframe" class="wireframe-iframe" title="SIXT Personalisation Prototype"></iframe>
+      </div>
+      <div class="wireframe-steps">
+        <h3>📱 Follow the Journey</h3>
+        <p style="color:rgba(255,255,255,.55);font-size:.85rem;margin-bottom:24px;">Each step in the prototype maps to a strategic principle. Tap the steps below to jump to any screen, or navigate inside the prototype using the on-screen buttons.</p>
+        <div class="flow-step active" id="step-0" onclick="jumpToStep(0)">
+          <div class="flow-step-num">0</div>
+          <div class="flow-step-info">
+            <h4>Push Notification</h4>
+            <p>SI-3 · T-1h trigger. The moment that starts the MCI funnel.</p>
+          </div>
+        </div>
+        <div class="flow-step" id="step-1" onclick="jumpToStep(1)">
+          <div class="flow-step-num">1</div>
+          <div class="flow-step-info">
+            <h4>Booking Summary (WF-0)</h4>
+            <p>Segment detection. Family Organiser signals active — 3 passengers, resort destination.</p>
+          </div>
+        </div>
+        <div class="flow-step" id="step-2" onclick="jumpToStep(2)">
+          <div class="flow-step-num">2</div>
+          <div class="flow-step-info">
+            <h4>Vehicle Selection (WF-1)</h4>
+            <p>SI-2 + SI-1 · Outcome cards, per-person framing, social proof badge. Upgrade hero card.</p>
+          </div>
+        </div>
+        <div class="flow-step" id="step-3" onclick="jumpToStep(3)">
+          <div class="flow-step-num">3</div>
+          <div class="flow-step-info">
+            <h4>Protection (WF-2)</h4>
+            <p>Dark-pattern compliant. Scenario strip, orange highlight — NO pre-selection. Active choice only.</p>
+          </div>
+        </div>
+        <div class="flow-step" id="step-4" onclick="jumpToStep(4)">
+          <div class="flow-step-num">4</div>
+          <div class="flow-step-info">
+            <h4>Add-ons (WF-3)</h4>
+            <p>Hero card for Family Essentials Pack. Suppressed items in collapsed accordion per §4.5.</p>
+          </div>
+        </div>
+        <div class="flow-step" id="step-5" onclick="jumpToStep(5)">
+          <div class="flow-step-num">5</div>
+          <div class="flow-step-info">
+            <h4>Review & Confirm (WF-4)</h4>
+            <p>SI-5 · Per-day breakdown. Bundle savings visible. One-tap confirmation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ METRICS ══════════════════ -->
+<section class="section section-alt" id="metrics">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Section 7 — Metrics & Success Criteria</div>
+      <h2>What Good Looks Like at 6 Months</h2>
+      <p>The metric hierarchy is built around one North Star — Incremental Revenue per Rental — with primary, secondary, and lagging indicators that prevent gaming and catch unintended degradation.</p>
+    </div>
+    <div class="metrics-grid">
+      <div class="metric-card north-star-card">
+        <div>
+          <div class="metric-tier tier-north">⭐ North Star Metric</div>
+          <h4>Incremental Revenue per Rental (RPR)</h4>
+          <div class="target">€26.40</div>
+          <div class="baseline">vs. €22.00 baseline · +20% target at 6 months</div>
+        </div>
+        <div class="description">
+          <p>Total post-booking ancillary revenue divided by total completed rentals. This is the single metric that captures the combined effect of all three levers — more moments, better messages, and better matching. At +20%, it represents ~€44M incremental annual revenue.</p>
+          <p style="margin-top:10px;"><strong style="color:rgba(255,255,255,.9);">Best-in-class ceiling:</strong> Hertz Gold digital at €38–44/rental. Long-run target if all three phases ship successfully.</p>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-tier tier-primary">● Primary — Revenue</div>
+        <h4>Upgrade Attach Rate</h4>
+        <div class="target">+8pp</div>
+        <div class="baseline">vs. ~14% current baseline</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-tier tier-primary">● Primary — Revenue</div>
+        <h4>Protection Attach Rate</h4>
+        <div class="target">+10pp</div>
+        <div class="baseline">vs. ~28% current baseline</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-tier tier-primary">● Primary — Revenue</div>
+        <h4>Add-on Attach Rate</h4>
+        <div class="target">+12pp</div>
+        <div class="baseline">vs. ~19% current baseline</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-tier tier-secondary">◆ Secondary — Funnel</div>
+        <h4>MCI Completion Rate</h4>
+        <div class="target">Maintain / +2pp</div>
+        <div class="baseline">Guardrail — must not degrade</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-tier tier-secondary">◆ Secondary — Engagement</div>
+        <h4>T-25h Email Open Rate</h4>
+        <div class="target">&gt;35% open / &gt;12% CTR</div>
+        <div class="baseline">Industry average ~22% open / ~3% CTR</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-tier tier-secondary">◆ ML Quality</div>
+        <h4>Personalisation Engine Precision@1</h4>
+        <div class="target">&gt;55% Ph.1 → &gt;65% Ph.2</div>
+        <div class="baseline">% cases where top recommendation = purchased</div>
+      </div>
+    </div>
+    <div class="guardrail-banner">
+      ⚠️ <strong>Guardrail rule:</strong> Any experiment where MCI completion rate drops &gt;2%, NPS degrades, or a segment-level RPR falls &gt;3% triggers an automatic pause and root cause review before any further rollout.
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ ROADMAP ══════════════════ -->
+<section class="section section-dark" id="roadmap">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag" style="background:rgba(255,90,0,.2);color:var(--orange);">Section 8 — 12-Month Roadmap</div>
+      <h2>From Quick Wins to Best-in-Class</h2>
+      <p>Four quarters. Each quarter builds on the last — Phase 1 proves the messaging hypotheses, Phase 2 adds the ML layer, Phase 3 ships bundles and advanced signals.</p>
+    </div>
+
+    <div class="roadmap-grid">
+      <!-- Q1 -->
+      <div class="roadmap-quarter rq1">
+        <div class="roadmap-qheader">
+          <div><div class="rq-label">Q1 — Months 1–3</div><div style="font-size:.75rem;color:var(--muted);margin-top:2px;">Foundational UI</div></div>
+          <div class="rq-lift">+5–8%</div>
+        </div>
+        <div class="roadmap-body">
+          <div class="roadmap-stream">
+            <div class="stream-label">MCI</div>
+            <ul class="stream-items">
+              <li>Benefit-led UI copy (Vehicle + Protection)</li>
+              <li>Per-day micro-pricing shipped</li>
+              <li>Social proof badges live</li>
+            </ul>
+          </div>
+          <div class="roadmap-stream">
+            <div class="stream-label">Self-Service</div>
+            <ul class="stream-items">
+              <li>Proactive upsell card at top of Self-Service</li>
+              <li>Self-Service upsell placement redesign</li>
+            </ul>
+          </div>
+          <div class="roadmap-stream">
+            <div class="stream-label">Data & ML</div>
+            <ul class="stream-items">
+              <li>Tier 1 data pipeline confirmed</li>
+              <li>Segment classification v1 (rule-based)</li>
+            </ul>
+          </div>
+          <div class="roadmap-stream">
+            <div class="stream-label">Experiments</div>
+            <div class="exp-running">
+              <span class="exp-chip">EXP-001</span>
+              <span class="exp-chip">EXP-002</span>
+              <span class="exp-chip">EXP-005</span>
+              <span class="exp-chip">EXP-009</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="roadmap-quarter rq2">
+        <div class="roadmap-qheader">
+          <div><div class="rq-label">Q2 — Months 4–6</div><div style="font-size:.75rem;color:var(--muted);margin-top:2px;">Personalisation Layer</div></div>
+          <div class="rq-lift">+12–16%</div>
+        </div>
+        <div class="roadmap-body">
+          <div class="roadmap-stream">
+            <div class="stream-label">MCI</div>
+            <ul class="stream-items">
+              <li>Personalised hero add-on card</li>
+              <li>Scenario-led protection screen</li>
+              <li>OTA suppression signal live</li>
+            </ul>
+          </div>
+          <div class="roadmap-stream">
+            <div class="stream-label">Self-Service</div>
+            <ul class="stream-items">
+              <li>Personalised add-on recs live</li>
+              <li>Loyalty Gold/Silver upgrade pricing</li>
+            </ul>
+          </div>
+          <div class="roadmap-stream">
+            <div class="stream-label">Data & ML</div>
+            <ul class="stream-items">
+              <li>Personalisation engine v1 live</li>
+              <li>Tier 1+2 signal pipeline active</li>
+            </ul>
+          </div>
+          <div class="roadmap-stream">
+            <div class="stream-label">Experiments</div>
+            <div class="exp-running">
+              <span class="exp-chip">EXP-003</span>
+              <span class="exp-chip">EXP-004</span>
+              <span class="exp-chip">EXP-007</span>
+              <span class="exp-chip">EXP-010</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="roadmap-quarter rq3">
+        <div class="roadmap-qheader">
+          <div><div class="rq-label">Q3 — Months 7–9</div><div style="font-size:.75rem;color:var(--muted);margin-top:2px;">Bundles & Advanced Signals</div></div>
+          <div class="rq-lift">+18–22%</div>
+        </div>
+        <div class="roadmap-body">
+          <div class="roadmap-stream">
+            <div class="stream-label">MCI</div>
+            <ul class="stream-items">
+              <li>3 bundles launched (margin-floored)</li>
+              <li>Business Ready · Family · Zero-Worry</li>
+            </ul>
+          </div>
+          <div class="roadmap-stream">
+            <div class="stream-label">Self-Service</div>
+            <ul class="stream-items">
+              <li>Mid-rental extension offer</li>
+              <li>Post-rental re-engagement email</li>
+            </ul>
+          </div>
+          <div class="roadmap-stream">
+            <div class="stream-label">Data & ML</div>
+            <ul class="stream-items">
+              <li>Engine retrained on 6-month data</li>
+              <li>Tier 3 real-time API integration begins</li>
+            </ul>
+          </div>
+          <div class="roadmap-stream">
+            <div class="stream-label">Experiments</div>
+            <div class="exp-running">
+              <span class="exp-chip">EXP-006</span>
+              <span class="exp-chip">EXP-008</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="roadmap-quarter rq4">
+        <div class="roadmap-qheader">
+          <div><div class="rq-label">Q4 — Months 10–12</div><div style="font-size:.75rem;color:var(--muted);margin-top:2px;">Frictionless & Parity</div></div>
+          <div class="rq-lift">+22–28%</div>
+        </div>
+        <div class="roadmap-body">
+          <div class="roadmap-stream">
+            <div class="stream-label">MCI</div>
+            <ul class="stream-items">
+              <li>Biometric one-tap approval</li>
+              <li>Instant digital key re-routing</li>
+              <li>Cart abandonment recovery</li>
+            </ul>
+          </div>
+          <div class="roadmap-stream">
+            <div class="stream-label">Self-Service</div>
+            <ul class="stream-items">
+              <li>Full personalisation parity with MCI</li>
+              <li>All segments · all products</li>
+            </ul>
+          </div>
+          <div class="roadmap-stream">
+            <div class="stream-label">Data & ML</div>
+            <ul class="stream-items">
+              <li>Engine v2 · Tier 3 signals active</li>
+              <li>Flight delay signal integration</li>
+            </ul>
+          </div>
+          <div class="roadmap-stream">
+            <div class="stream-label">Experiments</div>
+            <div class="exp-running">
+              <span class="exp-chip" style="background:var(--green-lt);border-color:var(--green);color:var(--green);">New batch from Q1–Q3 learnings</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Progress bars -->
+    <div class="roadmap-progress" style="margin-top:40px;">
+      <h3 style="margin-bottom:20px;color:white;">Cumulative RPR Lift Trajectory</h3>
+      <div style="background:rgba(255,255,255,.06);border-radius:var(--radius-lg);padding:24px;">
+        <div class="progress-row">
+          <span class="progress-label" style="color:rgba(255,255,255,.8);">Q1: Foundational UI</span>
+          <span class="progress-pct" style="color:var(--orange);">+5–8%</span>
+        </div>
+        <div class="progress-bar-track" style="margin-bottom:16px;background:rgba(255,255,255,.1);">
+          <div class="progress-bar-fill" style="width:25%;background:var(--orange);"></div>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label" style="color:rgba(255,255,255,.8);">Q2: Personalisation Engine v1</span>
+          <span class="progress-pct" style="color:#818CF8;">+12–16%</span>
+        </div>
+        <div class="progress-bar-track" style="margin-bottom:16px;background:rgba(255,255,255,.1);">
+          <div class="progress-bar-fill" style="width:52%;background:#6366F1;"></div>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label" style="color:rgba(255,255,255,.8);">Q3: Bundles & Advanced</span>
+          <span class="progress-pct" style="color:#2DD4BF;">+18–22%</span>
+        </div>
+        <div class="progress-bar-track" style="margin-bottom:16px;background:rgba(255,255,255,.1);">
+          <div class="progress-bar-fill" style="width:72%;background:var(--teal);"></div>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label" style="color:rgba(255,255,255,.8);">Q4: Frictionless + Full Parity</span>
+          <span class="progress-pct" style="color:#86EFAC;">+22–28%</span>
+        </div>
+        <div class="progress-bar-track" style="background:rgba(255,255,255,.1);">
+          <div class="progress-bar-fill" style="width:90%;background:var(--green);"></div>
+        </div>
+        <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);font-size:.8rem;color:rgba(255,255,255,.4);">
+          Progress bars show midpoint of range as % of best-in-class ceiling (+35% RPR). Directional estimates — confirm with SIXT internal data warehouse.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ APPENDIX ══════════════════ -->
+<section class="section appendix-section" id="appendix">
+  <div class="container">
+    <div class="appendix-heading">Reference Appendices</div>
+    <div class="accordion-item" id="appendix-1">
+      <button class="accordion-trigger" onclick="toggleAccordion('appendix-1')">
+        <span>Appendix 1 — Baseline &amp; Opportunity Sizing</span>
+        <span class="accordion-chevron">▾</span>
+      </button>
+      <div class="accordion-body">
+        <p style="font-size:.88rem;color:var(--muted);margin-bottom:16px;">Directional estimates based on industry benchmarks. Exact baseline figures should be confirmed from SIXT's internal data warehouse before committing to targets.</p>
+        <table class="appendix-table">
+          <thead><tr><th>Metric</th><th>Value</th></tr></thead>
+          <tbody>
+            <tr><td>Estimated current digital RPR</td><td><strong>€22 per rental</strong> (protection ~28%, upgrade ~14%, add-on ~19%)</td></tr>
+            <tr><td>Branch upsell RPR (benchmark)</td><td><strong>€33–38 per rental</strong> — the digital gap is €11–16/rental</td></tr>
+            <tr><td>Industry best-in-class digital RPR</td><td><strong>€38–44</strong> (Hertz Gold digital, 2024 estimates)</td></tr>
+            <tr><td>SIXT digital rental volume assumption</td><td>~2M rentals/year through digital channels</td></tr>
+            <tr><td>Revenue opportunity at +20% RPR lift</td><td><strong>~€44M incremental annual revenue</strong></td></tr>
+            <tr><td>Revenue opportunity at +35% RPR lift (best-in-class)</td><td><strong>~€80M incremental annual revenue</strong></td></tr>
+          </tbody>
+        </table>
+        <div class="opp-highlight">
+          <div>
+            <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--orange);margin-bottom:4px;">Revenue Gap</div>
+            <div class="opp-val">€11–16</div>
+            <div style="font-size:.8rem;color:var(--muted);">per rental vs. branch</div>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--orange);margin-bottom:4px;">At 2M Rentals</div>
+            <div class="opp-val">€22–32M</div>
+            <div style="font-size:.8rem;color:var(--muted);">annual gap to close</div>
+          </div>
+          <div class="opp-desc">Closing even half the digital-to-branch gap through better moments, messages, and matching represents a business-transforming revenue opportunity — before reaching best-in-class benchmarks.</div>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item" id="appendix-2">
+      <button class="accordion-trigger" onclick="toggleAccordion('appendix-2')">
+        <span>Appendix 2 — A/B Testing Principles</span>
+        <span class="accordion-chevron">▾</span>
+      </button>
+      <div class="accordion-body">
+        <p style="font-size:.88rem;color:var(--muted);margin-bottom:16px;">Six non-negotiable principles that govern every experiment in the portfolio. These prevent the common failure modes of underpowered tests, contamination, and learning-free failures.</p>
+        <table class="appendix-table">
+          <thead><tr><th>#</th><th>Principle</th><th>Why It Matters</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1</strong></td><td><strong>One variable per test</strong></td><td>Change only one element per variant to isolate causal inference. No multi-variable shortcuts.</td></tr>
+            <tr><td><strong>2</strong></td><td><strong>Pre-register MDE</strong></td><td>Define minimum detectable effect and required sample size before launch. No post-hoc power calculation.</td></tr>
+            <tr><td><strong>3</strong></td><td><strong>Guardrail metrics</strong></td><td>Every test defines guardrails — MCI completion rate, NPS, cancellation rate. A revenue win that breaks guardrails is a failure.</td></tr>
+            <tr><td><strong>4</strong></td><td><strong>Segment analysis</strong></td><td>All results broken down by the four customer segments. A win for Business Travellers may be harmful for First-Timers.</td></tr>
+            <tr><td><strong>5</strong></td><td><strong>Attribution-clean</strong></td><td>Multi-touch journeys use holdout groups. Users enrolled in EXP-005 (email) excluded from EXP-001 (price framing).</td></tr>
+            <tr><td><strong>6</strong></td><td><strong>Ship or Learn</strong></td><td>A failed test is a data point. Log all learnings. Never run the same test twice — always build on what was learned.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="accordion-item" id="appendix-3">
+      <button class="accordion-trigger" onclick="toggleAccordion('appendix-3')">
+        <span>Appendix 3 &#8212; Keywords &amp; Glossary</span>
+        <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="accordion-body">
+        <table class="appendix-table">
+          <thead><tr><th>Term</th><th>Full Form / Meaning</th></tr></thead>
+          <tbody>
+            <tr><td><strong>RPR</strong></td><td>Revenue Per Rental — the primary north-star metric; total ancillary and upgrade revenue divided by number of rentals completed.</td></tr>
+            <tr><td><strong>MCI</strong></td><td>Mobile Check-In — SIXT&#8217;s in-app flow where customers select vehicle class, protection tier, and add-ons before arrival at the counter.</td></tr>
+            <tr><td><strong>OTA</strong></td><td>Online Travel Agency — third-party booking platforms (e.g. Booking.com, Expedia, Kayak) that sell SIXT rentals; OTA customers arrive without pre-MCI data signals.</td></tr>
+            <tr><td><strong>CLV</strong></td><td>Customer Lifetime Value — projected net revenue a customer generates across all future rentals; used to justify segment-specific investment and long-term suppression decisions.</td></tr>
+            <tr><td><strong>MDE</strong></td><td>Minimum Detectable Effect — the smallest true uplift an A/B test is powered to reliably detect at a given significance level (&alpha;) and statistical power (1&minus;&beta;); must be defined before launch.</td></tr>
+            <tr><td><strong>ML</strong></td><td>Machine Learning — statistical models trained on historical data to surface patterns and make predictions; used in the Personalisation Engine to score and rank upsell offers per customer.</td></tr>
+            <tr><td><strong>Epsilon-Greedy Arm</strong></td><td>A Reinforcement Learning exploration&#8211;exploitation strategy: with probability &epsilon; the algorithm explores a random offer (exploration); with probability 1&minus;&epsilon; it serves the highest-scoring offer known so far (exploitation). Balances learning with revenue optimisation.</td></tr>
+            <tr><td><strong>Ph.1</strong></td><td>Phase 1 — the first implementation phase (Q1/Q2), covering foundational UI changes: per-day price framing, benefit-led copy, social proof badges, and self-service upsell placement. No ML dependency required.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>SIXT Personalisation Strategy</strong> — Growth PM Case Study &nbsp;·&nbsp; Prepared by Paarmita &nbsp;·&nbsp; Confidential
+</footer>
+
+</main>
+
+<script>
+// ── Wireframe embed ──
+const wireframeData = "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\"/>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0\"/>\n<title>Sixt \u2014 Personalised Booking Flow (Push \u2192 WF-0 \u2192 WF-4)</title>\n<style>\n/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n   TOKENS & RESET\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */\n*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}\n:root{\n  --orange:#FF5A00;--orange-dk:#E04E00;--orange-bg:#FFF3EE;\n  --black:#111;--gd:#444;--gm:#888;--gl:#CCC;--gbg:#F4F4F4;\n  --white:#FFF;\n  --green:#1E8A4A;--green-bg:#EAF7EE;\n  --teal:#0F7B82;--teal-bg:#E0F5F6;\n  --red:#C0392B;\n  --r14:14px;--r50:50px;\n}\nbody{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;\n  background:#E8E8E8;color:var(--black);min-height:100vh;\n  display:flex;justify-content:center;align-items:flex-start;}\n\n/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n   SHELL & ROUTER\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */\n.shell{width:100%;max-width:430px;min-height:100vh;\n  background:var(--gbg);display:flex;flex-direction:column;\n  position:relative;overflow:hidden;}\n\n.screen{display:none;flex-direction:column;min-height:100vh;animation:fadeIn .22s ease;}\n.screen.active{display:flex;}\n@keyframes fadeIn{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:translateX(0)}}\n@keyframes fadeBack{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:translateX(0)}}\n.screen.back-anim{animation:fadeBack .22s ease;}\n\n/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n   SHARED COMPONENTS\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */\n/* Nav */\n.top-nav{display:flex;align-items:center;justify-content:space-between;\n  padding:16px 20px 8px;background:var(--gbg);}\n.back-btn{width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,.07);\n  border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;}\n.back-btn:hover{background:rgba(0,0,0,.12);}\n.nav-label{font-size:12px;font-weight:600;color:var(--gm);}\n.nav-spacer{width:40px;}\n\n/* Progress bar */\n.progress-bar{display:flex;gap:4px;padding:0 20px 4px;background:var(--gbg);}\n.seg{height:3px;flex:1;border-radius:2px;background:var(--gl);}\n.seg.done{background:var(--orange);}\n.seg.active{background:var(--black);}\n\n/* Scrollable */\n.content{flex:1;overflow-y:auto;padding:0 16px 160px;}\n\n/* Cards */\n.card{background:var(--white);border-radius:var(--r14);overflow:hidden;margin-bottom:10px;}\n.card-header{padding:12px 16px 10px;display:flex;align-items:center;\n  justify-content:space-between;border-bottom:1px solid #F3F3F3;}\n.card-title{font-size:11px;font-weight:800;color:var(--gm);\n  text-transform:uppercase;letter-spacing:.08em;}\n\n/* Page header */\n.page-hd{padding:14px 0 18px;}\n.ctx-label{font-size:12px;font-weight:600;color:var(--orange);\n  letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px;\n  display:flex;align-items:center;gap:6px;}\n.ctx-label .dot{width:6px;height:6px;border-radius:50%;background:var(--orange);}\n.pg-title{font-size:24px;font-weight:900;line-height:1.1;letter-spacing:-.03em;\n  color:var(--black);margin-bottom:6px;}\n.pg-title em{font-style:normal;color:var(--orange);}\n.pg-sub{font-size:13px;color:var(--gd);line-height:1.5;}\n.pg-sub strong{color:var(--black);}\n\n/* Sticky footer */\n.sticky-footer{position:fixed;bottom:0;left:50%;transform:translateX(-50%);\n  width:100%;max-width:430px;background:var(--white);\n  border-top:1px solid #EBEBEB;padding:12px 20px 28px;z-index:50;}\n.footer-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;}\n.footer-label{font-size:16px;font-weight:800;}\n.footer-amount{font-size:18px;font-weight:900;letter-spacing:-.02em;}\n.footer-amount .cents{font-size:12px;font-weight:700;}\n.footer-delta{font-size:11px;color:var(--gm);min-height:16px;margin-bottom:10px;}\n.footer-delta.active{color:var(--orange);font-weight:600;}\n\n/* Buttons */\n.btn-orange{width:100%;background:var(--orange);color:#fff;border:none;\n  border-radius:var(--r50);padding:16px;font-size:16px;font-weight:900;\n  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;\n  transition:background .15s,transform .1s;}\n.btn-orange:hover{background:var(--orange-dk);}\n.btn-orange:active{transform:scale(.98);}\n.btn-orange.added{background:var(--green);}\n.btn-outline{width:100%;background:none;border:1.5px solid var(--gl);\n  border-radius:var(--r50);padding:13px;font-size:14px;font-weight:700;\n  cursor:pointer;color:var(--gd);transition:background .15s;}\n.btn-outline:hover{background:var(--gbg);}\n.btn-text{background:none;border:none;color:var(--gm);font-size:13px;\n  font-weight:600;text-decoration:underline;text-underline-offset:2px;\n  cursor:pointer;padding:0;width:100%;text-align:center;}\n.btn-text:hover{color:var(--black);}\n\n/* Toggle */\n.toggle{width:44px;height:26px;background:var(--gl);border-radius:13px;\n  position:relative;transition:background .2s;cursor:pointer;border:none;padding:0;}\n.toggle.on{background:var(--orange);}\n.toggle-thumb{position:absolute;top:3px;left:3px;width:20px;height:20px;\n  background:#fff;border-radius:50%;transition:transform .2s;\n  box-shadow:0 1px 4px rgba(0,0,0,.2);}\n.toggle.on .toggle-thumb{transform:translateX(18px);}\n\n/* Section divider */\n.divider{display:flex;align-items:center;gap:10px;margin:8px 0 14px;}\n.divider::before,.divider::after{content:'';flex:1;height:1px;background:#E8E8E8;}\n.divider-text{font-size:11px;font-weight:700;color:var(--gm);\n  text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;}\n\n/* Green/tag utilities */\n.chip-green{background:var(--green-bg);color:var(--green);font-size:11px;\n  font-weight:700;padding:3px 9px;border-radius:20px;\n  display:inline-flex;align-items:center;gap:4px;}\n.chip-green::before{content:'\u2713';}\n.chip-orange{background:var(--orange);color:#fff;font-size:10px;font-weight:800;\n  padding:4px 10px;border-radius:20px;letter-spacing:.04em;}\n\n/* Toast */\n.toast{position:fixed;bottom:110px;left:50%;transform:translateX(-50%);\n  background:#111;color:#fff;padding:11px 18px;border-radius:50px;\n  font-size:13px;font-weight:600;z-index:200;pointer-events:none;\n  opacity:0;transition:opacity .2s;max-width:90vw;text-align:center;}\n.toast.visible{opacity:1;}\n\n/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n   PUSH NOTIFICATION SCREEN\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */\n#wfpush{\n  background:linear-gradient(170deg,#071628 0%,#0f2744 45%,#0a1e35 100%);\n  min-height:100vh;position:relative;overflow:hidden;\n}\n/* Background stars */\n#wfpush .stars{position:absolute;inset:0;overflow:hidden;pointer-events:none;}\n#wfpush .star{position:absolute;border-radius:50%;background:white;}\n\n/* Status bar */\n#wfpush .status-bar{\n  display:flex;justify-content:space-between;align-items:center;\n  padding:14px 24px 0;position:relative;z-index:2;\n}\n#wfpush .status-time{font-size:15px;font-weight:700;color:white;}\n#wfpush .status-icons{display:flex;align-items:center;gap:6px;}\n#wfpush .status-icons svg{width:16px;height:16px;fill:white;opacity:.9;}\n\n/* Lock screen clock */\n#wfpush .lock-clock{\n  text-align:center;padding:28px 24px 20px;position:relative;z-index:2;\n}\n#wfpush .lock-time{\n  font-size:72px;font-weight:200;color:white;letter-spacing:-.03em;\n  line-height:1;margin-bottom:6px;\n  text-shadow:0 2px 20px rgba(0,0,0,.4);\n}\n#wfpush .lock-date{\n  font-size:17px;font-weight:500;color:rgba(255,255,255,.8);letter-spacing:.01em;\n}\n\n/* Trip countdown pill */\n#wfpush .countdown-pill{\n  display:flex;align-items:center;justify-content:center;\n  margin:0 auto 24px;\n  width:fit-content;\n  background:rgba(255,90,0,.25);\n  border:1px solid rgba(255,90,0,.5);\n  border-radius:20px;\n  padding:6px 16px;\n  gap:8px;\n  position:relative;z-index:2;\n  animation:pillPulse 3s ease infinite;\n}\n@keyframes pillPulse{\n  0%,100%{box-shadow:0 0 0 0 rgba(255,90,0,.3);}\n  50%{box-shadow:0 0 0 6px rgba(255,90,0,0);}\n}\n#wfpush .pill-dot{\n  width:7px;height:7px;border-radius:50%;background:var(--orange);\n  animation:pulse 2s infinite;\n}\n#wfpush .pill-text{font-size:12px;font-weight:700;color:rgba(255,255,255,.9);}\n#wfpush .pill-text em{font-style:normal;color:var(--orange);}\n\n/* Notification card */\n#wfpush .notif-area{padding:0 16px;position:relative;z-index:2;}\n#wfpush .notif-card{\n  background:rgba(255,255,255,.13);\n  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);\n  border:1px solid rgba(255,255,255,.22);\n  border-radius:18px;\n  overflow:hidden;\n  animation:notifDrop .5s .3s cubic-bezier(.16,1,.3,1) both;\n  cursor:pointer;\n  transition:transform .15s,box-shadow .15s;\n}\n#wfpush .notif-card:hover{transform:scale(1.01);box-shadow:0 8px 32px rgba(0,0,0,.3);}\n#wfpush .notif-card:active{transform:scale(.98);}\n@keyframes notifDrop{\n  from{opacity:0;transform:translateY(-24px) scale(.95);}\n  to{opacity:1;transform:translateY(0) scale(1);}\n}\n\n/* Notification header */\n#wfpush .notif-header{\n  display:flex;align-items:center;gap:10px;\n  padding:13px 14px 10px;\n  border-bottom:1px solid rgba(255,255,255,.1);\n}\n#wfpush .notif-app-icon{\n  width:32px;height:32px;border-radius:8px;\n  background:var(--orange);\n  display:flex;align-items:center;justify-content:center;\n  font-size:16px;font-weight:900;color:white;flex-shrink:0;\n  font-family:'Arial Black',sans-serif;letter-spacing:-.5px;\n}\n#wfpush .notif-app-name{font-size:12px;font-weight:700;color:rgba(255,255,255,.75);}\n#wfpush .notif-time{margin-left:auto;font-size:11px;color:rgba(255,255,255,.5);}\n#wfpush .notif-chevron{color:rgba(255,255,255,.4);margin-left:4px;}\n\n/* Notification body */\n#wfpush .notif-body{padding:12px 14px 14px;}\n#wfpush .notif-title{\n  font-size:15px;font-weight:800;color:white;\n  line-height:1.25;margin-bottom:5px;letter-spacing:-.01em;\n}\n#wfpush .notif-message{\n  font-size:13px;color:rgba(255,255,255,.75);\n  line-height:1.5;margin-bottom:12px;\n}\n#wfpush .notif-message strong{color:rgba(255,255,255,.95);}\n\n/* Booking preview strip inside notification */\n#wfpush .notif-booking{\n  background:rgba(0,0,0,.25);border-radius:10px;\n  padding:10px 12px;display:flex;align-items:center;gap:10px;\n  margin-bottom:12px;\n}\n#wfpush .nb-car{font-size:20px;flex-shrink:0;}\n#wfpush .nb-info{flex:1;}\n#wfpush .nb-name{font-size:12px;font-weight:700;color:white;margin-bottom:2px;}\n#wfpush .nb-meta{font-size:11px;color:rgba(255,255,255,.6);}\n#wfpush .nb-date{\n  background:rgba(255,90,0,.3);border:1px solid rgba(255,90,0,.5);\n  border-radius:6px;padding:3px 8px;\n  font-size:11px;font-weight:700;color:white;white-space:nowrap;flex-shrink:0;\n}\n\n/* Notification CTA */\n#wfpush .notif-actions{display:flex;gap:8px;}\n#wfpush .notif-btn-primary{\n  flex:2;background:var(--orange);color:white;\n  border:none;border-radius:10px;padding:10px;\n  font-size:13px;font-weight:800;cursor:pointer;\n  transition:background .15s;\n}\n#wfpush .notif-btn-primary:hover{background:var(--orange-dk);}\n#wfpush .notif-btn-secondary{\n  flex:1;background:rgba(255,255,255,.15);color:rgba(255,255,255,.8);\n  border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:10px;\n  font-size:13px;font-weight:600;cursor:pointer;\n}\n#wfpush .notif-btn-secondary:hover{background:rgba(255,255,255,.22);}\n\n/* Alert \u2014 second older notification */\n#wfpush .notif-card-2{\n  background:rgba(255,255,255,.07);\n  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);\n  border:1px solid rgba(255,255,255,.12);\n  border-radius:16px;margin-top:10px;\n  padding:11px 14px;\n  display:flex;align-items:center;gap:10px;\n  animation:notifDrop .5s .5s cubic-bezier(.16,1,.3,1) both;\n  cursor:pointer;opacity:.75;\n  transition:opacity .2s;\n}\n#wfpush .notif-card-2:hover{opacity:.9;}\n#wfpush .nc2-icon{width:28px;height:28px;border-radius:7px;background:#1a9aa3;\n  display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}\n#wfpush .nc2-text{flex:1;font-size:12px;font-weight:600;color:rgba(255,255,255,.75);line-height:1.4;}\n#wfpush .nc2-time{font-size:11px;color:rgba(255,255,255,.4);}\n\n/* Swipe hint */\n#wfpush .swipe-hint{\n  text-align:center;padding:20px 24px 30px;position:relative;z-index:2;\n}\n#wfpush .swipe-text{\n  font-size:12px;color:rgba(255,255,255,.45);font-weight:500;\n  display:flex;align-items:center;justify-content:center;gap:8px;\n}\n#wfpush .swipe-line{width:40px;height:1px;background:rgba(255,255,255,.25);}\n#wfpush .home-indicator{\n  width:130px;height:5px;background:rgba(255,255,255,.25);\n  border-radius:3px;margin:16px auto 0;\n}\n\n/* PM label */\n#wfpush .pm-tag{\n  position:absolute;top:14px;right:14px;\n  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);\n  color:rgba(255,255,255,.6);font-size:9px;font-weight:800;\n  text-transform:uppercase;letter-spacing:.1em;\n  padding:3px 8px;border-radius:4px;z-index:3;\n}\n\n/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n   WF-0: PRE-FLOW ENTRY\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */\n#wf0 .booking-strip{background:var(--white);border-radius:var(--r14);\n  border:1.5px solid #E8E8E8;overflow:hidden;margin-bottom:10px;}\n#wf0 .booking-banner{padding:12px 16px 10px;border-bottom:1px solid #F3F3F3;\n  display:flex;justify-content:space-between;align-items:center;}\n#wf0 .booking-route{display:flex;align-items:center;gap:8px;\n  padding:11px 16px 7px;font-size:13px;font-weight:700;}\n#wf0 .booking-arrow{color:var(--gl);}\n#wf0 .booking-meta{font-size:12px;color:var(--gm);padding:0 16px 10px;}\n#wf0 .booking-meta strong{color:var(--gd);}\n#wf0 .booking-vehicle{display:flex;align-items:center;gap:12px;\n  padding:10px 16px 13px;border-top:1px solid #F3F3F3;background:#FAFAFA;}\n#wf0 .car-thumb{font-size:26px;width:46px;height:34px;background:var(--gbg);\n  border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}\n#wf0 .car-name{font-size:14px;font-weight:700;color:var(--black);margin-bottom:2px;}\n#wf0 .car-specs{font-size:12px;color:var(--gm);}\n#wf0 .base-price{margin-left:auto;text-align:right;}\n#wf0 .base-price-amt{font-size:15px;font-weight:900;}\n#wf0 .base-price-lbl{font-size:10px;color:var(--gm);}\n\n/* Insight card */\n#wf0 .insight{border-radius:var(--r14);overflow:hidden;margin-bottom:10px;\n  background:linear-gradient(148deg,#0C2340 0%,#0D5F6A 60%,#0F7B6E 100%);\n  box-shadow:0 4px 20px rgba(12,35,64,.18);}\n#wf0 .insight-inner{padding:18px 18px 20px;}\n#wf0 .insight-eyebrow{font-size:10px;font-weight:800;color:rgba(255,255,255,.5);\n  text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;\n  display:flex;align-items:center;gap:6px;}\n#wf0 .insight-eyebrow::before{content:'';width:16px;height:1px;background:rgba(255,255,255,.3);}\n#wf0 .insight-title{font-size:18px;font-weight:900;color:#fff;line-height:1.2;\n  letter-spacing:-.02em;margin-bottom:16px;}\n#wf0 .insight-title em{font-style:normal;color:#7FDFDF;}\n#wf0 .signals{display:flex;flex-direction:column;gap:9px;margin-bottom:18px;}\n#wf0 .signal{display:flex;align-items:flex-start;gap:10px;\n  background:rgba(255,255,255,.08);border-radius:10px;padding:11px 13px;\n  border:1px solid rgba(255,255,255,.1);position:relative;overflow:hidden;\n  animation:fadeSlide .4s ease both;}\n#wf0 .signal:nth-child(1){animation-delay:.1s;}\n#wf0 .signal:nth-child(2){animation-delay:.22s;}\n#wf0 .signal:nth-child(3){animation-delay:.34s;}\n@keyframes fadeSlide{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}\n#wf0 .signal::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:10px 0 0 10px;}\n#wf0 .signal.warn::before{background:#FFAB40;}\n#wf0 .signal.info::before{background:#7FDFDF;}\n#wf0 .signal.tip::before{background:#A78BFA;}\n#wf0 .sig-icon{font-size:18px;flex-shrink:0;margin-top:1px;}\n#wf0 .sig-title{font-size:13px;font-weight:800;color:#fff;margin-bottom:2px;}\n#wf0 .sig-desc{font-size:12px;color:rgba(255,255,255,.65);line-height:1.4;}\n#wf0 .sig-desc strong{color:rgba(255,255,255,.9);font-weight:600;}\n#wf0 .steps-label{font-size:10px;font-weight:700;color:rgba(255,255,255,.45);\n  text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;}\n#wf0 .steps-row{display:flex;align-items:center;}\n#wf0 .step-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;position:relative;}\n#wf0 .step-item:not(:last-child)::after,\n#wf0 .step-item:not(:first-child)::before{content:'';position:absolute;\n  top:16px;width:50%;height:1px;background:rgba(255,255,255,.2);z-index:0;}\n#wf0 .step-item:not(:last-child)::after{right:0;transform:translateX(50%);}\n#wf0 .step-item:not(:first-child)::before{left:0;transform:translateX(-50%);}\n#wf0 .step-circle{width:32px;height:32px;border-radius:50%;\n  background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.2);\n  display:flex;align-items:center;justify-content:center;font-size:14px;\n  position:relative;z-index:1;}\n#wf0 .step-name{font-size:10px;font-weight:700;color:rgba(255,255,255,.65);text-align:center;}\n#wf0 .time-strip{background:var(--white);border-radius:var(--r14);padding:12px 16px;\n  margin-bottom:10px;display:flex;align-items:center;gap:12px;}\n#wf0 .time-icon{width:36px;height:36px;border-radius:50%;background:var(--orange-bg);\n  display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}\n#wf0 .time-label{font-size:13px;font-weight:700;margin-bottom:1px;}\n#wf0 .time-sub{font-size:11px;color:var(--gm);}\n#wf0 .no-oblig{margin-left:auto;background:var(--green-bg);color:var(--green);\n  font-size:10px;font-weight:800;padding:4px 9px;border-radius:20px;white-space:nowrap;}\n\n/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n   WF-1: VEHICLE SELECTION\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */\n#wf1 .hero-card{border:2.5px solid var(--orange);border-radius:var(--r14);\n  overflow:hidden;margin-bottom:20px;\n  box-shadow:0 4px 20px rgba(255,90,0,.12);}\n#wf1 .hero-img{width:100%;height:190px;\n  background:linear-gradient(135deg,#1a1a2e 0%,#16213e 40%,#0f3460 100%);\n  position:relative;overflow:hidden;\n  display:flex;align-items:center;justify-content:center;}\n#wf1 .rec-tag{position:absolute;top:12px;left:12px;background:var(--orange);\n  color:#fff;font-size:10px;font-weight:800;letter-spacing:.08em;\n  text-transform:uppercase;padding:5px 10px;border-radius:4px;}\n#wf1 .suv-badge{position:absolute;bottom:12px;right:12px;background:rgba(0,0,0,.6);\n  backdrop-filter:blur(4px);color:#fff;font-size:11px;font-weight:600;\n  padding:4px 10px;border-radius:20px;}\n#wf1 .hero-body{padding:16px 16px 18px;}\n#wf1 .headline{font-size:17px;font-weight:800;line-height:1.2;margin-bottom:8px;}\n#wf1 .veh-name{font-size:13px;color:var(--gd);margin-bottom:12px;\n  display:flex;align-items:center;gap:8px;}\n#wf1 .or-similar{background:var(--gbg);border-radius:4px;padding:2px 7px;\n  font-size:11px;font-weight:600;color:var(--gd);}\n#wf1 .specs-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;}\n#wf1 .spec{font-size:12px;color:var(--gd);display:flex;align-items:center;gap:4px;}\n#wf1 .price-block{background:#FFF5F0;border-radius:8px;padding:11px 13px;margin-bottom:11px;}\n#wf1 .price-main{font-size:20px;font-weight:800;letter-spacing:-.02em;}\n#wf1 .price-main span{font-size:13px;font-weight:500;color:var(--gd);}\n#wf1 .price-pp{font-size:12px;color:var(--orange);font-weight:600;margin-top:2px;}\n#wf1 .price-total{font-size:12px;color:var(--gm);margin-top:1px;}\n#wf1 .social-proof{display:flex;align-items:center;gap:8px;margin-bottom:14px;\n  background:#F8F8F8;border-radius:8px;padding:9px 12px;}\n#wf1 .social-proof-text{font-size:12px;color:var(--gd);line-height:1.4;}\n#wf1 .social-proof-text strong{color:var(--black);}\n#wf1 .std-card{border:1.5px solid #E0E0E0;border-radius:var(--r14);padding:14px 16px;\n  background:#FAFAFA;opacity:.82;}\n#wf1 .std-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;}\n#wf1 .std-name{font-size:15px;font-weight:700;}\n#wf1 .incl-badge{font-size:11px;font-weight:600;color:var(--gm);\n  background:#EBEBEB;border-radius:4px;padding:3px 8px;}\n#wf1 .std-specs{font-size:12px;color:var(--gd);margin-bottom:12px;}\n#wf1 .std-incl{font-size:12px;color:var(--gm);margin-bottom:12px;}\n\n/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n   WF-2 v2: COMPLIANT PROTECTION SELECTION\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */\n/* Equal-weight tier card \u2014 used for ALL tiers */\n.tier-card{\n  border:1.5px solid #E5E5E5;border-radius:var(--r14);background:var(--white);\n  margin-bottom:9px;overflow:hidden;transition:border-color .2s,box-shadow .15s;\n  cursor:pointer;-webkit-tap-highlight-color:transparent;\n}\n.tier-card.selected{border:2px solid var(--black);box-shadow:0 2px 10px rgba(0,0,0,.08);}\n.tier-card.recommended{border:2px solid var(--orange);box-shadow:0 4px 16px rgba(255,90,0,.1);}\n.tier-card.recommended.selected{border:2px solid var(--orange);}\n.tier-card-main{display:flex;align-items:flex-start;gap:12px;padding:14px 16px 12px;}\n.tier-radio{width:22px;height:22px;border-radius:50%;border:2px solid var(--gl);\n  flex-shrink:0;margin-top:2px;transition:border-color .2s,border-width .15s;\n  display:flex;align-items:center;justify-content:center;}\n.tier-radio.on{border:6px solid var(--black);}\n.tier-radio.on-orange{border:6px solid var(--orange);}\n.tier-card-content{flex:1;min-width:0;}\n.tier-rec-tag{display:inline-flex;align-items:center;gap:5px;\n  background:var(--orange-bg);color:var(--orange);font-size:10px;font-weight:800;\n  padding:3px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:.05em;\n  margin-bottom:7px;}\n.tier-name-row{display:flex;align-items:center;justify-content:space-between;\n  margin-bottom:4px;}\n.tier-name{font-size:15px;font-weight:800;color:var(--black);letter-spacing:.01em;}\n.tier-price-tag{font-size:15px;font-weight:800;color:var(--black);}\n.tier-price-tag span{font-size:11px;font-weight:500;color:var(--gm);}\n.tier-ded{font-size:12px;margin-bottom:8px;}\n.tier-ded.none-ded{color:var(--green);font-weight:600;}\n.tier-ded.some-ded{color:var(--gm);}\n.tier-ded.full-ded{color:var(--gd);}\n/* Expandable features */\n.tier-features-toggle{\n  font-size:11px;font-weight:700;color:var(--gm);\n  display:flex;align-items:center;gap:4px;background:none;border:none;\n  cursor:pointer;padding:0 16px 12px;-webkit-tap-highlight-color:transparent;\n}\n.tier-features-toggle .tc{transition:transform .25s;}\n.tier-features-toggle .tc.open{transform:rotate(180deg);}\n.tier-features-body{max-height:0;overflow:hidden;transition:max-height .28s ease;}\n.tier-features-body.open{max-height:200px;}\n.tier-features-inner{padding:0 16px 14px;border-top:1px solid #F3F3F3;padding-top:10px;\n  display:flex;flex-direction:column;gap:6px;}\n/* Disabled continue */\n.btn-orange:disabled,.btn-orange[disabled]{\n  background:#CCCCCC!important;color:#999!important;cursor:not-allowed!important;\n  transform:none!important;\n}\n/* WF-3 more-options accordion */\n#wf3 .more-opts{\n  border:1.5px solid #E5E5E5;border-radius:var(--r14);background:var(--white);\n  overflow:hidden;margin-top:4px;\n}\n#wf3 .more-opts-hd{\n  display:flex;align-items:center;justify-content:space-between;\n  padding:13px 16px;cursor:pointer;-webkit-tap-highlight-color:transparent;\n}\n#wf3 .more-opts-hd:active{background:var(--gbg);}\n#wf3 .more-opts-label{font-size:13px;font-weight:700;color:var(--gd);\n  display:flex;align-items:center;gap:8px;}\n#wf3 .more-opts-label .mo-icon{font-size:16px;}\n#wf3 .more-opts-sub{font-size:11px;color:var(--gm);margin-top:1px;}\n#wf3 .more-opts-body{max-height:0;overflow:hidden;transition:max-height .3s ease;}\n#wf3 .more-opts-body.open{max-height:400px;}\n#wf3 .more-opts-inner{border-top:1px solid #F3F3F3;padding:12px 16px 14px;\n  display:flex;flex-direction:column;gap:9px;}\n#wf3 .mo-item{display:flex;align-items:center;gap:13px;padding:12px 0;\n  border-bottom:1px solid #F7F7F7;}\n#wf3 .mo-item:last-child{border-bottom:none;padding-bottom:0;}\n#wf3 .mo-item-icon{width:38px;height:38px;border-radius:9px;background:var(--gbg);\n  display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}\n#wf3 .mo-item-text{flex:1;}\n#wf3 .mo-item-name{font-size:13px;font-weight:700;color:var(--black);margin-bottom:2px;}\n#wf3 .mo-item-sub{font-size:11px;color:var(--gm);}\n#wf3 .mo-item-price{font-size:13px;font-weight:700;color:var(--black);\n  text-align:right;flex-shrink:0;}\n#wf3 .mo-item-price span{display:block;font-size:10px;font-weight:500;color:var(--gm);}\n#wf3 .mo-add-btn{background:none;border:1.5px solid #E0E0E0;border-radius:8px;\n  padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;color:var(--black);\n  transition:border-color .15s,background .15s;white-space:nowrap;}\n#wf3 .mo-add-btn:hover{border-color:var(--orange);color:var(--orange);}\n#wf3 .mo-add-btn.added{border-color:var(--green);color:var(--green);background:var(--green-bg);}\n#wf3 .fallback-note{\n  font-size:11px;color:var(--gm);font-style:italic;\n  padding:8px 0 0;line-height:1.5;\n}\n#wf3 .fallback-note strong{color:var(--gd);font-style:normal;}\n\n/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n   WF-2: PROTECTION SELECTION\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */\n.scenario-scroll{overflow-x:auto;display:flex;gap:10px;\n  padding:0 0 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch;\n  scroll-snap-type:x mandatory;}\n.scenario-scroll::-webkit-scrollbar{display:none;}\n.scenario-card{flex-shrink:0;width:144px;border:1.5px solid #E5E5E5;\n  border-radius:10px;background:var(--white);padding:13px 11px 12px;\n  scroll-snap-align:start;}\n.sc-icon{width:38px;height:38px;background:var(--gbg);border-radius:8px;\n  display:flex;align-items:center;justify-content:center;margin-bottom:9px;font-size:18px;}\n.sc-name{font-size:12px;font-weight:800;margin-bottom:8px;}\n.sc-row{display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px;}\n.sc-lbl{color:var(--gm);font-weight:600;}\n.sc-bad{color:var(--red);font-weight:800;}\n.sc-good{color:var(--green);font-weight:800;}\n.sc-lbl-ai{color:var(--orange);font-weight:700;}\n.sc-divider{height:1px;background:#F0F0F0;margin:4px 0;}\n\n/* Hero protection tier */\n.tier-hero{border:2.5px solid var(--orange);border-radius:var(--r14);\n  overflow:hidden;margin-bottom:10px;\n  box-shadow:0 4px 18px rgba(255,90,0,.1);}\n.tier-hero-hd{background:var(--orange);padding:10px 16px;\n  display:flex;align-items:center;justify-content:space-between;}\n.tier-hero-name{font-size:14px;font-weight:900;color:#fff;\n  text-transform:uppercase;letter-spacing:.03em;display:flex;align-items:center;gap:8px;}\n.tier-dots{display:flex;gap:3px;}\n.tdot{width:7px;height:7px;background:#fff;border-radius:50%;}\n.tdot.empty{background:rgba(255,255,255,.35);}\n.sel-badge{background:rgba(255,255,255,.25);color:#fff;font-size:11px;\n  font-weight:700;padding:4px 10px;border-radius:20px;border:1px solid rgba(255,255,255,.4);}\n.tier-hero-body{padding:14px 16px 16px;}\n.tier-price-row{display:flex;align-items:baseline;gap:6px;margin-bottom:4px;}\n.tier-price{font-size:22px;font-weight:900;letter-spacing:-.02em;}\n.tier-period{font-size:14px;font-weight:500;color:var(--gd);}\n.no-ded{display:inline-flex;align-items:center;gap:5px;\n  background:var(--green-bg);color:var(--green);font-size:12px;font-weight:700;\n  padding:4px 10px;border-radius:20px;margin-bottom:11px;}\n.no-ded::before{content:'\u2713';font-size:11px;}\n.feat-list{list-style:none;display:flex;flex-direction:column;gap:6px;margin-bottom:12px;}\n.feat-list li{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--gd);}\n.fchk{width:16px;height:16px;border-radius:50%;background:var(--green-bg);\n  display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}\n.fchk::after{content:'\u2713';font-size:9px;color:var(--green);font-weight:800;}\n.fex{width:16px;height:16px;border-radius:50%;background:#F5F5F5;\n  display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}\n.fex::after{content:'\u2715';font-size:9px;color:var(--gl);font-weight:800;}\n.sp-hero{display:flex;align-items:center;gap:8px;background:var(--orange-bg);\n  border-radius:8px;padding:9px 12px;margin-bottom:12px;}\n.sp-hero-text{font-size:12px;color:var(--gd);line-height:1.4;}\n.sp-hero-text strong{color:var(--orange);}\n\n/* Accordion tiers */\n.tier-acc{border:1.5px solid #E5E5E5;border-radius:var(--r14);\n  overflow:hidden;margin-bottom:8px;background:var(--white);transition:border-color .2s;}\n.tier-acc.selected{border-color:var(--black);}\n.tier-acc-hd{display:flex;align-items:center;justify-content:space-between;\n  padding:13px 16px;cursor:pointer;-webkit-tap-highlight-color:transparent;}\n.tier-acc-hd:active{background:var(--gbg);}\n.tacc-left{display:flex;align-items:center;gap:12px;}\n.radio{width:22px;height:22px;border-radius:50%;border:2px solid var(--gl);\n  flex-shrink:0;display:flex;align-items:center;justify-content:center;}\n.radio.on{border:6px solid var(--black);}\n.tacc-name{font-size:15px;font-weight:800;display:flex;align-items:center;gap:7px;}\n.tacc-sub{font-size:12px;color:var(--gm);margin-top:1px;}\n.tacc-sub.g{color:var(--green);font-weight:600;}\n.tacc-sub.r{color:var(--red);font-weight:600;}\n.tacc-right{display:flex;align-items:center;gap:10px;}\n.tacc-price{font-size:15px;font-weight:800;text-align:right;}\n.tacc-price span{display:block;font-size:10px;font-weight:500;color:var(--gm);}\n.chevron{width:18px;height:18px;color:var(--gm);transition:transform .25s;display:flex;align-items:center;justify-content:center;}\n.chevron.open{transform:rotate(180deg);}\n.acc-body{max-height:0;overflow:hidden;transition:max-height .3s ease;}\n.acc-body.open{max-height:300px;}\n.acc-body-inner{padding:0 16px 15px;border-top:1px solid #F0F0F0;padding-top:11px;}\n.acc-feat{list-style:none;display:flex;flex-direction:column;gap:6px;margin-bottom:11px;}\n.acc-feat li{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--gd);}\n.acc-btn{width:100%;border:1.5px solid var(--black);background:none;\n  border-radius:var(--r50);padding:11px;font-size:13px;font-weight:700;\n  cursor:pointer;color:var(--black);transition:background .15s,color .15s;}\n.acc-btn:hover{background:var(--black);color:#fff;}\n.no-prot{border:1.5px solid #E5E5E5;border-radius:var(--r14);margin-bottom:10px;overflow:hidden;}\n.no-prot-hd{display:flex;align-items:center;justify-content:space-between;\n  padding:13px 16px;cursor:pointer;}\n.no-prot-name{font-size:14px;font-weight:700;color:var(--gd);}\n.no-prot-sub{font-size:11px;color:var(--gm);margin-top:2px;}\n.risk-tag{background:#FFF0ED;color:var(--red);font-size:10px;font-weight:700;\n  padding:3px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:.04em;}\n.no-prot-body{max-height:0;overflow:hidden;transition:max-height .3s ease;}\n.no-prot-body.open{max-height:200px;}\n.no-prot-inner{padding:12px 16px 15px;border-top:1px solid #F0F0F0;}\n.risk-warn{background:#FFF5F5;border-radius:8px;padding:11px;margin-bottom:11px;}\n.risk-title{font-size:12px;font-weight:800;color:var(--red);margin-bottom:3px;}\n.risk-text{font-size:12px;color:var(--gd);line-height:1.5;}\n.fine-print{margin:12px 0 0;display:flex;align-items:flex-start;gap:8px;\n  background:#F8F8F8;border-radius:8px;padding:10px 12px;}\n.fine-print-text{font-size:11px;color:var(--gm);line-height:1.5;}\n.fine-print-text a{color:var(--black);font-weight:600;text-decoration:underline;}\n\n/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n   WF-3: ADD-ONS\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */\n#wf3 .bundle-card{border-radius:var(--r14);overflow:hidden;margin-bottom:20px;\n  background:linear-gradient(145deg,#0D6E75 0%,#0A4F5E 55%,#083D50 100%);\n  box-shadow:0 6px 24px rgba(13,110,117,.28);position:relative;}\n#wf3 .bundle-inner{position:relative;z-index:2;padding:18px 18px 20px;}\n#wf3 .trip-tag{display:inline-flex;align-items:center;gap:6px;\n  background:rgba(255,255,255,.18);color:#fff;font-size:10px;font-weight:800;\n  letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;\n  border-radius:4px;margin-bottom:12px;border:1px solid rgba(255,255,255,.25);}\n#wf3 .pulse{width:5px;height:5px;border-radius:50%;background:#7FDFDF;\n  animation:pulse 2s infinite;}\n@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}\n#wf3 .route-hint{display:flex;align-items:center;gap:6px;font-size:11px;\n  color:rgba(255,255,255,.6);margin-bottom:12px;}\n#wf3 .rdot{width:6px;height:6px;border-radius:50%;background:#7FDFDF;}\n#wf3 .rline{flex:1;height:1px;background:repeating-linear-gradient(\n  to right,rgba(255,255,255,.35) 0,rgba(255,255,255,.35) 4px,transparent 4px,transparent 8px);}\n#wf3 .rendot{width:8px;height:8px;border-radius:50%;background:var(--orange);\n  border:1.5px solid rgba(255,255,255,.6);}\n#wf3 .bundle-headline{font-size:18px;font-weight:900;color:#fff;line-height:1.2;\n  letter-spacing:-.02em;margin-bottom:14px;}\n#wf3 .bundle-headline em{font-style:normal;color:#7FDFDF;}\n#wf3 .bundle-items{display:flex;gap:8px;margin-bottom:14px;}\n#wf3 .bi{flex:1;background:rgba(255,255,255,.12);border-radius:10px;padding:11px 10px;\n  border:1px solid rgba(255,255,255,.15);}\n#wf3 .bi-icon{font-size:18px;margin-bottom:5px;display:block;}\n#wf3 .bi-name{font-size:12px;font-weight:800;color:#fff;line-height:1.2;margin-bottom:2px;}\n#wf3 .bi-desc{font-size:10px;color:rgba(255,255,255,.65);line-height:1.4;}\n#wf3 .price-row{display:flex;align-items:center;justify-content:space-between;\n  background:rgba(0,0,0,.2);border-radius:10px;padding:11px 13px;margin-bottom:12px;gap:10px;}\n#wf3 .bundle-price{font-size:20px;font-weight:900;color:#fff;letter-spacing:-.02em;}\n#wf3 .bundle-period{font-size:12px;color:rgba(255,255,255,.7);margin-top:2px;}\n#wf3 .save-chip{background:#7FDFDF;color:#083D50;font-size:11px;font-weight:800;\n  padding:5px 10px;border-radius:20px;white-space:nowrap;}\n#wf3 .compare{font-size:11px;color:rgba(255,255,255,.55);margin-bottom:14px;}\n#wf3 .compare s{text-decoration:line-through;}\n\n/* Addon cards */\n#wf3 .addon-card{border:1.5px solid #E5E5E5;border-radius:var(--r14);\n  background:var(--white);margin-bottom:10px;overflow:hidden;transition:border-color .2s;}\n#wf3 .addon-card.on{border-color:var(--black);}\n#wf3 .addon-main{display:flex;align-items:center;gap:13px;padding:15px 16px;cursor:pointer;}\n#wf3 .addon-icon{width:42px;height:42px;border-radius:10px;background:var(--gbg);\n  display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;\n  transition:background .2s;}\n#wf3 .addon-card.on .addon-icon{background:var(--orange-bg);}\n#wf3 .addon-benefit{font-size:14px;font-weight:700;margin-bottom:2px;}\n#wf3 .addon-fname{font-size:11px;color:var(--gm);margin-bottom:3px;}\n#wf3 .addon-price{font-size:13px;font-weight:700;}\n#wf3 .addon-price span{font-size:11px;font-weight:500;color:var(--gm);}\n#wf3 .addon-detail{max-height:0;overflow:hidden;transition:max-height .28s ease;}\n#wf3 .addon-detail.open{max-height:120px;}\n#wf3 .addon-detail-inner{border-top:1px solid #F0F0F0;padding:11px 16px 13px;\n  display:flex;flex-direction:column;gap:6px;}\n#wf3 .detail-row{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--gd);}\n#wf3 .di{width:14px;height:14px;border-radius:50%;background:var(--green-bg);\n  color:var(--green);font-size:8px;font-weight:800;display:flex;align-items:center;\n  justify-content:center;flex-shrink:0;margin-top:1px;}\n#wf3 .di::after{content:'\u2713';}\n#wf3 .suppress{border:1.5px dashed var(--gl);border-radius:10px;\n  padding:11px 14px;background:#FAFAFA;margin-top:4px;}\n#wf3 .sup-label{font-size:10px;font-weight:800;text-transform:uppercase;\n  letter-spacing:.08em;color:var(--gm);margin-bottom:5px;}\n#wf3 .sup-chips{display:flex;gap:6px;flex-wrap:wrap;}\n#wf3 .sup-chip{background:#EBEBEB;border-radius:4px;padding:3px 9px;\n  font-size:11px;color:var(--gm);text-decoration:line-through;}\n#wf3 .sup-reason{font-size:11px;color:var(--gm);margin-top:5px;font-style:italic;}\n\n/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n   WF-4: REVIEW & CONFIRM\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */\n#wf4{background:var(--gbg);}\n#wf4 .trip-banner{background:linear-gradient(135deg,#111 0%,#1a2a3a 100%);\n  padding:15px 18px 13px;position:relative;overflow:hidden;}\n#wf4 .trip-banner::after{content:'';position:absolute;right:-20px;top:-20px;\n  width:100px;height:100px;border-radius:50%;background:rgba(255,90,0,.12);}\n#wf4 .loc-row{display:flex;align-items:center;gap:7px;margin-bottom:9px;}\n#wf4 .loc-chip{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.1);\n  border-radius:20px;padding:4px 10px;font-size:12px;font-weight:600;color:#fff;}\n#wf4 .loc-arrow{color:rgba(255,255,255,.4);font-size:13px;}\n#wf4 .dates-row{display:flex;gap:18px;align-items:flex-end;}\n#wf4 .date-block-lbl{font-size:10px;font-weight:600;color:rgba(255,255,255,.5);\n  text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px;}\n#wf4 .date-block-val{font-size:13px;font-weight:800;color:#fff;}\n#wf4 .dur-chip{margin-left:auto;background:var(--orange);color:#fff;\n  font-size:12px;font-weight:800;padding:4px 12px;border-radius:20px;}\n#wf4 .trip-vehicle{display:flex;align-items:center;gap:12px;padding:12px 18px;background:var(--white);}\n#wf4 .tv-icon{font-size:26px;width:48px;height:34px;background:var(--gbg);\n  border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}\n#wf4 .tv-name{font-size:14px;font-weight:800;margin-bottom:3px;}\n#wf4 .tv-specs{font-size:12px;color:var(--gm);display:flex;gap:8px;}\n\n#wf4 .built-row{display:flex;align-items:center;gap:12px;padding:10px 18px;\n  border-top:1px solid #F3F3F3;}\n#wf4 .br-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;\n  justify-content:center;font-size:17px;flex-shrink:0;}\n#wf4 .br-icon.veh{background:#EEF2FF;}\n#wf4 .br-icon.prot{background:var(--green-bg);}\n#wf4 .br-icon.bund{background:var(--teal-bg);}\n#wf4 .br-icon.fuel{background:#FFF8E1;}\n#wf4 .br-icon.base{background:#F0F0F0;}\n#wf4 .br-label{font-size:13px;font-weight:700;margin-bottom:2px;}\n#wf4 .br-sub{font-size:11px;color:var(--gm);}\n#wf4 .br-price{margin-left:auto;font-size:13px;font-weight:700;text-align:right;flex-shrink:0;}\n#wf4 .br-price .incl{font-size:11px;color:var(--green);font-weight:500;}\n\n#wf4 .savings-banner{background:linear-gradient(135deg,var(--green) 0%,#1a7a40 100%);\n  border-radius:var(--r14);padding:14px 18px;margin-bottom:10px;\n  display:flex;align-items:center;gap:12px;}\n#wf4 .sav-icon{font-size:26px;flex-shrink:0;}\n#wf4 .sav-title{font-size:14px;font-weight:800;color:#fff;margin-bottom:2px;}\n#wf4 .sav-sub{font-size:12px;color:rgba(255,255,255,.75);}\n#wf4 .sav-amount{margin-left:auto;text-align:right;flex-shrink:0;}\n#wf4 .sav-num{font-size:22px;font-weight:900;color:#fff;letter-spacing:-.02em;}\n#wf4 .sav-lbl{font-size:10px;color:rgba(255,255,255,.7);font-weight:600;\n  text-transform:uppercase;letter-spacing:.05em;}\n\n#wf4 .breakdown-hd{padding:13px 18px 9px;font-size:12px;font-weight:800;\n  color:var(--black);text-transform:uppercase;letter-spacing:.04em;}\n#wf4 .bdr{display:flex;justify-content:space-between;align-items:baseline;\n  padding:7px 18px;border-top:1px solid #F3F3F3;font-size:13px;}\n#wf4 .bdr-lbl{color:var(--gd);}\n#wf4 .bdr-lbl.note{color:var(--gm);font-size:12px;}\n#wf4 .bdr-amt{font-weight:700;}\n#wf4 .bdr-amt.g{color:var(--green);}\n#wf4 .bdr-divider{height:1px;background:#EBEBEB;margin:4px 18px;}\n#wf4 .bdr-total{display:flex;justify-content:space-between;align-items:baseline;\n  padding:12px 18px 13px;border-top:2px solid var(--black);}\n#wf4 .bdr-total-lbl{font-size:16px;font-weight:900;}\n#wf4 .bdr-total-amt{font-size:22px;font-weight:900;letter-spacing:-.02em;}\n#wf4 .bdr-vat{padding:0 18px 13px;font-size:11px;color:var(--gm);}\n\n#wf4 .trust-row{display:flex;gap:8px;margin-bottom:10px;}\n#wf4 .trust-chip{flex:1;background:var(--white);border-radius:10px;padding:11px 8px;text-align:center;}\n#wf4 .tc-icon{font-size:18px;margin-bottom:4px;}\n#wf4 .tc-text{font-size:10px;font-weight:700;color:var(--gd);line-height:1.3;}\n\n#wf4 .footer-secure{text-align:center;font-size:11px;color:var(--gm);\n  margin-top:7px;display:flex;align-items:center;justify-content:center;gap:5px;}\n\n/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n   CONFIRMATION OVERLAY\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */\n.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);\n  z-index:100;align-items:flex-end;justify-content:center;}\n.overlay.active{display:flex;}\n.confirm-sheet{background:var(--white);border-radius:24px 24px 0 0;\n  width:100%;max-width:430px;overflow:hidden;\n  animation:slideUp .35s cubic-bezier(.16,1,.3,1);}\n@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}\n.cs-top{background:linear-gradient(135deg,var(--green) 0%,#1a7a40 100%);\n  padding:30px 24px 26px;text-align:center;}\n.cs-check{width:60px;height:60px;background:rgba(255,255,255,.2);border-radius:50%;\n  display:flex;align-items:center;justify-content:center;margin:0 auto 12px;\n  font-size:28px;animation:popIn .4s .15s both cubic-bezier(.175,.885,.32,1.275);}\n@keyframes popIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}\n.cs-title{font-size:22px;font-weight:900;color:#fff;letter-spacing:-.02em;margin-bottom:4px;}\n.cs-sub{font-size:13px;color:rgba(255,255,255,.8);line-height:1.5;}\n.cs-body{padding:20px 24px 36px;}\n.cs-ref{background:var(--gbg);border-radius:10px;padding:13px 15px;\n  display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}\n.cs-ref-lbl{font-size:11px;font-weight:600;color:var(--gm);\n  text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;}\n.cs-ref-num{font-size:18px;font-weight:900;letter-spacing:.04em;}\n.cs-copy-btn{background:var(--white);border:1.5px solid var(--gl);border-radius:8px;\n  padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;}\n.cs-steps{display:flex;flex-direction:column;gap:9px;margin-bottom:18px;}\n.cs-step{display:flex;align-items:flex-start;gap:11px;}\n.cs-num{width:24px;height:24px;border-radius:50%;background:var(--orange);color:#fff;\n  font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}\n.cs-step-text{font-size:13px;color:var(--gd);line-height:1.5;padding-top:3px;}\n.cs-step-text strong{color:var(--black);}\n</style>\n</head>\n<body>\n<div class=\"shell\">\n\n<!-- \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 -->\n<!-- PUSH NOTIFICATION SCREEN                                    -->\n<!-- \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 -->\n<div id=\"wfpush\" class=\"screen active\">\n  <div class=\"pm-tag\">Push Notification</div>\n\n  <!-- Background stars (rendered by JS) -->\n  <div class=\"stars\" id=\"starsContainer\"></div>\n\n  <!-- Status bar -->\n  <div class=\"status-bar\">\n    <span class=\"status-time\" id=\"liveTime\">9:41</span>\n    <div class=\"status-icons\">\n      <!-- Signal bars -->\n      <svg viewBox=\"0 0 17 12\"><rect x=\"0\" y=\"7\" width=\"3\" height=\"5\" rx=\".5\"/><rect x=\"4.5\" y=\"4.5\" width=\"3\" height=\"7.5\" rx=\".5\"/><rect x=\"9\" y=\"2\" width=\"3\" height=\"10\" rx=\".5\"/><rect x=\"13.5\" y=\"0\" width=\"3\" height=\"12\" rx=\".5\" opacity=\".3\"/></svg>\n      <!-- WiFi -->\n      <svg viewBox=\"0 0 16 12\"><path d=\"M8 9.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z\"/><path d=\"M3.5 6.5a6.5 6.5 0 0 1 9 0\" stroke=\"white\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\" opacity=\".9\"/><path d=\"M1 4a10 10 0 0 1 14 0\" stroke=\"white\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\" opacity=\".5\"/></svg>\n      <!-- Battery -->\n      <svg viewBox=\"0 0 25 12\"><rect x=\"0\" y=\"1\" width=\"22\" height=\"10\" rx=\"2.5\" stroke=\"white\" stroke-width=\"1.2\" fill=\"none\"/><rect x=\"22.5\" y=\"3.5\" width=\"2\" height=\"5\" rx=\"1\" fill=\"white\" opacity=\".5\"/><rect x=\"1.5\" y=\"2.5\" width=\"16\" height=\"7\" rx=\"1.5\" fill=\"white\"/></svg>\n    </div>\n  </div>\n\n  <!-- Lock screen clock -->\n  <div class=\"lock-clock\">\n    <div class=\"lock-time\" id=\"lockTime\">9:41</div>\n    <div class=\"lock-date\" id=\"lockDate\">Tuesday, 27 May</div>\n  </div>\n\n  <!-- Trip countdown -->\n  <div style=\"display:flex;justify-content:center;margin-bottom:20px;\">\n    <div class=\"countdown-pill\">\n      <div class=\"pill-dot\"></div>\n      <div class=\"pill-text\">Miami trip in <em>7 days</em></div>\n    </div>\n  </div>\n\n  <!-- Notifications area -->\n  <div class=\"notif-area\">\n\n    <!-- Primary Sixt notification -->\n    <div class=\"notif-card\" onclick=\"goTo('wf0')\" role=\"button\" aria-label=\"Open Sixt booking notification\">\n\n      <div class=\"notif-header\">\n        <div class=\"notif-app-icon\">S</div>\n        <div>\n          <div class=\"notif-app-name\">SIXT \u00b7 Booking Reminder</div>\n        </div>\n        <span class=\"notif-time\">now</span>\n        <span class=\"notif-chevron\">\u203a</span>\n      </div>\n\n      <div class=\"notif-body\">\n        <div class=\"notif-title\">Your Miami trip is 7 days away \ud83c\udfdd\ufe0f \u2014 is your booking ready?</div>\n        <div class=\"notif-message\">\n          You booked a <strong>Ford Focus for 7 guests</strong> last week. We've spotted a few things that could make the trip smoother.\n        </div>\n\n        <!-- Inline booking preview -->\n        <div class=\"notif-booking\">\n          <div class=\"nb-car\">\ud83d\ude97</div>\n          <div class=\"nb-info\">\n            <div class=\"nb-name\">Ford Focus or similar \u00b7 Miami Intl</div>\n            <div class=\"nb-meta\">7 travellers \u00b7 6 days \u00b7 Overseas Hwy route</div>\n          </div>\n          <div class=\"nb-date\">14 Jun</div>\n        </div>\n\n        <div class=\"notif-actions\">\n          <button class=\"notif-btn-primary\" onclick=\"goTo('wf0')\">Review my booking \u2192</button>\n          <button class=\"notif-btn-secondary\" onclick=\"dismissNotif(event)\">Later</button>\n        </div>\n      </div>\n    </div>\n\n    <!-- Older notification (ambient context) -->\n    <div class=\"notif-card-2\" onclick=\"showToast('Maps notification \u2014 not part of this flow')\">\n      <div class=\"nc2-icon\">\ud83d\uddfa\ufe0f</div>\n      <div class=\"nc2-text\"><strong>Google Maps:</strong> Overseas Highway \u2014 expect light traffic on 14 Jun morning. Estimated 4h 10m to Key West.</div>\n      <span class=\"nc2-time\">8m ago</span>\n    </div>\n\n  </div>\n\n  <!-- Swipe up hint -->\n  <div class=\"swipe-hint\">\n    <div class=\"swipe-text\"><span class=\"swipe-line\"></span>tap notification to open<span class=\"swipe-line\"></span></div>\n    <div class=\"home-indicator\"></div>\n  </div>\n</div>\n\n\n<!-- \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 -->\n<!-- WF-0: PRE-FLOW ENTRY                                       -->\n<!-- \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 -->\n<div id=\"wf0\" class=\"screen\">\n  <nav class=\"top-nav\">\n    <button class=\"back-btn\" onclick=\"showToast('Back to vehicle catalogue')\">\n      <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\"><polyline points=\"15 18 9 12 15 6\"/></svg>\n    </button>\n    <span class=\"nav-label\">Before you confirm</span>\n    <div class=\"nav-spacer\"></div>\n  </nav>\n\n  <main class=\"content\">\n    <div class=\"page-hd\">\n      <div style=\"font-size:10px;font-weight:800;color:var(--gm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;\">WF-0 \u00b7 Personalisation Gate</div>\n      <h1 class=\"pg-title\">One moment<br>before you <em>confirm.</em></h1>\n      <p class=\"pg-sub\">We've read your booking and spotted a few things worth knowing for this trip.</p>\n    </div>\n\n    <!-- Booking summary -->\n    <div id=\"wf0\" class=\"booking-strip\">\n      <div class=\"booking-banner\">\n        <span class=\"card-title\">Your selection</span>\n        <span class=\"chip-green\">Saved</span>\n      </div>\n      <div class=\"booking-route\">\n        <span style=\"font-weight:700\">Miami Intl Airport</span>\n        <span class=\"booking-arrow\">\u2192</span>\n        <span style=\"font-weight:700\">Key West</span>\n      </div>\n      <div class=\"booking-meta\">\n        <strong>Fri 14 Jun, 10:00</strong> \u2014 <strong>Thu 20 Jun, 10:00</strong> \u00b7 6 days \u00b7 7 travellers\n      </div>\n      <div class=\"booking-vehicle\">\n        <div class=\"car-thumb\">\ud83d\ude97</div>\n        <div>\n          <div class=\"car-name\">Ford Focus or similar</div>\n          <div class=\"car-specs\">5 seats \u00b7 2 bags \u00b7 Auto</div>\n        </div>\n        <div class=\"base-price\">\n          <div class=\"base-price-amt\">\u20ac150,29</div>\n          <div class=\"base-price-lbl\">base price</div>\n        </div>\n      </div>\n    </div>\n\n    <!-- Insight card -->\n    <div class=\"insight\">\n      <div class=\"insight-inner\">\n        <div class=\"insight-eyebrow\">What we noticed</div>\n        <h2 class=\"insight-title\">Your booking has <em>3 gaps</em><br>we can close before you arrive.</h2>\n        <div class=\"signals\">\n          <div class=\"signal warn\">\n            <span class=\"sig-icon\">\ud83d\udc65</span>\n            <div>\n              <div class=\"sig-title\">7 people, 5-seat car</div>\n              <div class=\"sig-desc\">A Ford Focus legally seats <strong>5</strong>. Two of your group won't fit \u2014 and you'd need a second vehicle for luggage.</div>\n            </div>\n          </div>\n          <div class=\"signal tip\">\n            <span class=\"sig-icon\">\ud83c\udd95</span>\n            <div>\n              <div class=\"sig-title\">First time renting in Miami</div>\n              <div class=\"sig-desc\">Miami ranks <strong>top 5 for parking damage claims</strong> in the US. Most first-timers are caught off guard by the deductible.</div>\n            </div>\n          </div>\n          <div class=\"signal info\">\n            <span class=\"sig-icon\">\ud83d\udee3\ufe0f</span>\n            <div>\n              <div class=\"sig-title\">Florida road trip route detected</div>\n              <div class=\"sig-desc\">The Overseas Highway has <strong>tolls every 30 miles</strong>. No pass means stopping at every booth \u2014 and no GPS means no offline maps.</div>\n            </div>\n          </div>\n        </div>\n        <div class=\"steps-label\">We'll walk you through</div>\n        <div class=\"steps-row\">\n          <div class=\"step-item\"><div class=\"step-circle\">\ud83d\ude99</div><div class=\"step-name\">Vehicle</div></div>\n          <div class=\"step-item\"><div class=\"step-circle\">\ud83d\udee1\ufe0f</div><div class=\"step-name\">Protection</div></div>\n          <div class=\"step-item\"><div class=\"step-circle\">\ud83d\udee3\ufe0f</div><div class=\"step-name\">Add-ons</div></div>\n          <div class=\"step-item\"><div class=\"step-circle\">\u2713</div><div class=\"step-name\">Review</div></div>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"time-strip\">\n      <div class=\"time-icon\">\u23f1\ufe0f</div>\n      <div><div class=\"time-label\">Takes about 2 minutes</div><div class=\"time-sub\">4 quick screens \u2014 all pre-filled for your trip</div></div>\n      <div class=\"no-oblig\">No obligation</div>\n    </div>\n\n    <div class=\"card\" style=\"padding:12px 16px;display:flex;align-items:center;gap:12px;\">\n      <div style=\"display:flex;\">\n        <div style=\"width:26px;height:26px;border-radius:50%;background:#FFE0CC;border:2px solid #fff;margin-right:-8px;display:flex;align-items:center;justify-content:center;font-size:13px;\">\ud83d\ude0a</div>\n        <div style=\"width:26px;height:26px;border-radius:50%;background:#D1FAE5;border:2px solid #fff;margin-right:-8px;display:flex;align-items:center;justify-content:center;font-size:13px;\">\ud83d\ude04</div>\n        <div style=\"width:26px;height:26px;border-radius:50%;background:#DBEAFE;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:13px;\">\ud83d\ude42</div>\n      </div>\n      <div style=\"font-size:12px;color:var(--gd);line-height:1.4;padding-left:10px;\"><strong>79% of customers</strong> who reviewed personalised suggestions saved money or avoided a claim.</div>\n    </div>\n  </main>\n\n  <footer class=\"sticky-footer\">\n    <button class=\"btn-orange\" onclick=\"goTo('wf1')\">\n      <span style=\"width:22px;height:22px;background:rgba(255,255,255,.25);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;\">\u2728</span>\n      See my personalised suggestions\n    </button>\n    <div style=\"margin-top:10px;\">\n      <button class=\"btn-text\" onclick=\"showToast('Booking saved as Ford Focus \u2014 no changes made')\">Skip \u2014 confirm booking as is</button>\n    </div>\n  </footer>\n</div>\n\n\n<!-- \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 -->\n<!-- WF-1: VEHICLE SELECTION                                    -->\n<!-- \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 -->\n<div id=\"wf1\" class=\"screen\">\n  <nav class=\"top-nav\">\n    <button class=\"back-btn\" onclick=\"goBack()\">\n      <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\"><polyline points=\"15 18 9 12 15 6\"/></svg>\n    </button>\n  </nav>\n  <div class=\"progress-bar\"><div class=\"seg active\"></div><div class=\"seg\"></div><div class=\"seg\"></div><div class=\"seg\"></div></div>\n\n  <main class=\"content\">\n    <div class=\"page-hd\">\n      <div class=\"ctx-label\"><span class=\"dot\"></span>6-day rental \u00b7 Miami, 7 travellers</div>\n      <h1 class=\"pg-title\">Select Your Vehicle \u2014<br><em>7 seats</em> available for your family trip</h1>\n    </div>\n\n    <!-- Hero upgrade card -->\n    <div class=\"hero-card\">\n      <div class=\"hero-img\">\n        <svg width=\"100%\" height=\"100%\" viewBox=\"0 0 430 190\" xmlns=\"http://www.w3.org/2000/svg\" preserveAspectRatio=\"xMidYMid slice\">\n          <defs>\n            <linearGradient id=\"sky1\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#0d1b2a\"/><stop offset=\"100%\" stop-color=\"#1b3a5c\"/></linearGradient>\n          </defs>\n          <rect width=\"430\" height=\"190\" fill=\"url(#sky1)\"/>\n          <circle cx=\"50\" cy=\"20\" r=\"1.2\" fill=\"white\" opacity=\".6\"/><circle cx=\"130\" cy=\"32\" r=\"1.5\" fill=\"white\" opacity=\".8\"/><circle cx=\"220\" cy=\"14\" r=\"1\" fill=\"white\" opacity=\".5\"/><circle cx=\"310\" cy=\"24\" r=\"1\" fill=\"white\" opacity=\".7\"/><circle cx=\"390\" cy=\"18\" r=\"1.5\" fill=\"white\" opacity=\".6\"/>\n          <polygon points=\"0,115 70,80 140,98 210,68 290,85 360,72 430,90 430,135 0,135\" fill=\"#0a2640\" opacity=\".8\"/>\n          <rect x=\"0\" y=\"142\" width=\"430\" height=\"48\" fill=\"#2a2a2a\"/>\n          <rect x=\"0\" y=\"140\" width=\"430\" height=\"4\" fill=\"#3a3a3a\"/>\n          <!-- SUV -->\n          <rect x=\"80\" y=\"103\" width=\"230\" height=\"48\" fill=\"#c8dde8\" rx=\"3\"/>\n          <path d=\"M 118 103 L 143 76 L 278 76 L 308 103 Z\" fill=\"#b8cdd8\"/>\n          <path d=\"M 146 77 L 161 103 L 237 103 L 237 77 Z\" fill=\"#5ba3c9\" opacity=\".7\"/>\n          <path d=\"M 242 77 L 242 103 L 302 103 L 287 77 Z\" fill=\"#5ba3c9\" opacity=\".5\"/>\n          <line x1=\"240\" y1=\"76\" x2=\"240\" y2=\"103\" stroke=\"#9ab8c8\" stroke-width=\"2\"/>\n          <rect x=\"80\" y=\"125\" width=\"38\" height=\"24\" fill=\"#9ab0be\" rx=\"2\"/>\n          <rect x=\"82\" y=\"116\" width=\"22\" height=\"9\" fill=\"#FFD700\" rx=\"2\" opacity=\".9\"/>\n          <rect x=\"308\" y=\"116\" width=\"18\" height=\"10\" fill=\"#FF4500\" rx=\"2\" opacity=\".9\"/>\n          <circle cx=\"138\" cy=\"150\" r=\"17\" fill=\"#333\"/><circle cx=\"138\" cy=\"150\" r=\"11\" fill=\"#555\"/><circle cx=\"138\" cy=\"150\" r=\"5\" fill=\"#888\"/>\n          <circle cx=\"293\" cy=\"150\" r=\"17\" fill=\"#333\"/><circle cx=\"293\" cy=\"150\" r=\"11\" fill=\"#555\"/><circle cx=\"293\" cy=\"150\" r=\"5\" fill=\"#888\"/>\n          <rect x=\"143\" y=\"67\" width=\"132\" height=\"11\" fill=\"#8B7355\" rx=\"2\"/>\n          <rect x=\"146\" y=\"60\" width=\"126\" height=\"9\" fill=\"#A08060\" rx=\"2\"/>\n          <rect x=\"148\" y=\"45\" width=\"43\" height=\"17\" fill=\"#E8673A\" rx=\"3\"/><rect x=\"161\" y=\"41\" width=\"16\" height=\"6\" fill=\"#C4522E\" rx=\"2\"/>\n          <rect x=\"197\" y=\"47\" width=\"37\" height=\"15\" fill=\"#3A7BC8\" rx=\"3\"/><rect x=\"207\" y=\"44\" width=\"15\" height=\"5\" fill=\"#2E62A0\" rx=\"2\"/>\n          <rect x=\"240\" y=\"49\" width=\"24\" height=\"13\" fill=\"#4CAF50\" rx=\"3\"/>\n          <rect x=\"80\" y=\"137\" width=\"230\" height=\"7\" fill=\"#FF5A00\" opacity=\".85\"/>\n          <text x=\"182\" y=\"135\" font-family=\"Arial Black,sans-serif\" font-size=\"11\" font-weight=\"900\" fill=\"#FF5A00\">SIXT</text>\n        </svg>\n        <div class=\"rec-tag\">\u2605 Recommended for your group</div>\n        <div class=\"suv-badge\">\ud83d\ude97 7-Seat SUV</div>\n      </div>\n      <div class=\"hero-body\">\n        <h2 class=\"headline\">Every seat filled.<br>Zero luggage stress.</h2>\n        <div class=\"veh-name\">Volkswagen Tiguan Allspace 7-seat <span class=\"or-similar\">or similar</span></div>\n        <div class=\"specs-row\">\n          <span class=\"spec\">\ud83d\udc65 7 seats</span>\n          <span class=\"spec\">\ud83e\uddf3 5 bags</span>\n          <span class=\"spec\">\u2699\ufe0f Auto</span>\n          <span class=\"spec\">\ud83d\udeaa 5 doors</span>\n        </div>\n        <div class=\"price-block\">\n          <div class=\"price-main\">+EUR 11 <span>/ day</span></div>\n          <div class=\"price-pp\">EUR 2.20 per person per day \u2014 split 7 ways</div>\n          <div class=\"price-total\">+EUR 66 total for 6 days</div>\n        </div>\n        <div class=\"social-proof\">\n          <span style=\"font-size:15px;\">\ud83d\udc68\u200d\ud83d\udc69\u200d\ud83d\udc67\u200d\ud83d\udc66</span>\n          <div class=\"social-proof-text\"><strong>84% of families</strong> at this location choose a 7-seat SUV</div>\n        </div>\n        <button class=\"btn-orange\" id=\"upgradeBtn\" onclick=\"selectVehicle('tiguan')\">UPGRADE NOW \u2192</button>\n      </div>\n    </div>\n\n    <div class=\"divider\"><span class=\"divider-text\">Your booked vehicle</span></div>\n\n    <div class=\"std-card\">\n      <div class=\"std-header\">\n        <span class=\"std-name\">Ford Focus or similar</span>\n        <span class=\"incl-badge\">Included</span>\n      </div>\n      <div class=\"std-specs\">Automatic \u00b7 5 seats \u00b7 2 bags</div>\n      <div class=\"std-incl\">Included in your reservation</div>\n      <button class=\"btn-text\" onclick=\"selectVehicle('focus')\">Keep this vehicle</button>\n    </div>\n  </main>\n\n  <footer class=\"sticky-footer\">\n    <div class=\"footer-row\"><span class=\"footer-label\">Total</span><span class=\"footer-amount\" id=\"wf1Total\">150<span class=\"cents\">,29 \u20ac</span></span></div>\n    <div class=\"footer-delta\" id=\"wf1Delta\">Select a vehicle to continue</div>\n    <button class=\"btn-orange\" id=\"wf1Continue\" onclick=\"goTo('wf2')\" style=\"display:none\">Continue \u2192</button>\n  </footer>\n</div>\n\n\n<!-- \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 -->\n<!-- WF-2: PROTECTION SELECTION (v2)                            -->\n<!-- \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 -->\n<div id=\"wf2\" class=\"screen\">\n  <nav class=\"top-nav\">\n    <button class=\"back-btn\" onclick=\"goBack()\">\n      <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\"><polyline points=\"15 18 9 12 15 6\"/></svg>\n    </button>\n  </nav>\n  <div class=\"progress-bar\"><div class=\"seg done\"></div><div class=\"seg active\"></div><div class=\"seg\"></div><div class=\"seg\"></div></div>\n\n  <main class=\"content\">\n    <div class=\"page-hd\">\n      <div class=\"ctx-label\"><span class=\"dot\"></span>Step 2 of 4 \u00b7 Miami Intl Airport</div>\n      <h1 class=\"pg-title\">WHICH PROTECTION DO YOU NEED?</h1>\n      <p class=\"pg-sub\"><strong>First time in Miami?</strong> Here's what the most common claims look like.</p>\n    </div>\n\n    <div style=\"font-size:11px;font-weight:800;color:var(--gm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;\">What could go wrong</div>\n    <div class=\"scenario-scroll\" style=\"margin-bottom:20px;\">\n      <div class=\"scenario-card\"><div class=\"sc-icon\">\ud83d\ude97</div><div class=\"sc-name\">Parking dent</div><div class=\"sc-row\"><span class=\"sc-lbl\">Basic</span><span class=\"sc-bad\">up to \u20ac840</span></div><div class=\"sc-divider\"></div><div class=\"sc-row\"><span class=\"sc-lbl-ai\">All Inclusive</span><span class=\"sc-good\">\u20ac0</span></div></div>\n      <div class=\"scenario-card\"><div class=\"sc-icon\">\ud83e\ude9f</div><div class=\"sc-name\">Windscreen chip</div><div class=\"sc-row\"><span class=\"sc-lbl\">Basic</span><span class=\"sc-bad\">up to \u20ac840</span></div><div class=\"sc-divider\"></div><div class=\"sc-row\"><span class=\"sc-lbl-ai\">All Inclusive</span><span class=\"sc-good\">\u20ac0</span></div></div>\n      <div class=\"scenario-card\"><div class=\"sc-icon\">\ud83d\udd11</div><div class=\"sc-name\">Lost key</div><div class=\"sc-row\"><span class=\"sc-lbl\">Basic</span><span class=\"sc-bad\">up to \u20ac400</span></div><div class=\"sc-divider\"></div><div class=\"sc-row\"><span class=\"sc-lbl-ai\">All Inclusive</span><span class=\"sc-good\">\u20ac0</span></div></div>\n      <div class=\"scenario-card\"><div class=\"sc-icon\">\ud83d\udede</div><div class=\"sc-name\">Tyre puncture</div><div class=\"sc-row\"><span class=\"sc-lbl\">Basic</span><span class=\"sc-bad\">up to \u20ac320</span></div><div class=\"sc-divider\"></div><div class=\"sc-row\"><span class=\"sc-lbl-ai\">All Inclusive</span><span class=\"sc-good\">\u20ac0</span></div></div>\n    </div>\n\n    <div style=\"font-size:11px;font-weight:800;color:var(--gm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;\">Choose your protection</div>\n\n    <!-- All Inclusive \u2014 recommended, orange border, no pre-selection -->\n    <div class=\"tier-card recommended\" id=\"tc-ai\" onclick=\"selectProtection('ai')\">\n      <div class=\"tier-card-main\">\n        <div class=\"tier-radio\" id=\"tr-ai\"></div>\n        <div class=\"tier-card-content\">\n          <div class=\"tier-rec-tag\">\u2605 Recommended for Miami</div>\n          <div class=\"tier-name-row\">\n            <div class=\"tier-name\">All Inclusive</div>\n            <div class=\"tier-price-tag\">\u20ac15,16 <span>/ day</span></div>\n          </div>\n          <div class=\"tier-ded none-ded\">No deductible \u2014 every claim \u20ac0</div>\n          <div style=\"font-size:11px;color:var(--gm);margin-top:2px;\">91% of Miami first-timers choose this</div>\n        </div>\n      </div>\n      <button class=\"tier-features-toggle\" onclick=\"toggleTierFeatures(event,'tff-ai')\">\n        See what's covered <svg class=\"tc\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\"><polyline points=\"6 9 12 15 18 9\"/></svg>\n      </button>\n      <div class=\"tier-features-body\" id=\"tff-ai\">\n        <div class=\"tier-features-inner\">\n          <div style=\"font-size:12px;color:var(--gd);display:flex;gap:6px;\"><span style=\"color:var(--green);font-weight:700;\">\u2713</span>100% coverage for damage &amp; theft</div>\n          <div style=\"font-size:12px;color:var(--gd);display:flex;gap:6px;\"><span style=\"color:var(--green);font-weight:700;\">\u2713</span>\u20ac300k liability protection</div>\n          <div style=\"font-size:12px;color:var(--gd);display:flex;gap:6px;\"><span style=\"color:var(--green);font-weight:700;\">\u2713</span>24/7 roadside assistance</div>\n          <div style=\"font-size:12px;color:var(--gd);display:flex;gap:6px;\"><span style=\"color:var(--green);font-weight:700;\">\u2713</span>Medical coverage for you &amp; all passengers</div>\n          <div style=\"font-size:12px;color:var(--gd);display:flex;gap:6px;\"><span style=\"color:var(--green);font-weight:700;\">\u2713</span>Belongings &amp; extra driver protection</div>\n        </div>\n      </div>\n    </div>\n\n    <!-- Smart Protection -->\n    <div class=\"tier-card\" id=\"tc-smart\" onclick=\"selectProtection('smart')\">\n      <div class=\"tier-card-main\">\n        <div class=\"tier-radio\" id=\"tr-smart\"></div>\n        <div class=\"tier-card-content\">\n          <div class=\"tier-name-row\">\n            <div class=\"tier-name\">Smart Protection</div>\n            <div class=\"tier-price-tag\">\u20ac9,90 <span>/ day</span></div>\n          </div>\n          <div class=\"tier-ded none-ded\">No deductible</div>\n          <div style=\"font-size:11px;color:var(--gm);margin-top:2px;\">Damage covered, no medical or belongings</div>\n        </div>\n      </div>\n      <button class=\"tier-features-toggle\" onclick=\"toggleTierFeatures(event,'tff-smart')\">\n        See what's covered <svg class=\"tc\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\"><polyline points=\"6 9 12 15 18 9\"/></svg>\n      </button>\n      <div class=\"tier-features-body\" id=\"tff-smart\">\n        <div class=\"tier-features-inner\">\n          <div style=\"font-size:12px;color:var(--gd);display:flex;gap:6px;\"><span style=\"color:var(--green);font-weight:700;\">\u2713</span>100% coverage for damage &amp; theft</div>\n          <div style=\"font-size:12px;color:var(--gd);display:flex;gap:6px;\"><span style=\"color:var(--green);font-weight:700;\">\u2713</span>\u20ac300k liability protection</div>\n          <div style=\"font-size:12px;color:var(--gd);display:flex;gap:6px;\"><span style=\"color:var(--green);font-weight:700;\">\u2713</span>24/7 roadside assistance</div>\n          <div style=\"font-size:12px;color:var(--gm);display:flex;gap:6px;\"><span style=\"color:var(--gm);font-weight:700;\">\u2717</span>Medical coverage \u2014 not included</div>\n          <div style=\"font-size:12px;color:var(--gm);display:flex;gap:6px;\"><span style=\"color:var(--gm);font-weight:700;\">\u2717</span>Belongings protection \u2014 not included</div>\n        </div>\n      </div>\n    </div>\n\n    <!-- Basic (included in booking) -->\n    <div class=\"tier-card\" id=\"tc-basic\" onclick=\"selectProtection('basic')\">\n      <div class=\"tier-card-main\">\n        <div class=\"tier-radio\" id=\"tr-basic\"></div>\n        <div class=\"tier-card-content\">\n          <div class=\"tier-name-row\">\n            <div class=\"tier-name\">Basic</div>\n            <div class=\"tier-price-tag\" style=\"font-size:13px;color:var(--gm);font-weight:600;\">Included</div>\n          </div>\n          <div class=\"tier-ded some-ded\">Up to \u20ac840 deductible on damage</div>\n          <div style=\"font-size:11px;color:var(--gm);margin-top:2px;\">Third-party liability only \u2014 no extras</div>\n        </div>\n      </div>\n      <button class=\"tier-features-toggle\" onclick=\"toggleTierFeatures(event,'tff-basic')\">\n        See what's covered <svg class=\"tc\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\"><polyline points=\"6 9 12 15 18 9\"/></svg>\n      </button>\n      <div class=\"tier-features-body\" id=\"tff-basic\">\n        <div class=\"tier-features-inner\">\n          <div style=\"font-size:12px;color:var(--gd);display:flex;gap:6px;\"><span style=\"color:var(--green);font-weight:700;\">\u2713</span>Third-party liability covered</div>\n          <div style=\"font-size:12px;color:var(--gm);display:flex;gap:6px;\"><span style=\"color:var(--gm);font-weight:700;\">\u2717</span>Damage deductible up to \u20ac840</div>\n          <div style=\"font-size:12px;color:var(--gm);display:flex;gap:6px;\"><span style=\"color:var(--gm);font-weight:700;\">\u2717</span>No roadside, medical, or belongings coverage</div>\n        </div>\n      </div>\n    </div>\n\n    <!-- No Protection \u2014 neutral, no shaming language -->\n    <div class=\"tier-card\" id=\"tc-none\" onclick=\"selectProtection('none')\">\n      <div class=\"tier-card-main\">\n        <div class=\"tier-radio\" id=\"tr-none\"></div>\n        <div class=\"tier-card-content\">\n          <div class=\"tier-name-row\">\n            <div class=\"tier-name\">No Protection</div>\n            <div class=\"tier-price-tag\" style=\"font-size:13px;color:var(--gm);font-weight:600;\">Included</div>\n          </div>\n          <div class=\"tier-ded full-ded\">I accept full responsibility for damage costs</div>\n          <div style=\"font-size:11px;color:var(--gm);margin-top:2px;\">Your credit card may already provide cover</div>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"fine-print\"><span style=\"font-size:14px;flex-shrink:0\">\u2139\ufe0f</span><span class=\"fine-print-text\">Your credit card may already include CDW \u2014 check before declining. <a href=\"#\" onclick=\"return false;\">Learn more</a></span></div>\n  </main>\n\n  <footer class=\"sticky-footer\">\n    <div class=\"footer-row\"><span class=\"footer-label\">Total</span><span class=\"footer-amount\" id=\"wf2Total\">150<span class=\"cents\">,29 \u20ac</span></span></div>\n    <div class=\"footer-delta\" id=\"wf2Delta\">Select a protection level to continue</div>\n    <button class=\"btn-orange\" id=\"wf2Btn\" onclick=\"goTo('wf3')\" disabled>Continue \u2192</button>\n  </footer>\n</div>\n\n\n<!-- \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 -->\n<!-- WF-3: ADD-ONS                                              -->\n<!-- \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 -->\n<div id=\"wf3\" class=\"screen\">\n  <nav class=\"top-nav\">\n    <button class=\"back-btn\" onclick=\"goBack()\">\n      <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\"><polyline points=\"15 18 9 12 15 6\"/></svg>\n    </button>\n  </nav>\n  <div class=\"progress-bar\"><div class=\"seg done\"></div><div class=\"seg done\"></div><div class=\"seg active\"></div><div class=\"seg\"></div></div>\n\n  <main class=\"content\">\n    <div class=\"page-hd\">\n      <div class=\"ctx-label\"><span class=\"dot\"></span>Step 3 of 4 \u00b7 Miami \u2192 Key West</div>\n      <h1 class=\"pg-title\">WHICH ADD-ONS DO YOU NEED?</h1>\n      <p class=\"pg-sub\">Tailored for your Florida road trip.</p>\n    </div>\n\n    <!-- Bundle hero -->\n    <div class=\"bundle-card\">\n      <div class=\"bundle-inner\">\n        <div class=\"trip-tag\"><span class=\"pulse\"></span>Recommended for your road trip</div>\n        <div class=\"route-hint\"><span class=\"rdot\"></span>Miami<span class=\"rline\"></span>Overseas Hwy<span class=\"rline\"></span><span class=\"rendot\"></span>Key West</div>\n        <h2 class=\"bundle-headline\">Drive the Overseas Highway <em>toll-free</em> and <em>navigation-free.</em></h2>\n        <div class=\"bundle-items\">\n          <div class=\"bi\"><span class=\"bi-icon\">\ud83d\udee3\ufe0f</span><div class=\"bi-name\">Toll Pass</div><div class=\"bi-desc\">All Florida toll roads covered</div></div>\n          <div class=\"bi\"><span class=\"bi-icon\">\ud83e\udded</span><div class=\"bi-name\">GPS Navigation</div><div class=\"bi-desc\">Offline maps, no roaming</div></div>\n        </div>\n        <div class=\"price-row\">\n          <div><div class=\"bundle-price\">EUR 7 <span style=\"font-size:13px;font-weight:500;color:rgba(255,255,255,.7)\">/ day</span></div><div class=\"bundle-period\">Both included \u00b7 6 days = EUR 42 total</div></div>\n          <div class=\"save-chip\">Save EUR 3</div>\n        </div>\n        <div class=\"compare\">Separately: <s>EUR 10/day</s> \u00b7 You save EUR 18 over 6 days</div>\n        <button class=\"btn-orange\" id=\"bundleBtn\" onclick=\"toggleBundle()\">Add Road Trip Bundle</button>\n      </div>\n    </div>\n\n    <div class=\"divider\"><span class=\"divider-text\">Other options</span></div>\n\n    <!-- Fuel add-on -->\n    <div class=\"addon-card\" id=\"fuelCard\">\n      <div class=\"addon-main\" onclick=\"toggleAddon('fuel')\">\n        <button class=\"toggle\" id=\"fuelToggle\" aria-checked=\"false\">\n          <div class=\"toggle-thumb\"></div>\n        </button>\n        <div class=\"addon-icon\" id=\"fuelIcon\">\u26fd</div>\n        <div>\n          <div class=\"addon-benefit\">Return it empty \u2014 we handle the fuel</div>\n          <div class=\"addon-fname\">Prepaid Fuel Service</div>\n          <div class=\"addon-price\">EUR 44,08 <span>/ one-time</span></div>\n        </div>\n      </div>\n      <div class=\"addon-detail\" id=\"fuelDetail\">\n        <div class=\"addon-detail-inner\">\n          <div class=\"detail-row\"><span class=\"di\"></span>Fill up once at the start \u2014 never queue at a petrol station</div>\n          <div class=\"detail-row\"><span class=\"di\"></span>Return the car at any fuel level \u2014 no partial-tank fees</div>\n        </div>\n      </div>\n    </div>\n\n    <!-- Driver add-on -->\n    <div class=\"addon-card\" id=\"driverCard\">\n      <div class=\"addon-main\" onclick=\"toggleAddon('driver')\">\n        <button class=\"toggle\" id=\"driverToggle\" aria-checked=\"false\">\n          <div class=\"toggle-thumb\"></div>\n        </button>\n        <div class=\"addon-icon\" id=\"driverIcon\">\ud83d\udc64</div>\n        <div>\n          <div class=\"addon-benefit\">Share the driving on long trips</div>\n          <div class=\"addon-fname\">Additional Driver</div>\n          <div class=\"addon-price\">EUR 14,14 <span>/ day &amp; driver</span></div>\n        </div>\n      </div>\n      <div class=\"addon-detail\" id=\"driverDetail\">\n        <div class=\"addon-detail-inner\">\n          <div class=\"detail-row\"><span class=\"di\"></span>Any licensed driver covered under your protection plan</div>\n          <div class=\"detail-row\"><span class=\"di\"></span>Especially useful on the Miami\u2013Key West stretch (4+ hrs)</div>\n        </div>\n      </div>\n    </div>\n\n    <!-- More options accordion \u2014 low-signal items for edge-case needs -->\n    <div class=\"more-opts\">\n      <div class=\"more-opts-hd\" onclick=\"toggleMoreOpts()\">\n        <div>\n          <div class=\"more-opts-label\"><span class=\"mo-icon\">\u2699\ufe0f</span>More options</div>\n          <div class=\"more-opts-sub\">Child seat, winter tyres, standalone GPS</div>\n        </div>\n        <svg id=\"moreOptsChev\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#999\" stroke-width=\"2.5\" stroke-linecap=\"round\" style=\"transition:transform .25s;flex-shrink:0;\"><polyline points=\"6 9 12 15 18 9\"/></svg>\n      </div>\n      <div class=\"more-opts-body\" id=\"moreOptsBody\">\n        <div class=\"more-opts-inner\">\n          <div class=\"mo-item\">\n            <div class=\"mo-item-icon\">\ud83e\ude91</div>\n            <div class=\"mo-item-text\">\n              <div class=\"mo-item-name\">Child Seat</div>\n              <div class=\"mo-item-sub\">Forward-facing, ages 2\u20134 \u00b7 fits in boot</div>\n            </div>\n            <div class=\"mo-item-price\">\u20ac5,50 <span>/ day</span></div>\n            <button class=\"mo-add-btn\" onclick=\"showToast('Child seat added')\">Add</button>\n          </div>\n          <div class=\"mo-item\">\n            <div class=\"mo-item-icon\">\ud83d\udc76</div>\n            <div class=\"mo-item-text\">\n              <div class=\"mo-item-name\">Infant Seat</div>\n              <div class=\"mo-item-sub\">Rear-facing, up to 13 kg \u00b7 ISOFIX</div>\n            </div>\n            <div class=\"mo-item-price\">\u20ac5,50 <span>/ day</span></div>\n            <button class=\"mo-add-btn\" onclick=\"showToast('Infant seat added')\">Add</button>\n          </div>\n          <div class=\"mo-item\">\n            <div class=\"mo-item-icon\">\ud83d\uddfa\ufe0f</div>\n            <div class=\"mo-item-text\">\n              <div class=\"mo-item-name\">GPS Navigation</div>\n              <div class=\"mo-item-sub\">Standalone device \u00b7 offline maps included</div>\n            </div>\n            <div class=\"mo-item-price\">\u20ac5,00 <span>/ day</span></div>\n            <button class=\"mo-add-btn\" onclick=\"showToast('GPS navigation added')\">Add</button>\n          </div>\n        </div>\n      </div>\n    </div>\n  </main>\n\n  <footer class=\"sticky-footer\">\n    <div class=\"footer-row\"><span class=\"footer-label\">Total</span><span class=\"footer-amount\" id=\"wf3Total\">150<span class=\"cents\">,29 \u20ac</span></span></div>\n    <div class=\"footer-delta\" id=\"wf3Delta\">No add-ons selected yet</div>\n    <button class=\"btn-orange\" onclick=\"goTo('wf4')\">Continue \u2192</button>\n  </footer>\n</div>\n\n\n<!-- \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 -->\n<!-- WF-4: REVIEW & CONFIRM                                     -->\n<!-- \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 -->\n<div id=\"wf4\" class=\"screen\">\n  <nav class=\"top-nav\" style=\"background:var(--gbg)\">\n    <button class=\"back-btn\" onclick=\"goBack()\">\n      <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\"><polyline points=\"15 18 9 12 15 6\"/></svg>\n    </button>\n  </nav>\n  <div class=\"progress-bar\" style=\"background:var(--gbg)\"><div class=\"seg done\"></div><div class=\"seg done\"></div><div class=\"seg done\"></div><div class=\"seg active\"></div></div>\n\n  <main class=\"content\">\n    <div class=\"page-hd\">\n      <div class=\"ctx-label\"><span class=\"dot\"></span>Final step \u00b7 Almost there</div>\n      <h1 class=\"pg-title\">YOUR BOOKING<br>OVERVIEW</h1>\n    </div>\n\n    <!-- Trip header -->\n    <div class=\"card\">\n      <div class=\"trip-banner\">\n        <div class=\"loc-row\">\n          <div class=\"loc-chip\">\ud83d\udccd Miami Intl Airport</div>\n          <span class=\"loc-arrow\">\u2192</span>\n          <div class=\"loc-chip\">\ud83c\udfdd\ufe0f Key West</div>\n        </div>\n        <div class=\"dates-row\">\n          <div><div class=\"date-block-lbl\">Pick-up</div><div class=\"date-block-val\">Fri 14 Jun, 10:00</div></div>\n          <div><div class=\"date-block-lbl\">Return</div><div class=\"date-block-val\">Thu 20 Jun, 10:00</div></div>\n          <div class=\"dur-chip\">6 days</div>\n        </div>\n      </div>\n      <div class=\"trip-vehicle\">\n        <div class=\"tv-icon\">\ud83d\ude99</div>\n        <div>\n          <div class=\"tv-name\" id=\"r4VehName\">Volkswagen Tiguan Allspace 7-seat</div>\n          <div class=\"tv-specs\"><span>\ud83d\udc65 7 seats</span><span>\ud83e\uddf3 5 bags</span><span>\u2699\ufe0f Auto</span></div>\n        </div>\n      </div>\n    </div>\n\n    <!-- Package summary -->\n    <div class=\"card\">\n      <div class=\"card-header\"><span class=\"card-title\">Your package</span><button style=\"font-size:12px;color:var(--orange);font-weight:600;background:none;border:none;cursor:pointer;\" onclick=\"goTo('wf1')\">Edit</button></div>\n      <div class=\"built-row\" id=\"r4VehRow\">\n        <div class=\"br-icon veh\">\ud83d\ude99</div>\n        <div><div class=\"br-label\" id=\"r4VehLabel\">Tiguan Allspace \u00b7 7-seat upgrade</div><div class=\"br-sub\">84% of families at this location choose this</div></div>\n        <div class=\"br-price\" id=\"r4VehPrice\">+\u20ac66</div>\n      </div>\n      <div class=\"built-row\" id=\"r4ProtRow\">\n        <div class=\"br-icon prot\">\ud83d\udee1\ufe0f</div>\n        <div><div class=\"br-label\" id=\"r4ProtLabel\">All Inclusive Protection</div><div class=\"br-sub\">Every claim \u20ac0 \u00b7 No deductible</div></div>\n        <div class=\"br-price\" id=\"r4ProtPrice\">\u20ac90,96</div>\n      </div>\n      <div class=\"built-row\" id=\"r4BundRow\" style=\"display:none;\">\n        <div class=\"br-icon bund\">\ud83d\udee3\ufe0f</div>\n        <div><div class=\"br-label\">Road Trip Bundle</div><div class=\"br-sub\">Toll Pass + GPS Navigation</div></div>\n        <div class=\"br-price\">\u20ac42,00</div>\n      </div>\n      <div class=\"built-row\" id=\"r4FuelRow\" style=\"display:none;\">\n        <div class=\"br-icon fuel\">\u26fd</div>\n        <div><div class=\"br-label\">Prepaid Fuel Service</div><div class=\"br-sub\">Return it empty \u2014 no fuel queues</div></div>\n        <div class=\"br-price\">\u20ac44,08</div>\n      </div>\n      <div class=\"built-row\" id=\"r4DrivRow\" style=\"display:none;\">\n        <div class=\"br-icon\" style=\"background:#F3E5F5;\">\ud83d\udc64</div>\n        <div><div class=\"br-label\">Additional Driver</div><div class=\"br-sub\">Share the driving on long trips</div></div>\n        <div class=\"br-price\">\u20ac84,84</div>\n      </div>\n      <div class=\"built-row\" style=\"opacity:.55\">\n        <div class=\"br-icon base\">\ud83d\udd11</div>\n        <div><div class=\"br-label\">Base rental \u00b7 6 days</div><div class=\"br-sub\">Ford Focus or similar</div></div>\n        <div class=\"br-price\"><span class=\"incl\">Included</span></div>\n      </div>\n    </div>\n\n    <!-- Savings banner (shown only if bundle selected) -->\n    <div class=\"savings-banner\" id=\"r4Savings\" style=\"display:none;\">\n      <div class=\"sav-icon\">\ud83c\udf89</div>\n      <div><div class=\"sav-title\">You saved by bundling smart</div><div class=\"sav-sub\">Road Trip Bundle saves \u20ac18 vs. adding separately</div></div>\n      <div class=\"sav-amount\"><div class=\"sav-num\">\u20ac18</div><div class=\"sav-lbl\">saved</div></div>\n    </div>\n\n    <!-- Price breakdown -->\n    <div class=\"card\">\n      <div class=\"breakdown-hd\">Price breakdown</div>\n      <div class=\"bdr\"><span class=\"bdr-lbl\">Base rental (6 days)</span><span class=\"bdr-amt\">\u20ac150,29</span></div>\n      <div class=\"bdr\" id=\"r4BdVeh\"><span class=\"bdr-lbl\">7-seat upgrade (+\u20ac11 \u00d7 6)</span><span class=\"bdr-amt\">\u20ac66,00</span></div>\n      <div class=\"bdr\" id=\"r4BdProt\"><span class=\"bdr-lbl\" id=\"r4BdProtLbl\">All Inclusive (+\u20ac15,16 \u00d7 6)</span><span class=\"bdr-amt\" id=\"r4BdProtAmt\">\u20ac90,96</span></div>\n      <div class=\"bdr\" id=\"r4BdBund\" style=\"display:none;\"><span class=\"bdr-lbl\">Road Trip Bundle (+\u20ac7 \u00d7 6)</span><span class=\"bdr-amt\">\u20ac42,00</span></div>\n      <div class=\"bdr\" id=\"r4BdFuel\" style=\"display:none;\"><span class=\"bdr-lbl\">Prepaid Fuel Service</span><span class=\"bdr-amt\">\u20ac44,08</span></div>\n      <div class=\"bdr\" id=\"r4BdDriv\" style=\"display:none;\"><span class=\"bdr-lbl\">Additional Driver (+\u20ac14,14 \u00d7 6)</span><span class=\"bdr-amt\">\u20ac84,84</span></div>\n      <div class=\"bdr-divider\"></div>\n      <div class=\"bdr\" id=\"r4BdSave\" style=\"display:none;\"><span class=\"bdr-lbl note\">Bundle saving vs. individual</span><span class=\"bdr-amt g\">\u2212 \u20ac18,00</span></div>\n      <div class=\"bdr-total\"><span class=\"bdr-total-lbl\">Total</span><span class=\"bdr-total-amt\" id=\"r4GrandTotal\">307<span style=\"font-size:14px;font-weight:700;\">,25 \u20ac</span></span></div>\n      <div class=\"bdr-vat\">Includes VAT. No hidden fees at pick-up.</div>\n    </div>\n\n    <!-- Trust chips -->\n    <div class=\"trust-row\">\n      <div class=\"trust-chip\"><div class=\"tc-icon\">\ud83d\udd12</div><div class=\"tc-text\">Secure payment</div></div>\n      <div class=\"trust-chip\"><div class=\"tc-icon\">\ud83d\udce7</div><div class=\"tc-text\">Instant confirm</div></div>\n      <div class=\"trust-chip\"><div class=\"tc-icon\">\u270f\ufe0f</div><div class=\"tc-text\">Free rebooking 24h</div></div>\n      <div class=\"trust-chip\"><div class=\"tc-icon\">\ud83c\udfc6</div><div class=\"tc-text\">Best price guarantee</div></div>\n    </div>\n  </main>\n\n  <footer class=\"sticky-footer\">\n    <div class=\"footer-row\"><span class=\"footer-label\">Total</span><span class=\"footer-amount\" id=\"wf4Total\">307<span class=\"cents\">,25 \u20ac</span></span></div>\n    <button class=\"btn-orange\" onclick=\"openConfirm()\">\ud83d\udd12 &nbsp;Confirm &amp; Pay</button>\n    <div class=\"footer-secure\">\ud83d\udd10 256-bit SSL \u00b7 No charge until pick-up</div>\n  </footer>\n</div>\n\n\n<!-- \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 -->\n<!-- CONFIRMATION OVERLAY                                        -->\n<!-- \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 -->\n<div class=\"overlay\" id=\"confirmOverlay\">\n  <div class=\"confirm-sheet\">\n    <div class=\"cs-top\">\n      <div class=\"cs-check\">\u2713</div>\n      <div class=\"cs-title\">You're all set!</div>\n      <div class=\"cs-sub\">Booking confirmed for Miami \u2192 Key West<br>Fri 14 Jun \u2014 Thu 20 Jun</div>\n    </div>\n    <div class=\"cs-body\">\n      <div class=\"cs-ref\">\n        <div><div class=\"cs-ref-lbl\">Booking reference</div><div class=\"cs-ref-num\">SXT-7F4K9M</div></div>\n        <button class=\"cs-copy-btn\" onclick=\"copyRef()\">Copy</button>\n      </div>\n      <div class=\"cs-steps\">\n        <div class=\"cs-step\"><div class=\"cs-num\">1</div><div class=\"cs-step-text\"><strong>Check your email</strong> \u2014 confirmation sent with your full booking details.</div></div>\n        <div class=\"cs-step\"><div class=\"cs-num\">2</div><div class=\"cs-step-text\"><strong>Skip the queue</strong> \u2014 your vehicle will be ready at the Sixt desk, Terminal D.</div></div>\n        <div class=\"cs-step\"><div class=\"cs-num\">3</div><div class=\"cs-step-text\"><strong>Overseas Highway briefing</strong> \u2014 toll pass active from ignition. GPS pre-loaded.</div></div>\n      </div>\n      <button class=\"btn-orange\" onclick=\"closeConfirm()\">Done \u2014 view my booking</button>\n    </div>\n  </div>\n</div>\n\n<div class=\"toast\" id=\"toast\"></div>\n\n<!-- \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 -->\n<!-- JAVASCRIPT \u2014 Router + State                                 -->\n<!-- \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 -->\n<script>\n// \u2500\u2500 Lock screen clock \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nfunction updateClock(){\n  const now = new Date();\n  const h = now.getHours(), m = now.getMinutes();\n  const timeStr = `${h}:${m < 10 ? '0'+m : m}`;\n  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];\n  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];\n  const dateStr = `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]}`;\n  ['liveTime','lockTime'].forEach(id => {\n    const el = document.getElementById(id);\n    if(el) el.textContent = timeStr;\n  });\n  const ld = document.getElementById('lockDate');\n  if(ld) ld.textContent = dateStr;\n}\nupdateClock();\nsetInterval(updateClock, 10000);\n\n// \u2500\u2500 Background stars \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n(function(){\n  const c = document.getElementById('starsContainer');\n  if(!c) return;\n  for(let i=0;i<60;i++){\n    const s = document.createElement('div');\n    s.className = 'star';\n    const sz = Math.random()*2+0.5;\n    s.style.cssText = `width:${sz}px;height:${sz}px;top:${Math.random()*60}%;left:${Math.random()*100}%;opacity:${Math.random()*.6+.1};`;\n    c.appendChild(s);\n  }\n})();\n\n// \u2500\u2500 Dismiss notification (Later button) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nfunction dismissNotif(e){\n  e.stopPropagation();\n  showToast('Reminder snoozed \u2014 we\\'ll nudge you again tomorrow');\n}\n\n// \u2500\u2500 State \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nconst S = {\n  vehicle:    'focus',     // 'focus' | 'tiguan'\n  protection: null,        // null | 'ai' | 'smart' | 'basic' | 'none'\n  bundle:     false,\n  fuel:       false,\n  driver:     false,\n};\nconst PRICES = {\n  base:   150.29,\n  tiguan: 11 * 6,     // 66\n  ai:     15.16 * 6,  // 90.96\n  smart:  9.90 * 6,   // 59.40\n  basic:  0,\n  none:   0,\n  bundle: 7 * 6,      // 42\n  fuel:   44.08,\n  driver: 14.14 * 6,  // 84.84\n};\nconst PROT_LABELS = {\n  ai:    'All Inclusive Protection',\n  smart: 'Smart Protection',\n  basic: 'Basic Protection',\n  none:  'No Protection',\n};\nconst PROT_PRICES = {\n  ai: '\u20ac90,96', smart: '\u20ac59,40', basic: 'Included', none: 'Included',\n};\nconst PROT_BD_LBL = {\n  ai:    'All Inclusive (+\u20ac15,16 \u00d7 6)',\n  smart: 'Smart Protection (+\u20ac9,90 \u00d7 6)',\n  basic: 'Basic \u2014 included',\n  none:  'No protection',\n};\nconst PROT_BD_AMT = {\n  ai: '\u20ac90,96', smart: '\u20ac59,40', basic: '\u20ac0', none: '\u20ac0',\n};\n\nfunction total() {\n  return PRICES.base\n    + (S.vehicle === 'tiguan' ? PRICES.tiguan : 0)\n    + (S.protection ? PRICES[S.protection] : 0)\n    + (S.bundle ? PRICES.bundle : 0)\n    + (S.fuel   ? PRICES.fuel   : 0)\n    + (S.driver ? PRICES.driver : 0);\n}\nfunction fmtEur(n) {\n  const s = n.toFixed(2).replace('.', ',');\n  const [w, d] = s.split(',');\n  return `${w}<span class=\"cents\">,${d} \u20ac</span>`;\n}\n\n// \u2500\u2500 Router \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nconst history = ['wfpush'];\nfunction goTo(id, back = false) {\n  const cur = document.querySelector('.screen.active');\n  cur.classList.remove('active');\n  if (!back) history.push(id);\n  const next = document.getElementById(id);\n  next.classList.remove('back-anim');\n  void next.offsetWidth;\n  if (back) next.classList.add('back-anim');\n  next.classList.add('active');\n  next.scrollTop = 0;\n  refreshFooters();\n  refreshWF4();\n}\nfunction goBack() {\n  if (history.length <= 1) return;\n  history.pop();\n  goTo(history[history.length - 1], true);\n}\n\n// \u2500\u2500 WF-1: Vehicle \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nfunction selectVehicle(v) {\n  S.vehicle = v;\n  const btn = document.getElementById('upgradeBtn');\n  if (v === 'tiguan') {\n    btn.textContent = '\u2713 Tiguan Allspace selected';\n    btn.classList.add('added');\n    showToast('7-seat Tiguan added \u2014 your whole group fits \ud83d\ude99');\n  } else {\n    btn.textContent = 'UPGRADE NOW \u2192';\n    btn.classList.remove('added');\n    showToast('Keeping Ford Focus \u2014 continuing with 5 seats');\n  }\n  document.getElementById('wf1Continue').style.display = 'flex';\n  refreshFooters();\n  if (v === 'tiguan') setTimeout(() => goTo('wf2'), 600);\n  else setTimeout(() => goTo('wf2'), 400);\n}\n\n// \u2500\u2500 WF-2: Protection (v2) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nfunction toggleTierFeatures(e, bodyId) {\n  e.stopPropagation(); // don't trigger card selectProtection\n  const body = document.getElementById(bodyId);\n  const btn  = e.currentTarget;\n  const chev = btn.querySelector('.tc');\n  const isOpen = body.classList.toggle('open');\n  if (chev) chev.classList.toggle('open', isOpen);\n}\n\nfunction selectProtection(p) {\n  S.protection = p;\n  // Clear all tier card selections\n  ['ai','smart','basic','none'].forEach(t => {\n    const card  = document.getElementById('tc-' + t);\n    const radio = document.getElementById('tr-' + t);\n    if (card)  card.classList.remove('selected');\n    if (radio) { radio.classList.remove('on'); radio.classList.remove('on-orange'); }\n  });\n  // Apply selection\n  const card  = document.getElementById('tc-' + p);\n  const radio = document.getElementById('tr-' + p);\n  if (card)  card.classList.add('selected');\n  if (radio) radio.classList.add(p === 'ai' ? 'on-orange' : 'on');\n  // Enable Continue button\n  const btn = document.getElementById('wf2Btn');\n  if (btn) btn.removeAttribute('disabled');\n  // Toast\n  const lbl = { ai:'All Inclusive', smart:'Smart Protection', basic:'Basic', none:'No protection' };\n  showToast(lbl[p] + ' selected');\n  refreshFooters();\n}\n\n// \u2500\u2500 WF-3: More Options accordion \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nfunction toggleMoreOpts() {\n  const body = document.getElementById('moreOptsBody');\n  const chev = document.getElementById('moreOptsChev');\n  const isOpen = body.classList.toggle('open');\n  if (chev) chev.style.transform = isOpen ? 'rotate(180deg)' : '';\n}\n\n// \u2500\u2500 WF-3: Add-ons \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nfunction toggleBundle() {\n  S.bundle = !S.bundle;\n  const btn = document.getElementById('bundleBtn');\n  if (S.bundle) {\n    btn.classList.add('added');\n    btn.textContent = '\u2713 Road Trip Bundle Added';\n    showToast('Road Trip Bundle added \u2014 saving \u20ac18 \ud83d\udee3\ufe0f');\n  } else {\n    btn.classList.remove('added');\n    btn.textContent = 'Add Road Trip Bundle';\n  }\n  refreshFooters();\n}\nfunction toggleAddon(id) {\n  S[id] = !S[id];\n  const card   = document.getElementById(id + 'Card');\n  const tog    = document.getElementById(id + 'Toggle');\n  const detail = document.getElementById(id + 'Detail');\n  tog.classList.toggle('on', S[id]);\n  tog.setAttribute('aria-checked', String(S[id]));\n  card.classList.toggle('on', S[id]);\n  detail.classList.toggle('open', S[id]);\n  if (S[id]) {\n    const n = { fuel: 'Prepaid Fuel', driver: 'Additional Driver' };\n    showToast(n[id] + ' added');\n  }\n  refreshFooters();\n}\n\n// \u2500\u2500 Footer refresh \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nfunction refreshFooters() {\n  const t = total();\n  // WF-1\n  document.getElementById('wf1Total').innerHTML = fmtEur(PRICES.base + (S.vehicle === 'tiguan' ? PRICES.tiguan : 0));\n  const wf1d = document.getElementById('wf1Delta');\n  wf1d.textContent = S.vehicle === 'tiguan' ? '7-seat Tiguan selected (+\u20ac66 total)' : 'Ford Focus selected \u2014 base price';\n  wf1d.className = 'footer-delta' + (S.vehicle !== 'focus' ? ' active' : '');\n  // WF-2\n  const wf2ProtCost = S.protection ? PRICES[S.protection] : 0;\n  document.getElementById('wf2Total').innerHTML = fmtEur(PRICES.base + (S.vehicle === 'tiguan' ? PRICES.tiguan : 0) + wf2ProtCost);\n  const protNames = { ai:'All Inclusive (+\u20ac15,16/day)', smart:'Smart Protection (+\u20ac9,90/day)', basic:'Basic \u2014 included', none:'No protection selected' };\n  const wf2DeltaEl = document.getElementById('wf2Delta');\n  wf2DeltaEl.textContent = S.protection ? protNames[S.protection] : 'Select a protection level to continue';\n  wf2DeltaEl.className = 'footer-delta' + (S.protection ? ' active' : '');\n  // WF-3\n  document.getElementById('wf3Total').innerHTML = fmtEur(t);\n  const adds = [];\n  if (S.bundle) adds.push('Bundle +\u20ac42');\n  if (S.fuel)   adds.push('Fuel +\u20ac44,08');\n  if (S.driver) adds.push('Driver +\u20ac84,84');\n  const d3 = document.getElementById('wf3Delta');\n  d3.textContent = adds.length ? adds.join(' \u00b7 ') : 'No add-ons selected yet';\n  d3.className = 'footer-delta' + (adds.length ? ' active' : '');\n  // WF-4\n  document.getElementById('wf4Total').innerHTML = fmtEur(t);\n}\n\n// \u2500\u2500 WF-4 summary refresh \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nfunction refreshWF4() {\n  const t = total();\n  // Vehicle row\n  if (S.vehicle === 'tiguan') {\n    document.getElementById('r4VehName').textContent = 'Volkswagen Tiguan Allspace 7-seat';\n    document.getElementById('r4VehLabel').textContent = 'Tiguan Allspace \u00b7 7-seat upgrade';\n    document.getElementById('r4VehPrice').textContent = '+\u20ac66';\n    document.getElementById('r4BdVeh').style.display = '';\n  } else {\n    document.getElementById('r4VehName').textContent = 'Ford Focus or similar';\n    document.getElementById('r4VehLabel').textContent = 'Ford Focus \u00b7 Base vehicle';\n    document.getElementById('r4VehPrice').innerHTML = '<span class=\"incl\">Included</span>';\n    document.getElementById('r4BdVeh').style.display = 'none';\n  }\n  // Protection row\n  const prot = S.protection || 'basic';\n  document.getElementById('r4ProtLabel').textContent = PROT_LABELS[prot];\n  document.getElementById('r4ProtPrice').textContent = PROT_PRICES[prot];\n  document.getElementById('r4BdProtLbl').textContent = PROT_BD_LBL[prot];\n  document.getElementById('r4BdProtAmt').textContent = PROT_BD_AMT[prot];\n  document.getElementById('r4BdProt').style.display = (prot === 'none') ? 'none' : '';\n  // Add-ons\n  const show = (id, flag) => { document.getElementById(id).style.display = flag ? '' : 'none'; };\n  show('r4BundRow', S.bundle); show('r4BdBund', S.bundle); show('r4BdSave', S.bundle);\n  show('r4FuelRow', S.fuel);   show('r4BdFuel', S.fuel);\n  show('r4DrivRow', S.driver); show('r4BdDriv', S.driver);\n  show('r4Savings', S.bundle);\n  // Grand total\n  document.getElementById('r4GrandTotal').innerHTML = fmtEur(t).replace('<span class=\"cents\">', '<span style=\"font-size:14px;font-weight:700;\">');\n  document.getElementById('wf4Total').innerHTML = fmtEur(t);\n}\n\n// \u2500\u2500 Confirmation overlay \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nfunction openConfirm() {\n  document.getElementById('confirmOverlay').classList.add('active');\n  document.body.style.overflow = 'hidden';\n}\nfunction closeConfirm() {\n  document.getElementById('confirmOverlay').classList.remove('active');\n  document.body.style.overflow = '';\n  showToast('Booking SXT-7F4K9M saved to your account');\n}\nfunction copyRef() {\n  navigator.clipboard?.writeText('SXT-7F4K9M').catch(() => {});\n  showToast('Reference copied: SXT-7F4K9M');\n}\ndocument.getElementById('confirmOverlay').addEventListener('click', function(e) {\n  if (e.target === this) closeConfirm();\n});\n\n// \u2500\u2500 Toast \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nlet toastTimer;\nfunction showToast(msg) {\n  const t = document.getElementById('toast');\n  t.textContent = msg;\n  t.classList.add('visible');\n  clearTimeout(toastTimer);\n  toastTimer = setTimeout(() => t.classList.remove('visible'), 3000);\n}\n\n// Init\nrefreshFooters();\n<\/script>\n</div><!-- /shell -->\n</body>\n</html>\n";
+const blob = new Blob([wireframeData], {type: 'text/html'});
+const blobURL = URL.createObjectURL(blob);
+document.getElementById('wf-iframe').src = blobURL;
+
+// Screen IDs in the prototype
+const screenIds = ['wfpush', 'wf0', 'wf1', 'wf2', 'wf3', 'wf4'];
+
+function jumpToStep(stepIndex) {
+  document.querySelectorAll('.flow-step').forEach((s,i) => {
+    s.classList.toggle('active', i === stepIndex);
+  });
+  const iframe = document.getElementById('wf-iframe');
+  iframe.onload = null;
+  try {
+    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+    // Call the showScreen function in the iframe
+    const screenId = screenIds[stepIndex];
+    if (iframeDoc && iframeDoc.querySelector('#' + screenId)) {
+      // Hide all screens
+      iframeDoc.querySelectorAll('.screen').forEach(s => s.classList.remove('active', 'back-anim'));
+      // Show target
+      const target = iframeDoc.querySelector('#' + screenId);
+      if (target) target.classList.add('active');
+      // Scroll to top
+      iframe.contentWindow.scrollTo(0,0);
+    }
+  } catch(e) {
+    // Cross-origin fallback — just message the iframe
+    console.log('Direct DOM access unavailable:', e);
+  }
+}
+
+// Listen for iframe to load, set step 0, then observe screen changes
+document.getElementById('wf-iframe').addEventListener('load', function() {
+  const iframe = document.getElementById('wf-iframe');
+
+  // Sync side step to whichever screen is currently active in the iframe
+  function syncActiveStep() {
+    try {
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+      const activeScreen = iframeDoc.querySelector('.screen.active');
+      if (!activeScreen) return;
+      const idx = screenIds.indexOf(activeScreen.id);
+      if (idx === -1) return;
+      document.querySelectorAll('.flow-step').forEach((s, i) => {
+        s.classList.toggle('active', i === idx);
+      });
+    } catch(e) {}
+  }
+
+  // Initial sync
+  syncActiveStep();
+
+  // Watch for class mutations on every .screen element inside the iframe
+  try {
+    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+    const observer = new MutationObserver(syncActiveStep);
+    iframeDoc.querySelectorAll('.screen').forEach(screen => {
+      observer.observe(screen, { attributes: true, attributeFilter: ['class'] });
+    });
+  } catch(e) {
+    console.log('MutationObserver setup failed:', e);
+  }
+});
+
+// ── Phase tabs ──
+function switchPhase(phaseId, btn) {
+  document.querySelectorAll('.phase-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.phase-tab').forEach(el => el.classList.remove('active'));
+  document.getElementById('phase-' + phaseId).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── Accordion ──
+function toggleAccordion(id) {
+  const item = document.getElementById(id);
+  item.classList.toggle('open');
+}
+
+// ── Smooth scroll anchor offset (for fixed nav) ──
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      const y = target.getBoundingClientRect().top + window.scrollY - 70;
+      window.scrollTo({top: y, behavior: 'smooth'});
+    }
+  });
+});
+
+// ── Active nav link highlight ──
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 100) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.style.color = a.getAttribute('href') === '#' + current ? 'var(--orange)' : '';
+    a.style.background = a.getAttribute('href') === '#' + current ? 'var(--orange-lt)' : '';
+  });
+}, {passive: true});
+</script>
+</body>
+</html>
