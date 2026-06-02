@@ -49,20 +49,40 @@ strong { color: var(--ink); font-weight: 700; }
 .section-dark h2, .section-dark h3 { color: var(--white); }
 
 /* ── NAV ── */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  background: rgba(255,255,255,.95); backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 32px; height: 60px;
+/* ── AGENDA ── */
+.agenda-section { background: var(--navy); padding: 64px 0 72px; }
+.agenda-eyebrow { font-size: 10px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--orange); margin-bottom: 40px; }
+.agenda-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid rgba(255,255,255,.1); }
+.agenda-card {
+  display: block; text-decoration: none; padding: 28px 24px 24px;
+  border-right: 1px solid rgba(255,255,255,.08);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  position: relative; overflow: hidden;
+  transition: background .25s;
 }
-.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-.nav-logo-box { background: var(--orange); color: white; font-weight: 900; font-size: 15px; padding: 4px 10px; border-radius: 4px; letter-spacing: .02em; }
-.nav-logo-sub { font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
-.nav-links { display: flex; gap: 6px; }
-.nav-links a { font-size: 12px; font-weight: 600; color: var(--muted); text-decoration: none; padding: 6px 10px; border-radius: 6px; transition: all .15s; letter-spacing: .02em; white-space: nowrap; }
-.nav-links a:hover { color: var(--orange); background: var(--orange-lt); }
-main { margin-top: 60px; }
+.agenda-card:nth-child(4n) { border-right: none; }
+.agenda-card:nth-child(n+5) { border-bottom: none; }
+.agenda-card::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,90,0,.12) 0%, transparent 60%);
+  opacity: 0; transition: opacity .25s;
+}
+.agenda-card:hover { background: rgba(255,255,255,.04); }
+.agenda-card:hover::after { opacity: 1; }
+.agenda-card:hover .agenda-num { color: var(--orange); }
+.agenda-card:hover .agenda-arrow { transform: translate(3px,-3px); color: var(--orange); }
+.agenda-num {
+  font-size: 2.8rem; font-weight: 900; letter-spacing: -.05em; line-height: 1;
+  color: rgba(255,255,255,.15); margin-bottom: 14px;
+  transition: color .25s;
+  font-variant-numeric: tabular-nums;
+}
+.agenda-title { font-size: .88rem; font-weight: 700; color: rgba(255,255,255,.85); line-height: 1.35; margin-bottom: 10px; }
+.agenda-tag { font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.3); }
+.agenda-arrow { position: absolute; top: 24px; right: 20px; font-size: .85rem; color: rgba(255,255,255,.2); transition: all .2s; }
+main { margin-top: 0; }
+@media (max-width: 900px) { .agenda-grid { grid-template-columns: repeat(2, 1fr); } .agenda-card:nth-child(4n) { border-right: 1px solid rgba(255,255,255,.08); } .agenda-card:nth-child(2n) { border-right: none; } .agenda-card:nth-child(n+7) { border-bottom: none; } .agenda-card:nth-child(n+5) { border-bottom: 1px solid rgba(255,255,255,.08); } }
+@media (max-width: 520px) { .agenda-grid { grid-template-columns: 1fr; } .agenda-card { border-right: none !important; } .agenda-card:last-child { border-bottom: none; } }
 
 /* ── HERO ── */
 .hero { background: var(--navy); color: white; padding: 80px 0 72px; position: relative; overflow: hidden; }
@@ -335,24 +355,6 @@ footer strong { color: rgba(255,255,255,.7); }
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <a class="nav-logo" href="#">
-    <span class="nav-logo-box">SIXT</span>
-    <span class="nav-logo-sub">Personalisation Strategy</span>
-  </a>
-  <div class="nav-links">
-    <a href="#problem">Problem</a>
-    <a href="#strategy">Strategy</a>
-    <a href="#personalisation">Personalisation</a>
-    <a href="#experiments">Experiments</a>
-    <a href="#wireframes">Wireframes</a>
-    <a href="#metrics">Metrics</a>
-    <a href="#roadmap">Roadmap</a>
-    <a href="#appendix">Appendix</a>
-  </div>
-</nav>
-
 <main>
 
 <!-- ══════════════════ HERO ══════════════════ -->
@@ -385,6 +387,63 @@ footer strong { color: rgba(255,255,255,.7); }
       </div>
     </div>
     <p style="font-size:.78rem;color:rgba(255,255,255,.5);margin-top:14px;text-align:center;">* All metrics are directional estimates based on industry benchmarks and publicly available data. Exact baselines will be validated against SIXT's internal data warehouse before target-setting. Experimentation principles governing all tests are documented in <a href="#appendix" style="color:var(--orange);">Appendix 1 — Baseline & Opportunity Sizing</a>.</p>
+  </div>
+</section>
+
+<!-- ══════════════════ AGENDA ══════════════════ -->
+<section class="agenda-section">
+  <div class="container">
+    <div class="agenda-eyebrow">Case Study — 8 Sections</div>
+    <div class="agenda-grid">
+      <a class="agenda-card" href="#problem">
+        <div class="agenda-arrow">↗</div>
+        <div class="agenda-num">01</div>
+        <div class="agenda-title">Problem Framing</div>
+        <div class="agenda-tag">Audit · Root Cause</div>
+      </a>
+      <a class="agenda-card" href="#strategy">
+        <div class="agenda-arrow">↗</div>
+        <div class="agenda-num">02</div>
+        <div class="agenda-title">Strategic Framework</div>
+        <div class="agenda-tag">3 Pillars · Initiatives</div>
+      </a>
+      <a class="agenda-card" href="#personalisation">
+        <div class="agenda-arrow">↗</div>
+        <div class="agenda-num">03</div>
+        <div class="agenda-title">Personalisation Engine</div>
+        <div class="agenda-tag">Segments · Architecture</div>
+      </a>
+      <a class="agenda-card" href="#experiments">
+        <div class="agenda-arrow">↗</div>
+        <div class="agenda-num">04</div>
+        <div class="agenda-title">Experiments</div>
+        <div class="agenda-tag">10 Tests · 3 Phases</div>
+      </a>
+      <a class="agenda-card" href="#wireframes">
+        <div class="agenda-arrow">↗</div>
+        <div class="agenda-num">05</div>
+        <div class="agenda-title">Prototype</div>
+        <div class="agenda-tag">Interactive Flow</div>
+      </a>
+      <a class="agenda-card" href="#metrics">
+        <div class="agenda-arrow">↗</div>
+        <div class="agenda-num">06</div>
+        <div class="agenda-title">Metrics</div>
+        <div class="agenda-tag">KPIs · Guardrails</div>
+      </a>
+      <a class="agenda-card" href="#roadmap">
+        <div class="agenda-arrow">↗</div>
+        <div class="agenda-num">07</div>
+        <div class="agenda-title">12-Month Roadmap</div>
+        <div class="agenda-tag">Q1 → Q4</div>
+      </a>
+      <a class="agenda-card" href="#appendix">
+        <div class="agenda-arrow">↗</div>
+        <div class="agenda-num">08</div>
+        <div class="agenda-title">Appendices</div>
+        <div class="agenda-tag">Data · Glossary</div>
+      </a>
+    </div>
   </div>
 </section>
 
@@ -874,6 +933,109 @@ footer strong { color: rgba(255,255,255,.7); }
           <h4>🔀 Rule-Based Fallback</h4>
           <p style="font-size:.82rem;color:var(--muted);">Tier 1 signals only (first-timers). Decision tree maps booking metadata to segment and serves globally best-converting products. Zero cold-start gaps.</p>
         </div>
+      </div>
+    </div>
+
+    <!-- Training Data -->
+    <div class="section-header" style="margin-top:56px;">
+      <div class="section-tag">Section 4 — IP-2 Training Data</div>
+      <h2>What Data Does the Engine Train On?</h2>
+      <p>The model learns from three tiers of input signal plus a purchase label. Coverage and model quality improve as tiers are unlocked — but the engine is designed to be useful from day one on Tier 1 alone.</p>
+    </div>
+
+    <!-- Tier cards -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px;">
+
+      <!-- Tier 1 -->
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:22px;border-top:3px solid #3B82F6;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+          <span style="font-size:1.1rem;">📋</span>
+          <span style="font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#3B82F6;">Tier 1 — Booking Metadata</span>
+        </div>
+        <div style="font-size:.78rem;font-weight:700;color:var(--ink);margin-bottom:6px;">100% of customers · Available at MCI trigger</div>
+        <ul style="font-size:.8rem;color:var(--text);line-height:1.8;padding-left:16px;margin-bottom:12px;">
+          <li>Pickup location &amp; country</li>
+          <li>Vehicle class booked</li>
+          <li>Rental duration (days)</li>
+          <li>Group size (driver count + passengers)</li>
+          <li>Corporate account flag</li>
+          <li>Booking channel (direct vs. OTA)</li>
+          <li>Booking lead time (days before pickup)</li>
+          <li>Pickup day of week / holiday flag</li>
+        </ul>
+        <div style="font-size:.75rem;background:#EFF6FF;color:#1D4ED8;padding:8px 10px;border-radius:8px;">No customer history required. Sufficient to run rule-based fallback mode from Q1.</div>
+      </div>
+
+      <!-- Tier 2 -->
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:22px;border-top:3px solid var(--orange);">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+          <span style="font-size:1.1rem;">🔁</span>
+          <span style="font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--orange);">Tier 2 — Loyalty &amp; History</span>
+        </div>
+        <div style="font-size:.78rem;font-weight:700;color:var(--ink);margin-bottom:6px;">~50% of customers · Returning users only</div>
+        <ul style="font-size:.8rem;color:var(--text);line-height:1.8;padding-left:16px;margin-bottom:12px;">
+          <li>Past rental count &amp; frequency</li>
+          <li>Previous add-on purchases (by type)</li>
+          <li>Previous upgrade history (class + price paid)</li>
+          <li>Loyalty tier (Gold / Silver / Standard)</li>
+          <li>Past protection tier selections</li>
+          <li>Cancellation / no-show history</li>
+          <li>Average historical spend per rental</li>
+          <li>Preferred pickup locations</li>
+        </ul>
+        <div style="font-size:.75rem;background:#FFF7ED;color:#C2410C;padding:8px 10px;border-radius:8px;">Unlocks personalised mode. Combined with Tier 1 this is what the propensity model trains on for Phase 2.</div>
+      </div>
+
+      <!-- Tier 3 -->
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:22px;border-top:3px solid #10B981;opacity:.85;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+          <span style="font-size:1.1rem;">🌐</span>
+          <span style="font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#10B981;">Tier 3 — Real-Time Context</span>
+        </div>
+        <div style="font-size:.78rem;font-weight:700;color:var(--ink);margin-bottom:6px;">Q3+ · Requires external API integrations</div>
+        <ul style="font-size:.8rem;color:var(--text);line-height:1.8;padding-left:16px;margin-bottom:12px;">
+          <li>Flight delay status (via Amadeus / FlightAware)</li>
+          <li>Weather forecast at destination</li>
+          <li>Real-time vehicle availability count</li>
+          <li>Local event data (concerts, sports)</li>
+          <li>Fuel price index at pickup location</li>
+        </ul>
+        <div style="font-size:.75rem;background:#ECFDF5;color:#065F46;padding:8px 10px;border-radius:8px;">Highest contextual lift but requires infrastructure. Scoped for Q4 roadmap — not a Phase 1 or 2 dependency.</div>
+      </div>
+
+    </div>
+
+    <!-- Label + minimum dataset -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px;">
+
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:22px;">
+        <div style="font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px;">Training Label</div>
+        <h4 style="font-size:.95rem;margin-bottom:10px;">Did the customer purchase the recommended product?</h4>
+        <p style="font-size:.82rem;color:var(--text);line-height:1.6;margin-bottom:10px;">For each MCI session, the label is binary: <strong>1</strong> if the customer purchased the product the engine ranked #1, <strong>0</strong> if they did not. This is what the model optimises toward — not click-through, but actual purchase.</p>
+        <div style="font-size:.78rem;color:var(--muted);border-top:1px solid var(--border);padding-top:10px;">Secondary labels worth tracking: add-on attach count, protection tier selected, total RPR per session. These inform future multi-objective model variants.</div>
+      </div>
+
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:22px;">
+        <div style="font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px;">Minimum Viable Training Dataset</div>
+        <h4 style="font-size:.95rem;margin-bottom:10px;">What's needed before the model can ship?</h4>
+        <table style="width:100%;font-size:.8rem;border-collapse:collapse;">
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:6px 0;color:var(--muted);">Minimum sessions</td>
+            <td style="padding:6px 0;font-weight:700;text-align:right;">~50,000 MCI completions</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:6px 0;color:var(--muted);">Minimum time window</td>
+            <td style="padding:6px 0;font-weight:700;text-align:right;">3–6 months of history</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:6px 0;color:var(--muted);">Label coverage required</td>
+            <td style="padding:6px 0;font-weight:700;text-align:right;">&gt;80% of sessions labelled</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 0;color:var(--muted);">Class balance check</td>
+            <td style="padding:6px 0;font-weight:700;text-align:right;">Oversample minority products</td>
+          </tr>
+        </table>
       </div>
     </div>
   </div>
